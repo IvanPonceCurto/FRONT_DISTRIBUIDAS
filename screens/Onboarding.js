@@ -58,7 +58,7 @@ const Onboarding = (props) => {
             onPress={() => navigation.navigate("App")}
             textStyle={{ color: argonTheme.COLORS.WHITE }}
           >
-            Continuar
+            Iniciar sesión
           </Button>
           <Text style={styles.subtitle}>Solicitar cuenta</Text>
           <Text style={styles.subtitle}>Ingresar como invitado</Text>
