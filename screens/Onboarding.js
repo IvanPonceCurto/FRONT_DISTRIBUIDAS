@@ -9,7 +9,7 @@ import { Input, Icon } from "../components";
 import { Button, Text, theme } from "galio-framework";
 import argonTheme from "../constants/Theme";
 
-const { height, width } = Dimensions.get("screen");
+const { width } = Dimensions.get("screen");
 
 const Onboarding = (props) => {
 
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     height: theme.SIZES.BASE * 3,
     shadowRadius: 0,
     shadowOpacity: 0,
-    marginTop: '10%'
+    marginTop: '10%',
   },
 });
 
