@@ -60,6 +60,8 @@ const Onboarding = (props) => {
           >
             Continuar
           </Button>
+          <Text style={styles.subtitle}>Solicitar cuenta</Text>
+          <Text style={styles.subtitle}>Ingresar como invitado</Text>
         </View>
       </KeyboardAvoidingView>
     </View>
@@ -87,14 +89,21 @@ const styles = StyleSheet.create({
     paddingVertical: '10%',
     width: width * 0.7
   },
+  subtitle: {
+    fontSize: 20,
+    color: '#3483FA',
+    marginTop: '5%',
+    fontWeight: 'bold'
+  },
   inputIcons: {
     marginRight: 12
   },
   button: {
-    width: width - theme.SIZES.BASE * 10,
+    width: width - theme.SIZES.BASE * 12,
     height: theme.SIZES.BASE * 3,
     shadowRadius: 0,
-    shadowOpacity: 0
+    shadowOpacity: 0,
+    marginTop: '10%'
   },
 });
 
