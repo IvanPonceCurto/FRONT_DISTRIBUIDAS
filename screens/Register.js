@@ -8,13 +8,110 @@ import {
 } from "react-native";
 import { Block, Checkbox, Text, theme } from "galio-framework";
 
-import { Button, Icon, Input } from "../components";
+import { Switch, Button, Icon, Input } from "../components";
 import { Images, argonTheme } from "../constants";
+import ImagePicker from 'react-native-image-picker';
+import ImagePick from '../components/ImagePick';
 
 const { width, height } = Dimensions.get("screen");
 
 class Register extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      switchValue:false
+    }
+  }
+  toggleSwitch = (value) =>{
+    this.setState({switchValue: value});
+  }
+ 
+
   render() {
+
+    let form;
+    if(this.state.switchValue === false){
+      form = (
+        <Text color="#000000" size={18}>HOLAA</Text>
+      );
+    }else{
+      form = (
+        <Block flex width={width * 0.8} style={{ marginBottom: 15 }}>
+          <Input
+            borderless
+            placeholder="¿De qué se trata tu colección de artículos?"
+            iconContent={
+              <Icon
+                size={16}
+                color={argonTheme.COLORS.ICON}
+                name="hat-3"
+                family="ArgonExtra"
+                style={styles.inputIcons}
+              />
+            }
+          />
+          
+          <Input
+            borderless
+            placeholder="Observaciones"
+            iconContent={
+              <Icon
+                size={16}
+                color={argonTheme.COLORS.ICON}
+                name="hat-3"
+                family="ArgonExtra"
+                style={styles.inputIcons}
+              />
+            }
+          />
+          <Input
+            borderless
+            keyboardType="numeric"
+            placeholder="Cantidad de piezas"
+            iconContent={
+              <Icon
+                size={16}
+                color={argonTheme.COLORS.ICON}
+                name="hat-3"
+                family="ArgonExtra"
+                style={styles.inputIcons}
+              />
+            }
+          />
+          <Block row>
+          <Input
+            keyboardType="numeric"
+            borderless
+            placeholder="Precio"
+            iconContent={
+              <Icon
+                size={16}
+                color={argonTheme.COLORS.ICON}
+                name="hat-3"
+                family="ArgonExtra"
+                style={styles.inputIcons}
+              />
+            }
+          />
+          <Input
+            borderless
+            placeholder="ARS"
+            iconContent={
+              <Icon
+                size={16}
+                color={argonTheme.COLORS.ICON}
+                name="hat-3"
+                family="ArgonExtra"
+                style={styles.inputIcons}
+              />
+            }
+          />
+          </Block>
+          <ImagePick></ImagePick>
+        </Block>
+      );
+    }
+    
     return (
       <Block flex middle>
         <StatusBar hidden />
@@ -25,49 +122,33 @@ class Register extends React.Component {
           <Block safe flex middle>
             <Block style={styles.registerContainer}>
               <Block flex={0.25} middle style={styles.socialConnect}>
-                <Text color="#8898AA" size={12}>
-                  Sign up with
+                <Text center color="#3483FA" size={22}>
+                  ¿Qué tipo de artículos te gustaría subastar?
                 </Text>
-                <Block row style={{ marginTop: theme.SIZES.BASE }}>
-                  <Button style={{ ...styles.socialButtons, marginRight: 30 }}>
-                    <Block row>
-                      <Icon
-                        name="logo-github"
-                        family="Ionicon"
-                        size={14}
-                        color={"black"}
-                        style={{ marginTop: 2, marginRight: 5 }}
-                      />
-                      <Text style={styles.socialTextButtons}>GITHUB</Text>
-                    </Block>
-                  </Button>
-                  <Button style={styles.socialButtons}>
-                    <Block row>
-                      <Icon
-                        name="logo-google"
-                        family="Ionicon"
-                        size={14}
-                        color={"black"}
-                        style={{ marginTop: 2, marginRight: 5 }}
-                      />
-                      <Text style={styles.socialTextButtons}>GOOGLE</Text>
-                    </Block>
-                  </Button>
+                <Block row style={{marginTop: 10}}>
+                <Text style={{paddingRight: 50}} color="#000000" size={18}>
+                  Colección de artículos
+                </Text>
+                <Switch
+                  trackColor={{ false: "#767577", true: "#81b0ff" }}
+                  //thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={this.toggleSwitch}
+                  value={this.state.switchValue}
+                  >
+                </Switch>
                 </Block>
+                
               </Block>
               <Block flex>
-                <Block flex={0.17} middle>
-                  <Text color="#8898AA" size={12}>
-                    Or sign up the classic way
-                  </Text>
-                </Block>
                 <Block flex center>
                   <KeyboardAvoidingView
                     style={{ flex: 1 }}
                     behavior="padding"
                     enabled
                   >
-                    <Block width={width * 0.8} style={{ marginBottom: 15 }}>
+                  {form}
+                   <Block width={width * 0.8} style={{ marginBottom: 15 }}>
                       <Input
                         borderless
                         placeholder="Name"
@@ -112,39 +193,13 @@ class Register extends React.Component {
                           />
                         }
                       />
-                      <Block row style={styles.passwordCheck}>
-                        <Text size={12} color={argonTheme.COLORS.MUTED}>
-                          password strength:
-                        </Text>
-                        <Text bold size={12} color={argonTheme.COLORS.SUCCESS}>
-                          {" "}
-                          strong
-                        </Text>
-                      </Block>
+                      
                     </Block>
-                    <Block row width={width * 0.75}>
-                      <Checkbox
-                        checkboxStyle={{
-                          borderWidth: 3
-                        }}
-                        color={argonTheme.COLORS.PRIMARY}
-                        label="I agree with the"
-                      />
-                      <Button
-                        style={{ width: 100 }}
-                        color="transparent"
-                        textStyle={{
-                          color: argonTheme.COLORS.PRIMARY,
-                          fontSize: 14
-                        }}
-                      >
-                        Privacy Policy
-                      </Button>
-                    </Block>
+                    
                     <Block middle>
                       <Button color="primary" style={styles.createButton}>
                         <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                          CREATE ACCOUNT
+                          ENVIAR
                         </Text>
                       </Button>
                     </Block>
