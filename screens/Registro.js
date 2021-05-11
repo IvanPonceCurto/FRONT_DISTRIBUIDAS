@@ -4,13 +4,14 @@ import {
   Dimensions,
   View,
   KeyboardAvoidingView,
-  TouchableOpacity,
   ScrollView,
 } from "react-native";
 import { RadioButton } from 'react-native-paper';
-import { Input, Icon, Select } from "../components";
-import { Button, Text, theme, Radio } from "galio-framework";
+import { Input } from "../components";
+import { Button, Text, theme } from "galio-framework";
 import argonTheme from "../constants/Theme";
+import { Formik } from 'formik';
+
 
 const { width } = Dimensions.get("screen");
 
@@ -24,29 +25,32 @@ const Onboarding = (props) => {
   const [email, setEmail] = useState('');
   const [genero, setGenero] = useState('M');
   const [emptyFields, setEmptyFields] = useState(false);
-
-  const inputValidation = {
-    nombre: false,
-    apellido: false,
-    telefono: false,
-    email: false,
-    fechaNacimiento: false,
-    dni: false
-  }
+  const [isValidFechaNacimiento, setIsValidFechaNacimiento] = useState(true);
 
   const { navigation } = props;
 
   const submitHandler = () => {
-    console.log(/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/.test(fechaNacimiento)); 
-    setEmptyFields(false)
+    setEmptyFields(false);
+    setIsValidFechaNacimiento(true);
     const formInputs = [nombre, apellido, telefono, email, fechaNacimiento, dni, genero]
     for (const input of formInputs) {
       if (input === '') {
         setEmptyFields(true)
+        return
       }
     }
+    if (/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/.test(fechaNacimiento) == false) {
+      setIsValidFechaNacimiento(false);
+      return
+    }
+    navigateToFinished();
   }
 
+  const navigateToFinished = () => {
+    navigation.navigate("Registro Finalizado");
+  }
+
+  
   return (
     <ScrollView>
       <KeyboardAvoidingView style={styles.container}>
@@ -60,40 +64,37 @@ const Onboarding = (props) => {
             placeholder="Nombre"
             onChangeText={text => setNombre(text)}
           />
-          {inputValidation.nombre && <Text style={styles.error}>Hey</Text>}
           <Input
             autoCapitalize="sentences"
             required
             placeholder="Apellido"
             onChangeText={text => setApellido(text)}
           />
-          {inputValidation.apellido && <Text style={styles.error}>Hey</Text>}
           <Input
             keyboardType="decimal-pad"
             required
             placeholder="Teléfono"
             onChangeText={text => setTelefono(text)}
           />
-          {inputValidation.telefono && <Text style={styles.error}>Hey</Text>}
           <Input
             required
             placeholder="Email"
             onChangeText={text => setEmail(text)}
           />
-          {inputValidation.email && <Text style={styles.error}>Hey</Text>}
           <Input
             required
             placeholder="Fecha de nacimiento"
             onChangeText={text => setFechaNacimiento(text)}
           />
-          {inputValidation.fechaNacimiento && <Text style={styles.error}>Hey</Text>}
+          {!isValidFechaNacimiento && <Text style={styles.error}>
+            Fecha inválida (dd/mm/yyyy) 
+          </Text>}
           <Input
             keyboardType="decimal-pad"
             required
             placeholder="DNI"
             onChangeText={text => setDni(text)}
           />
-          {inputValidation.dni && <Text style={styles.error}>Hey</Text>}
           <View style={styles.radioButtonContainer}>
             <View style={styles.radioButton}>
               <RadioButton
@@ -122,7 +123,7 @@ const Onboarding = (props) => {
           >
             Solicitar
           </Button>
-            {emptyFields && <Text style={styles.error}>¡Todos los campos son obligatorios!</Text>}
+          {emptyFields && <Text style={styles.error}>¡Todos los campos son obligatorios!</Text>}
         </View>
       </KeyboardAvoidingView>
     </ScrollView>

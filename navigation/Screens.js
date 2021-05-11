@@ -16,6 +16,7 @@ import Register from "../screens/Register";
 import Registro from "../screens/Registro";
 import Elements from "../screens/Elements";
 import Articles from "../screens/Articles";
+import RegistroFinalizado from "../screens/RegistroFinalizado";
 // drawer
 import CustomDrawerContent from "./Menu";
 
@@ -192,6 +193,10 @@ export default function OnboardingStack(props) {
       <Stack.Screen
         name="Registro"
         component={Registro}
+      />
+      <Stack.Screen
+        name="Registro Finalizado"
+        component={RegistroFinalizado}
       />
     </Stack.Navigator>
   );
