@@ -4,14 +4,22 @@ import {
   ImageBackground,
   Dimensions,
   StatusBar,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ScrollView,
+  View
 } from "react-native";
 import { Block, Checkbox, Text, theme } from "galio-framework";
+import {Picker} from '@react-native-picker/picker';
 
-import { Switch, Button, Icon, Input } from "../components";
+import { Switch, Button, Icon, Input, Select } from "../components";
 import { Images, argonTheme } from "../constants";
 import ImagePicker from 'react-native-image-picker';
 import ImagePick from '../components/ImagePick';
+import Menu from '../navigation/Menu'
+import PickerSelect from '../components/PickerSelect';
+
+import { RadioButton } from 'react-native-paper';
+
 
 const { width, height } = Dimensions.get("screen");
 
@@ -19,11 +27,17 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      switchValue:false
+      switchValue:false,
+      inputValue:''
     }
   }
   toggleSwitch = (value) =>{
     this.setState({switchValue: value});
+  }
+  handleInput = (value) =>{
+    console.log(value.target.value);
+    console.log("value");
+    this.setState({inputValue: value});
   }
  
 
@@ -32,80 +46,91 @@ class Register extends React.Component {
     let form;
     if(this.state.switchValue === false){
       form = (
-        <Text color="#000000" size={18}>HOLAA</Text>
-      );
-    }else{
-      form = (
-        <Block flex width={width * 0.8} style={{ marginBottom: 15 }}>
+        <Block flex width={width * 0.8} style={{ marginBottom: 0 }}>
+            <PickerSelect
+              style = {{width: 100}}
+              list = {['Seleccione una categoría','Obra de arte','Otro']}
+            ></PickerSelect>
+            <Input
+            borderless
+            placeholder="Nombre del autor"
+            iconContent={false}
+          />
           <Input
             borderless
-            placeholder="¿De qué se trata tu colección de artículos?"
-            iconContent={
-              <Icon
-                size={16}
-                color={argonTheme.COLORS.ICON}
-                name="hat-3"
-                family="ArgonExtra"
-                style={styles.inputIcons}
-              />
-            }
+            placeholder="Fecha de la obra"
+            iconContent={false}
           />
-          
+          <Input
+            borderless
+            placeholder="Historia de la obra"
+            iconContent={false}
+          />
           <Input
             borderless
             placeholder="Observaciones"
-            iconContent={
-              <Icon
-                size={16}
-                color={argonTheme.COLORS.ICON}
-                name="hat-3"
-                family="ArgonExtra"
-                style={styles.inputIcons}
-              />
-            }
-          />
-          <Input
-            borderless
-            keyboardType="numeric"
-            placeholder="Cantidad de piezas"
-            iconContent={
-              <Icon
-                size={16}
-                color={argonTheme.COLORS.ICON}
-                name="hat-3"
-                family="ArgonExtra"
-                style={styles.inputIcons}
-              />
-            }
+            iconContent={false}
           />
           <Block row>
           <Input
             keyboardType="numeric"
             borderless
             placeholder="Precio"
-            iconContent={
-              <Icon
-                size={16}
-                color={argonTheme.COLORS.ICON}
-                name="hat-3"
-                family="ArgonExtra"
-                style={styles.inputIcons}
-              />
-            }
+            iconContent={false}
+            />
+            
+            <PickerSelect
+              list = {['ARS','USD']}
+            ></PickerSelect>
+            
+
+          </Block>
+          <ImagePick></ImagePick>
+        </Block>
+      );
+    }else{
+      form = (
+        <Block flex width={width * 0.8} style={{ marginBottom: 0 }}>
+          <Input
+            borderless
+            placeholder="¿De qué se trata tu colección de artículos?"
+            iconContent={false}
+            onChange={this.handleInput}
+          />
+          
+          <Input
+            borderless
+            placeholder="Observaciones"
+            iconContent={false}
           />
           <Input
             borderless
-            placeholder="ARS"
-            iconContent={
-              <Icon
-                size={16}
-                color={argonTheme.COLORS.ICON}
-                name="hat-3"
-                family="ArgonExtra"
-                style={styles.inputIcons}
-              />
-            }
+            keyboardType="numeric"
+            placeholder="Cantidad de piezas"
+            iconContent={false}
           />
+          <Block>
+          <Input
+            keyboardType="numeric"
+            borderless
+            placeholder="Precio"
+            iconContent={false}
+            />
+            <Block row>
+          <Input
+            keyboardType="numeric"
+            borderless
+            placeholder="Precio"
+            iconContent={false}
+            />
+            
+            <PickerSelect
+              list = {['ARS','USD']}
+            ></PickerSelect>
+            
+
+          </Block>
+
           </Block>
           <ImagePick></ImagePick>
         </Block>
@@ -113,8 +138,9 @@ class Register extends React.Component {
     }
     
     return (
-      <Block flex middle>
-        <StatusBar hidden />
+      <ScrollView>
+      <KeyboardAvoidingView style={styles.container}>
+      
         <ImageBackground
           source={Images.RegisterBackground}
           style={{ width, height, zIndex: 1 }}
@@ -148,7 +174,14 @@ class Register extends React.Component {
                     enabled
                   >
                   {form}
-                   <Block width={width * 0.8} style={{ marginBottom: 15 }}>
+                  <Block middle>
+                      <Button color="primary" style={styles.createButton}>
+                        <Text bold size={14} color={argonTheme.COLORS.WHITE}>
+                          ENVIAR
+                        </Text>
+                      </Button>
+                    </Block>
+                   {/* <Block width={width * 0.8} style={{ marginBottom: 15 }}>
                       <Input
                         borderless
                         placeholder="Name"
@@ -194,22 +227,16 @@ class Register extends React.Component {
                         }
                       />
                       
-                    </Block>
-                    
-                    <Block middle>
-                      <Button color="primary" style={styles.createButton}>
-                        <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                          ENVIAR
-                        </Text>
-                      </Button>
-                    </Block>
+                    </Block> */}
+
                   </KeyboardAvoidingView>
                 </Block>
               </Block>
             </Block>
           </Block>
         </ImageBackground>
-      </Block>
+      </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }

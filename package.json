@@ -16,6 +16,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@react-native-community/masked-view": "0.1.10",
+    "@react-native-picker/picker": "^1.15.0",
     "@react-navigation/bottom-tabs": "^5.5.1",
     "@react-navigation/compat": "^5.1.25",
     "@react-navigation/drawer": "5.12.4",
@@ -37,6 +38,7 @@
     "react-native-image-crop-picker": "^0.36.2",
     "react-native-image-picker": "^3.6.0",
     "react-native-modal-dropdown": "git+https://github.com/siemiatj/react-native-modal-dropdown.git",
+    "react-native-paper": "^4.8.1",
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.9",
     "react-native-screens": "~2.15.2"

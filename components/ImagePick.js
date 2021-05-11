@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     },
     btnPressStyle: {
         backgroundColor: '#0080ff',
-        height: 40,
+        height: 44,
         width: width - 85,
         alignItems: 'center',
         justifyContent: 'center'
