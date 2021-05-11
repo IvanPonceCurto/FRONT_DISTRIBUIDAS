@@ -3,7 +3,8 @@ import {
   StyleSheet,
   Dimensions,
   View,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  TouchableOpacity
 } from "react-native";
 import { Input, Icon } from "../components";
 import { Button, Text, theme } from "galio-framework";
@@ -60,7 +61,9 @@ const Onboarding = (props) => {
           >
             Iniciar sesión
           </Button>
-          <Text style={styles.subtitle}>Solicitar cuenta</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Registro")}>
+            <Text style={styles.subtitle}>Solicitar cuenta</Text>
+          </TouchableOpacity>
           <Text style={styles.subtitle}>Ingresar como invitado</Text>
         </View>
       </KeyboardAvoidingView>

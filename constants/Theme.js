@@ -12,7 +12,7 @@ export default {
     MUTED: '#ADB5BD',
     INPUT: '#DCDCDC',
     INPUT_SUCCESS: '#7BDEB2',
-    INPUT_ERROR: '#FCB3A4',
+    INPUT_ERROR: '#df2b07',
     ACTIVE: '#5E72E4', //same as primary
     BUTTON_COLOR: '#9C26B0', //wtf
     PLACEHOLDER: '#9FA5AA',
