@@ -1,25 +1,66 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
-
+import DropDownPicker from 'react-native-dropdown-picker';
 import { Card } from '../components';
 import articles from '../constants/articles';
 import { Header } from 'react-native/Libraries/NewAppScreen';
 const { width } = Dimensions.get('screen');
 
 class Home extends React.Component {
-  renderArticles = () => {
-    return (
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      open: false,
+      value: null,
+      items: [
+        {label: 'Plantino', value: 'apple'},
+        {label: 'Oro', value: 'banana'}
+      ]
+    };
 
+    this.setValue = this.setValue.bind(this);
+
+  }
+
+  setOpen(open) {
+    this.setState({
+      open
+    });
+  }
+
+  setValue(callback) {
+    this.setState(state => ({
+      value: callback(state.value)
+    }));
+  }
+
+  setItems(callback) {
+    this.setState(state => ({
+      items: callback(state.items)
+    }));
+  }
+
+
+  renderArticles = () => {
+    const { open, value, items } = this.state;
+    return (
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.articles}>
         <Block flex>
-          <Card item={articles[0]} horizontal  />
-          <Block flex row>
-            <Card item={articles[1]} style={{ marginRight: theme.SIZES.BASE }} />
-            <Card item={articles[2]} />
-          </Block>
+         <DropDownPicker
+            open = {open}
+            value={value}
+            items = {items}
+            setOpen = {this.setOpen}  
+            setValue={this.setValue}
+            setItems = {this.setItems}
+        />
+         <Card item={articles[0]} horizontal  />
+         <Card item={articles[1]} horizontal  />
+         <Card item={articles[2]} horizontal  />
           <Card item={articles[3]} horizontal />
           <Card item={articles[4]} full />
         </Block>

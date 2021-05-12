@@ -23,15 +23,22 @@ class Card extends React.Component {
 
     return (
       <Block row={horizontal} card flex style={cardContainer}>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('Catalogo')}>
           <Block flex style={imgContainer}>
             <Image source={{uri: item.image}} style={imageStyles} />
           </Block>
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('Catalogo')}>
           <Block flex space="between" style={styles.cardDescription}>
             <Text size={14} style={styles.cardTitle}>{item.title}</Text>
-            <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold>{item.cta}</Text>
+            <Block row={horizontal} space="between">
+            <Block style={styles.rectanguloCategoria}>
+            <Text size={12} muted={!ctaColor} color={argonTheme.COLORS.WHITE} bold>{item.cta}</Text>
+            </Block>
+            <Block style={styles.rectangulo}>
+            <Text size={12} muted={!ctaColor} color={argonTheme.COLORS.WHITE} bold>Ver Catálogo</Text>
+            </Block>
+            </Block>
           </Block>
         </TouchableWithoutFeedback>
       </Block>
@@ -54,6 +61,20 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     minHeight: 114,
     marginBottom: 16
+  },
+  rectanguloCategoria:{
+    backgroundColor: '#15E18E',
+    width:80,
+    alignItems:'center',
+    borderRadius:50
+  
+  },
+  rectangulo:{
+    backgroundColor: '#3483FA',
+    width:80,
+    alignItems:'center',
+    borderRadius:50
+  
   },
   cardTitle: {
     flex: 1,
