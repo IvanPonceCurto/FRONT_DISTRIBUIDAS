@@ -161,11 +161,72 @@ function HomeStack(props) {
           cardStyle: { backgroundColor: '#3483FA'}
         }}
       />
+                 <Stack.Screen
+              name="Producto"
+              component={Producto}
+              options={{
+                header: ({ navigation, scene }) => (
+                  <Header
+                    title="Producto"
+                    back
+                    transparent
+                    navigation={navigation}
+                    scene={scene}
+                  />
+                ),
+                headerTransparent:true,
+                cardStyle: { backgroundColor: '#3483FA'}
+              }}
+            />
     
     </Stack.Navigator>
   );
 }
-
+/*
+function CatalogoStack(props) {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+              name="Catalogo"
+              component={Pro}
+              options={{
+                header: ({ navigation, scene }) => (
+                  <Header
+                    title="Catalogo"
+                    back
+                    home={true}
+                    bgColor={'#EEBB00'}
+                    navigation={navigation}
+                    scene={scene}
+                  />
+                ),
+              
+                headerTransparent:true,
+                cardStyle: { backgroundColor: '#3483FA'}
+              }}
+            />
+            <Stack.Screen
+              name="Producto"
+              component={Producto}
+              options={{
+                header: ({ navigation, scene }) => (
+                  <Header
+                    title="Producto"
+                    back
+                    transparent
+                    navigation={navigation}
+                    scene={scene}
+                  />
+                ),
+                headerTransparent:true,
+                cardStyle: { backgroundColor: '#3483FA'}
+              }}
+            />
+    
+    </Stack.Navigator>
+  )
+            }
+            */
 export default function OnboardingStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="none">
@@ -217,6 +278,7 @@ function AppStack(props) {
       <Drawer.Screen name="Account" component={Register} />
       <Drawer.Screen name="Elements" component={ElementsStack} />
       <Drawer.Screen name="Articles" component={ArticlesStack} />
+      
     </Drawer.Navigator>
   );
 }
