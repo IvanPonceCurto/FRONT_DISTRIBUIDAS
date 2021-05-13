@@ -18,6 +18,8 @@ const { width } = Dimensions.get("screen");
 
 const RegistroFinalizado = (props) => {
 
+  const { navigation } = props;
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -35,6 +37,7 @@ const RegistroFinalizado = (props) => {
         style={styles.button}
         color={argonTheme.COLORS.BLUE}
         textStyle={{ color: argonTheme.COLORS.WHITE }}
+        onPress={() => navigation.navigate("Onboarding")}
       >
         Solicitar
       </Button>

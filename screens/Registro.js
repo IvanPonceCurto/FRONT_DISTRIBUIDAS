@@ -10,47 +10,24 @@ import { RadioButton } from 'react-native-paper';
 import { Input } from "../components";
 import { Button, Text, theme } from "galio-framework";
 import argonTheme from "../constants/Theme";
-import { Formik } from 'formik';
+import { useForm, Controller } from "react-hook-form";
+
 
 
 const { width } = Dimensions.get("screen");
 
 const Onboarding = (props) => {
 
-  const [nombre, setNombre] = useState('');
-  const [apellido, setApellido] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const [fechaNacimiento, setFechaNacimiento] = useState('');
-  const [dni, setDni] = useState('');
-  const [email, setEmail] = useState('');
-  const [genero, setGenero] = useState('M');
-  const [emptyFields, setEmptyFields] = useState(false);
-  const [isValidFechaNacimiento, setIsValidFechaNacimiento] = useState(true);
+  const { control, handleSubmit, formState: { errors } } = useForm();
+  const [gender, setGenero] = useState('M');
+  const onSubmit = data => {
+    console.log({ ...data, gender: gender });
+    navigation.navigate("Registro Finalizado");
+  };
 
   const { navigation } = props;
-
-  const submitHandler = () => {
-    setEmptyFields(false);
-    setIsValidFechaNacimiento(true);
-    const formInputs = [nombre, apellido, telefono, email, fechaNacimiento, dni, genero]
-    for (const input of formInputs) {
-      if (input === '') {
-        setEmptyFields(true)
-        return
-      }
-    }
-    if (/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/.test(fechaNacimiento) == false) {
-      setIsValidFechaNacimiento(false);
-      return
-    }
-    navigateToFinished();
-  }
-
-  const navigateToFinished = () => {
-    navigation.navigate("Registro Finalizado");
-  }
-
   
+
   return (
     <ScrollView>
       <KeyboardAvoidingView style={styles.container}>
@@ -58,49 +35,149 @@ const Onboarding = (props) => {
           <Text style={styles.title}>Solicitar cuenta</Text>
         </View>
         <View style={styles.formContainer}>
-          <Input
-            autoCapitalize="sentences"
-            required
-            placeholder="Nombre"
-            onChangeText={text => setNombre(text)}
+
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                style={styles.input}
+                onBlur={onBlur}
+                onChangeText={value => onChange(value)}
+                value={value}
+                error={!!errors.firstName}
+                placeholder="Nombre"
+              />
+            )}
+            name="firstName"
+            rules={{ required: true }}
+            defaultValue=""
           />
-          <Input
-            autoCapitalize="sentences"
-            required
-            placeholder="Apellido"
-            onChangeText={text => setApellido(text)}
+          {errors.firstName?.type === 'required' &&
+            <Text style={styles.error}>
+              Este campo es obligatorio.
+            </Text>}
+
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                style={styles.input}
+                onBlur={onBlur}
+                onChangeText={value => onChange(value)}
+                value={value}
+                error={!!errors.lastName}
+                placeholder="Apellido"
+              />
+            )}
+            name="lastName"
+            rules={{ required: true }}
+            defaultValue=""
           />
-          <Input
-            keyboardType="decimal-pad"
-            required
-            placeholder="Teléfono"
-            onChangeText={text => setTelefono(text)}
+          {errors.lastName?.type === 'required' &&
+            <Text style={styles.error}>
+              Este campo es obligatorio.
+            </Text>}
+
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                style={styles.input}
+                onBlur={onBlur}
+                onChangeText={value => onChange(value)}
+                value={value}
+                error={!!errors.phone}
+                keyboardType="decimal-pad"
+                placeholder="Teléfono"
+              />
+            )}
+            name="phone"
+            rules={{ required: true }}
+            defaultValue=""
           />
-          <Input
-            required
-            placeholder="Email"
-            onChangeText={text => setEmail(text)}
+          {errors.phone?.type === 'required' &&
+            <Text style={styles.error}>
+              Este campo es obligatorio.
+            </Text>}
+
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                style={styles.input}
+                onBlur={onBlur}
+                onChangeText={value => onChange(value)}
+                value={value}
+                error={!!errors.birthDate}
+                placeholder="Fecha de nacimiento"
+              />
+            )}
+            name="birthDate"
+            rules={{ required: true, pattern: /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/ }}
+            defaultValue=""
           />
-          <Input
-            required
-            placeholder="Fecha de nacimiento"
-            onChangeText={text => setFechaNacimiento(text)}
+          {errors.birthDate?.type === 'required' &&
+            <Text style={styles.error}>
+              Este campo es obligatorio.
+            </Text>}
+          {errors.birthDate?.type === 'pattern' &&
+            <Text style={styles.error}>
+              La fecha debe ser en formato dd/mm/yyyy
+            </Text>}
+
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                style={styles.input}
+                onBlur={onBlur}
+                onChangeText={value => onChange(value)}
+                value={value}
+                error={!!errors.email}
+                placeholder="Email"
+              />
+            )}
+            name="email"
+            rules={{ required: true, pattern: /\S+@\S+\.\S+/ }}
+            defaultValue=""
           />
-          {!isValidFechaNacimiento && <Text style={styles.error}>
-            Fecha inválida (dd/mm/yyyy) 
-          </Text>}
-          <Input
-            keyboardType="decimal-pad"
-            required
-            placeholder="DNI"
-            onChangeText={text => setDni(text)}
+          {errors.email?.type === 'required' &&
+            <Text style={styles.error}>
+              Este campo es obligatorio.
+            </Text>}
+          {errors.email?.type === 'pattern' &&
+            <Text style={styles.error}>
+              Este email es inválido.
+            </Text>}
+
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                style={styles.input}
+                onBlur={onBlur}
+                onChangeText={value => onChange(value)}
+                value={value}
+                error={!!errors.dni}
+                placeholder="DNI"
+                keyboardType="decimal-pad"
+              />
+            )}
+            name="dni"
+            rules={{ required: true }}
+            defaultValue=""
           />
+          {errors.dni?.type === 'required' &&
+            <Text style={styles.error}>
+              Este campo es obligatorio.
+            </Text>}
+
           <View style={styles.radioButtonContainer}>
             <View style={styles.radioButton}>
               <RadioButton
                 value="M"
                 color="#EEBB00"
-                status={genero === 'M' ? 'checked' : 'unchecked'}
+                status={gender === 'M' ? 'checked' : 'unchecked'}
                 onPress={() => setGenero('M')}
               />
               <Text>Masculino</Text>
@@ -109,21 +186,21 @@ const Onboarding = (props) => {
               <RadioButton
                 value="F"
                 color="#EEBB00"
-                status={genero === 'F' ? 'checked' : 'unchecked'}
+                status={gender === 'F' ? 'checked' : 'unchecked'}
                 onPress={() => setGenero('F')}
               />
               <Text>Femenino</Text>
             </View>
           </View>
+
           <Button
             style={styles.button}
             color={argonTheme.COLORS.BLUE}
-            onPress={submitHandler}
+            onPress={handleSubmit(onSubmit)}
             textStyle={{ color: argonTheme.COLORS.WHITE }}
           >
-            Solicitar
+            Iniciar sesión
           </Button>
-          {emptyFields && <Text style={styles.error}>¡Todos los campos son obligatorios!</Text>}
         </View>
       </KeyboardAvoidingView>
     </ScrollView>
@@ -158,6 +235,9 @@ const styles = StyleSheet.create({
     color: '#3483FA',
     marginTop: '5%',
     fontWeight: 'bold'
+  },
+  input: {
+    borderWidth: 2
   },
   inputIcons: {
     marginRight: 12
