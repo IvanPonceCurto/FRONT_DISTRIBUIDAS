@@ -7,10 +7,11 @@ import {
   ScrollView,
 } from "react-native";
 import { RadioButton } from 'react-native-paper';
-import { Input } from "../components";
+import { Input, Icon } from "../components";
 import { Button, Text, theme } from "galio-framework";
 import argonTheme from "../constants/Theme";
 import { useForm, Controller } from "react-hook-form";
+import * as ImagePicker from 'expo-image-picker';
 
 
 
@@ -26,7 +27,7 @@ const Onboarding = (props) => {
   };
 
   const { navigation } = props;
-  
+
 
   return (
     <ScrollView>
@@ -193,13 +194,23 @@ const Onboarding = (props) => {
             </View>
           </View>
 
+          {/* <Button
+            round
+            onlyIcon
+            icon="camera"
+            iconFamily="Font-Awesome"
+            iconColor={theme.COLORS.WHITE}
+            iconSize={theme.SIZES.BASE * 1}
+            color="#EEBB00"
+          /> */}
+
           <Button
             style={styles.button}
             color={argonTheme.COLORS.BLUE}
             onPress={handleSubmit(onSubmit)}
             textStyle={{ color: argonTheme.COLORS.WHITE }}
           >
-            Iniciar sesión
+            Solicitar
           </Button>
         </View>
       </KeyboardAvoidingView>
@@ -227,7 +238,7 @@ const styles = StyleSheet.create({
   formContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: '10%',
+    paddingVertical: '8%',
     width: width * 0.7
   },
   subtitle: {
