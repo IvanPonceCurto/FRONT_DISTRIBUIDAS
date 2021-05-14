@@ -39,7 +39,7 @@ const RegistroFinalizado = (props) => {
         textStyle={{ color: argonTheme.COLORS.WHITE }}
         onPress={() => navigation.navigate("Onboarding")}
       >
-        Solicitar
+        Volver
       </Button>
     </View>
   );

@@ -11,19 +11,18 @@ import { Input, Icon } from "../components";
 import { Button, Text, theme } from "galio-framework";
 import argonTheme from "../constants/Theme";
 import { useForm, Controller } from "react-hook-form";
-import * as ImagePicker from 'expo-image-picker';
 
 
 
 const { width } = Dimensions.get("screen");
 
-const Onboarding = (props) => {
+const Registro = (props) => {
 
   const { control, handleSubmit, formState: { errors } } = useForm();
   const [gender, setGenero] = useState('M');
   const onSubmit = data => {
     console.log({ ...data, gender: gender });
-    navigation.navigate("Registro Finalizado");
+    navigation.navigate("Seleccionar Imagen");
   };
 
   const { navigation } = props;
@@ -193,24 +192,13 @@ const Onboarding = (props) => {
               <Text>Femenino</Text>
             </View>
           </View>
-
-          {/* <Button
-            round
-            onlyIcon
-            icon="camera"
-            iconFamily="Font-Awesome"
-            iconColor={theme.COLORS.WHITE}
-            iconSize={theme.SIZES.BASE * 1}
-            color="#EEBB00"
-          /> */}
-
           <Button
             style={styles.button}
             color={argonTheme.COLORS.BLUE}
-            onPress={handleSubmit(onSubmit)}
+            onPress={(handleSubmit(onSubmit))}
             textStyle={{ color: argonTheme.COLORS.WHITE }}
           >
-            Solicitar
+            Siguiente
           </Button>
         </View>
       </KeyboardAvoidingView>
@@ -277,4 +265,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Onboarding;
+export default Registro;
