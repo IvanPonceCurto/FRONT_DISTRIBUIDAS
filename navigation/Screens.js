@@ -167,8 +167,9 @@ function HomeStack(props) {
               options={{
                 header: ({ navigation, scene }) => (
                   <Header
-                    title="Producto"
+                    title=""
                     back
+                    iconColor={'#FFFFFF'}
                     transparent
                     navigation={navigation}
                     scene={scene}
@@ -182,51 +183,7 @@ function HomeStack(props) {
     </Stack.Navigator>
   );
 }
-/*
-function CatalogoStack(props) {
-  return (
-    <Stack.Navigator mode="card" headerMode="screen">
-      <Stack.Screen
-              name="Catalogo"
-              component={Pro}
-              options={{
-                header: ({ navigation, scene }) => (
-                  <Header
-                    title="Catalogo"
-                    back
-                    home={true}
-                    bgColor={'#EEBB00'}
-                    navigation={navigation}
-                    scene={scene}
-                  />
-                ),
-              
-                headerTransparent:true,
-                cardStyle: { backgroundColor: '#3483FA'}
-              }}
-            />
-            <Stack.Screen
-              name="Producto"
-              component={Producto}
-              options={{
-                header: ({ navigation, scene }) => (
-                  <Header
-                    title="Producto"
-                    back
-                    transparent
-                    navigation={navigation}
-                    scene={scene}
-                  />
-                ),
-                headerTransparent:true,
-                cardStyle: { backgroundColor: '#3483FA'}
-              }}
-            />
-    
-    </Stack.Navigator>
-  )
-            }
-            */
+
 export default function OnboardingStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="none">

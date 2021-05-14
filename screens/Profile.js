@@ -23,7 +23,7 @@ class Profile extends React.Component {
       <Block flex style={styles.profile}>
         <Block flex>
           <Block
-            //source={Images.ProfileBackground}
+            source={Images.ProfileBackground}
             style={styles.profileContainer, {backgroundColor:argonTheme.COLORS.BLUE}}
             imageStyle={styles.profileBackground}
           >

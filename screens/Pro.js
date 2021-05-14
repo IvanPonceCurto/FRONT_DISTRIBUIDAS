@@ -9,6 +9,7 @@ const { height, width } = Dimensions.get('screen');
 const zapas = require("../assets/imgs/zapas.jpg")
 const auto = require("../assets/imgs/ferrari.jpg")
 const reloj = require("../assets/imgs/reloj.jpg")
+const wanchope = require("../assets/imgs/wanchope.jpg")
 const catalogo = {
                     idSubasta:1234,
                     fecha: '20/05/2021',
@@ -19,17 +20,35 @@ const catalogo = {
                                 {
                                   idProducto:123,
                                   nombreProducto:'Zapatillas Nike',
-                                  foto: zapas
+                                  foto: zapas,
+                                  precioBase:'$10000',
+                                  duenio:{
+                                    nombre:'Wanchope Avila',
+                                    foto: wanchope
+                                  },
+                                  descripcion:'aifnsidmdcicdmsrmsvrsiormvismreisnvrsirnsmrisrnmsirvsnmrsirmsnrisvmnsirmnsndinvufiwime'
                                 },
                                 {
                                   idProducto:12,
                                   nombreProducto:'Ferrari',
-                                  foto:auto
+                                  foto:auto,
+                                  precioBase:'$10000',
+                                  duenio:{
+                                    nombre:'Wanchope Avila',
+                                    foto: wanchope
+                                  },
+                                  descripcion:'aifnsidmdcicdmsrmsvrsiormvismreisnvrsirnsmrisrnmsirvsnmrsirmsnrisvmnsirmnsndinvufiwime'
                                 },
                                 {
                                   idProducto:2,
                                   nombreProducto:"Reloj Rolex",
-                                  foto:reloj
+                                  foto:reloj,
+                                  precioBase:'$10000',
+                                  duenio:{
+                                    nombre:'Wanchope Avila',
+                                    foto: wanchope
+                                  },
+                                  descripcion:'aifnsidmdcicdmsrmsvrsiormvismreisnvrsirnsmrisrnmsirvsnmrsirmsnrisvmnsirmnsndinvufiwime'
                                 }
 
                               ]
@@ -49,7 +68,7 @@ class Pro extends React.Component{
     
     catalogo.productos.map(producto =>(
       <Block row style={styles.imageContainerProximos} >
-          <TouchableWithoutFeedback onPress={() => navigation.navigate('Producto')}>
+          <TouchableWithoutFeedback onPress={() => navigation.navigate('Producto',{producto})}>
               <Image
                   style={styles.imagen}
                   source={producto.foto}
@@ -100,6 +119,7 @@ class Pro extends React.Component{
                           <Button style={styles.btnVerProducto}>
                             <Text size={16} style={{color:'#FFFFFF'}} bold>Ver Producto</Text>
                           </Button>
+                          <Text bold size={16} style={styles.textoArticulosProximos}>Próximos a Subastar:</Text>
                          {this.renderProductos()}
                           
                       </Block>
@@ -216,8 +236,9 @@ const styles = StyleSheet.create({
   },
   textoArticulosProximos:{
     textAlignVertical:'center',
-    marginLeft:10,
-    color:'#818181'
+    marginLeft:20,
+    color:'#818181',
+    marginTop:20
   },
   btnVerProducto:{
     alignSelf:'center',
