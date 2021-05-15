@@ -6,6 +6,142 @@ import { Card } from '../components';
 import articles from '../constants/articles';
 import { Header } from 'react-native/Libraries/NewAppScreen';
 const { width } = Dimensions.get('screen');
+const zapas = require("../assets/imgs/zapas.jpg")
+const auto = require("../assets/imgs/ferrari.jpg")
+const reloj = require("../assets/imgs/reloj.jpg")
+const wanchope = require("../assets/imgs/wanchope.jpg")
+const subastas = [
+                    {
+                      idSubasta:1,
+                      fecha:'15/05/2021',
+                      categoriaSubasta:'Platino',
+                      rematador:'Ivan Ponce',
+                      colorCategoria:'#15E18E',
+                      productos:[
+                        {
+                          idProducto:123,
+                          nombreProducto:'Zapatillas Nike',
+                          foto: zapas,
+                          precioBase:'$10000',
+                          duenio:{
+                            nombre:'Wanchope Avila',
+                            foto: wanchope
+                          },
+                          descripcion:'aifnsidmdcicdmsrmsvrsiormvismreisnvrsirnsmrisrnmsirvsnmrsirmsnrisvmnsirmnsndinvufiwime'
+                        },
+                        {
+                          idProducto:12,
+                          nombreProducto:'Ferrari',
+                          foto:auto,
+                          precioBase:'$10000',
+                          duenio:{
+                            nombre:'Wanchope Avila',
+                            foto: wanchope
+                          },
+                          descripcion:'aifnsidmdcicdmsrmsvrsiormvismreisnvrsirnsmrisrnmsirvsnmrsirmsnrisvmnsirmnsndinvufiwime'
+                        },
+                        {
+                          idProducto:2,
+                          nombreProducto:"Reloj Rolex",
+                          foto:reloj,
+                          precioBase:'$10000',
+                          duenio:{
+                            nombre:'Wanchope Avila',
+                            foto: wanchope
+                          },
+                          descripcion:'aifnsidmdcicdmsrmsvrsiormvismreisnvrsirnsmrisrnmsirvsnmrsirmsnrisvmnsirmnsndinvufiwime'
+                        }
+
+                      ]
+                    },
+                    {
+                      idSubasta:2,
+                      fecha:'15/05/2021',
+                      categoriaSubasta:'Plata',
+                      rematador:'Ivan Ponce',
+                      colorCategoria:'#ADADAD',
+                      productos:[
+                        {
+                          idProducto:123,
+                          nombreProducto:'Zapatillas Nike',
+                          foto: zapas,
+                          precioBase:'$10000',
+                          duenio:{
+                            nombre:'Wanchope Avila',
+                            foto: wanchope
+                          },
+                          descripcion:'aifnsidmdcicdmsrmsvrsiormvismreisnvrsirnsmrisrnmsirvsnmrsirmsnrisvmnsirmnsndinvufiwime'
+                        },
+                        {
+                          idProducto:12,
+                          nombreProducto:'Ferrari',
+                          foto:auto,
+                          precioBase:'$10000',
+                          duenio:{
+                            nombre:'Wanchope Avila',
+                            foto: wanchope
+                          },
+                          descripcion:'aifnsidmdcicdmsrmsvrsiormvismreisnvrsirnsmrisrnmsirvsnmrsirmsnrisvmnsirmnsndinvufiwime'
+                        },
+                        {
+                          idProducto:2,
+                          nombreProducto:"Reloj Rolex",
+                          foto:reloj,
+                          precioBase:'$10000',
+                          duenio:{
+                            nombre:'Wanchope Avila',
+                            foto: wanchope
+                          },
+                          descripcion:'aifnsidmdcicdmsrmsvrsiormvismreisnvrsirnsmrisrnmsirvsnmrsirmsnrisvmnsirmnsndinvufiwime'
+                        }
+
+                      ]
+                    },
+                    {
+                      idSubasta:3,
+                      fecha:'15/05/2021',
+                      categoriaSubasta:'Oro',
+                      rematador:'Ivan Ponce',
+                      colorCategoria:'#C8DF00',
+                      productos:[
+                        {
+                          idProducto:123,
+                          nombreProducto:'Zapatillas Nike',
+                          foto: zapas,
+                          precioBase:'$10000',
+                          duenio:{
+                            nombre:'Wanchope Avila',
+                            foto: wanchope
+                          },
+                          descripcion:'aifnsidmdcicdmsrmsvrsiormvismreisnvrsirnsmrisrnmsirvsnmrsirmsnrisvmnsirmnsndinvufiwime'
+                        },
+                        {
+                          idProducto:12,
+                          nombreProducto:'Ferrari',
+                          foto:auto,
+                          precioBase:'$10000',
+                          duenio:{
+                            nombre:'Wanchope Avila',
+                            foto: wanchope
+                          },
+                          descripcion:'aifnsidmdcicdmsrmsvrsiormvismreisnvrsirnsmrisrnmsirvsnmrsirmsnrisvmnsirmnsndinvufiwime'
+                        },
+                        {
+                          idProducto:2,
+                          nombreProducto:"Reloj Rolex",
+                          foto:reloj,
+                          precioBase:'$10000',
+                          duenio:{
+                            nombre:'Wanchope Avila',
+                            foto: wanchope
+                          },
+                          descripcion:'aifnsidmdcicdmsrmsvrsiormvismreisnvrsirnsmrisrnmsirvsnmrsirmsnrisvmnsirmnsndinvufiwime'
+                        }
+
+                      ]
+                    }
+]
+
 
 class Home extends React.Component {
   constructor(props) {
@@ -58,11 +194,10 @@ class Home extends React.Component {
             setValue={this.setValue}
             setItems = {this.setItems}
         />
-         <Card item={articles[0]} horizontal  />
-         <Card item={articles[1]} horizontal  />
-         <Card item={articles[2]} horizontal  />
-          <Card item={articles[3]} horizontal />
-          <Card item={articles[4]} full />
+        {subastas.map(subasta =>{
+            return <Card key={subasta.idSubasta} item={subasta} horizontal/>
+
+        })}
         </Block>
       </ScrollView>
     )

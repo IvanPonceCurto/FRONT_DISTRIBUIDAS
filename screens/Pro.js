@@ -67,14 +67,15 @@ class Pro extends React.Component{
     return(
     
     catalogo.productos.map(producto =>(
-      <Block row style={styles.imageContainerProximos} >
-          <TouchableWithoutFeedback onPress={() => navigation.navigate('Producto',{producto})}>
+      <Block key={producto.idProducto} row style={styles.imageContainerProximos} >
+          <TouchableWithoutFeedback  onPress={() => navigation.navigate('Producto',{producto})}>
               <Image
+                
                   style={styles.imagen}
                   source={producto.foto}
                 />
           </TouchableWithoutFeedback>
-          <Text size={14} bold style={styles.textoArticulosProximos}>{producto.nombreProducto} </Text>
+          <Text size={14} bold  style={styles.textoArticulosProximos}>{producto.nombreProducto} </Text>
       </Block>
   
     )))

@@ -15,7 +15,8 @@ import Profile from "../screens/Profile";
 import Register from "../screens/Register";
 import Elements from "../screens/Elements";
 import Articles from "../screens/Articles";
-import Producto from "../screens/Producto"
+import Producto from "../screens/Producto";
+import Pujar from "../screens/Pujar";
 // drawer
 import CustomDrawerContent from "./Menu";
 
@@ -176,7 +177,25 @@ function HomeStack(props) {
                   />
                 ),
                 headerTransparent:true,
-                cardStyle: { backgroundColor: '#3483FA'}
+                cardStyle: { backgroundColor: '#EEBB00'}
+              }}
+            />
+              <Stack.Screen
+              name="Pujar"
+              component={Pujar}
+              options={{
+                header: ({ navigation, scene }) => (
+                  <Header
+                    title=""
+                    back
+                    iconColor={'#FFFFFF'}
+                    transparent
+                    navigation={navigation}
+                    scene={scene}
+                  />
+                ),
+                headerTransparent:true,
+                cardStyle: { backgroundColor: '#EEBB00'}
               }}
             />
     

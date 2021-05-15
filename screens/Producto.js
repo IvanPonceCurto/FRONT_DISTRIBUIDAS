@@ -12,6 +12,7 @@ class Producto extends React.Component{
     renderProducto = () =>{
         const {route,navigation} = this.props;
         const producto = route.params
+        const ProductoParam = producto.producto;
         console.log(producto)
         console.log(producto.producto.foto)
         return(
@@ -48,6 +49,9 @@ class Producto extends React.Component{
                         <Text style={styles.descripcionLarga}>{producto.producto.descripcion}</Text>
                         <Text style={styles.descripcionLarga}>fmsfmsfosmfsofmsfosmfosfmsofsmfosfmsofmsfosmfsofmsfosfmsofmsfosmfsofmsfosfmsofmsfsfmosfmsfosmfosfmsfosmfsofmsfosmfsofmsfosfmsfomfmsofmsfomsfo</Text>
                     </Block>
+                    <Button style={styles.btnRealizarOferta} onPress={()=>navigation.navigate('Pujar',{ProductoParam})}>
+                        <Text size={16} style={{color:'#FFFFFF'}} bold>Realiza tu Oferta!</Text>
+                    </Button>
                 </Block>
                 </ScrollView>
             </Block>
@@ -149,6 +153,13 @@ const styles = StyleSheet.create({
       descripcionLarga:{
             marginTop:20,
             color:'#707070'
+      },
+      btnRealizarOferta:{
+        alignSelf:'center',
+        marginTop:60,
+        borderRadius:10,
+        backgroundColor:'#3483FA'
+    
       }
 })
 export default Producto

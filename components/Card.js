@@ -24,16 +24,26 @@ class Card extends React.Component {
     return (
       <Block row={horizontal} card flex style={cardContainer}>
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Catalogo')}>
-          <Block flex style={imgContainer}>
-            <Image source={{uri: item.image}} style={imageStyles} />
+          <Block row={horizontal}  style={imgContainer}>
+         
+            <Image  source={item.productos[0].foto} style={imageStyles} /> 
+           
+            <Block style={{width:'100%'}}>         
+            <Image source={item.productos[1].foto} style={styles.secondaryImages} />
+            <Image source={item.productos[2].foto} style={styles.secondaryImages} />
+            </Block>
+
           </Block>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Catalogo')}>
           <Block flex space="between" style={styles.cardDescription}>
-            <Text size={14} style={styles.cardTitle}>{item.title}</Text>
+            <Text size={14} style={styles.cardTitle}>Subasta N°{item.idSubasta}</Text>
             <Block row={horizontal} space="between">
-            <Block style={styles.rectanguloCategoria}>
-            <Text size={12} muted={!ctaColor} color={argonTheme.COLORS.WHITE} bold>{item.cta}</Text>
+            <Block style={{ backgroundColor:item.colorCategoria,
+                            width:80,
+                            alignItems:'center',
+                            borderRadius:50}}>
+            <Text size={12} muted={!ctaColor} color={argonTheme.COLORS.WHITE} bold>{item.categoriaSubasta}</Text>
             </Block>
             <Block style={styles.rectangulo}>
             <Text size={12} muted={!ctaColor} color={argonTheme.COLORS.WHITE} bold>Ver Catálogo</Text>
@@ -63,7 +73,7 @@ const styles = StyleSheet.create({
     marginBottom: 16
   },
   rectanguloCategoria:{
-    backgroundColor: '#15E18E',
+    backgroundColor:'#000000',
     width:80,
     alignItems:'center',
     borderRadius:50
@@ -88,13 +98,19 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     elevation: 1,
     overflow: 'hidden',
+    width:180,
+    height:120
   },
   image: {
     // borderRadius: 3,
   },
   horizontalImage: {
     height: 122,
-    width: 'auto',
+    width: '50%',
+  },
+  secondaryImages:{
+    width:'50%',
+    height:'50%'
   },
   horizontalStyles: {
     borderTopRightRadius: 0,
