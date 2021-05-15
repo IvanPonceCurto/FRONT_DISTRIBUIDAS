@@ -15,6 +15,7 @@ import Profile from "../screens/Profile";
 import Register from "../screens/Register";
 import Elements from "../screens/Elements";
 import Articles from "../screens/Articles";
+import Articulos from "../screens/Articulos";
 // drawer
 import CustomDrawerContent from "./Menu";
 
@@ -96,18 +97,67 @@ function ArticlesStack(props) {
   );
 }
 
-function ProfileStack(props) {
+function SubastarStack (props) {
   return (
-    <Stack.Navigator initialRouteName="Profile" mode="card" headerMode="screen">
+    <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
         name="Profile"
-        component={Profile}
+        component={Register}
         options={{
           header: ({ navigation, scene }) => (
             <Header
               transparent
               white
-              title="Profile"
+              title="Subastar"
+              subasta={true}
+              bgColor={"#EEBB00"}
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#FFFFFF" },
+          headerTransparent: true
+        }}
+      />
+            <Stack.Screen
+        name="Pro"
+        component={Pro}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title=""
+              back
+              white
+              transparent
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: true
+        }}
+      />
+      <Stack.Screen
+        name="Articulos"
+        component={Articulos}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function ArticulosStack (props) {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="Profile"
+        component={Articulos}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              transparent
+              white
+              title="Mis Artículos"
+              //subasta={true}
+              bgColor={"#EEBB00"}
               navigation={navigation}
               scene={scene}
             />
@@ -134,6 +184,53 @@ function ProfileStack(props) {
         }}
       />
     </Stack.Navigator>
+  );
+}
+
+function ProfileStack(props) {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            header: ({ navigation, scene }) => (
+              <Header
+                transparent
+                white
+                title="Subastar"
+                perfil={true}
+                bgColor={"#EEBB00"}
+                navigation={navigation}
+                scene={scene}
+              />
+            ),
+            cardStyle: { backgroundColor: "#FFFFFF" },
+            headerTransparent: true
+          }}
+        />
+              <Stack.Screen
+          name="Pro"
+          component={Pro}
+          options={{
+            header: ({ navigation, scene }) => (
+              <Header
+                title=""
+                back
+                white
+                transparent
+                navigation={navigation}
+                scene={scene}
+              />
+            ),
+            headerTransparent: true
+          }}
+        />
+        <Stack.Screen
+          name="Articulos"
+          component={Articulos}
+        />
+      </Stack.Navigator>
   );
 }
 
@@ -225,7 +322,7 @@ function AppStack(props) {
     >
       <Drawer.Screen name="Home" component={HomeStack} />
       <Drawer.Screen name="Profile" component={ProfileStack} />
-      <Drawer.Screen name="Subasta" component={Register} />
+      <Drawer.Screen name="Subasta" component={SubastarStack} />
       <Drawer.Screen name="Elements" component={ElementsStack} />
       <Drawer.Screen name="Articles" component={ArticlesStack} />
     </Drawer.Navigator>

@@ -17,28 +17,26 @@ class PickerSelect extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        cursos:this.props.list,
+        opciones:this.props.list,
         categoriaSeleccionada:''
     }
   }
 
   render() {
       return(
-        <View>
             <Picker
-                selectedValue={this.state.language}
-                style={{height:44, width: width - 85}}
+                selectedValue={this.state.categoriaSeleccionada}
+                style={{height:44, width: this.props.width, marginTop:10}}
                 onValueChange={(itemValue) =>
                 this.setState({categoriaSeleccionada: itemValue})
                 }>
                 {
-                    this.state.cursos.map(valor => {
+                    this.state.opciones.map(valor => {
                         return <Picker.Item label={valor} value={valor} />
                     })
                 }
                 
             </Picker>
-        </View>
       );
   }
 

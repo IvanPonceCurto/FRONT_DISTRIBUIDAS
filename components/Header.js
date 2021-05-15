@@ -50,6 +50,11 @@ class Header extends React.Component {
     const { back, navigation } = this.props;
     return (back ? navigation.goBack() : navigation.openDrawer());
   }
+  handleRightPress = () => {
+    const { back, navigation } = this.props;
+    navigation.navigate("Articulos");
+    //return (back ? navigation.goBack() : navigation.navigate("Articulos"));
+  }
   renderRight = () => {
     const { white, title, navigation } = this.props;
 
@@ -165,7 +170,7 @@ class Header extends React.Component {
     }
   }
   render() {
-    const { back, title, white, transparent, bgColor, iconColor, titleColor, navigation, ...props } = this.props;
+    const { back, title, white, transparent, bgColor, iconColor, titleColor, subasta,perfil, navigation, ...props } = this.props;
 
     const noShadow = ['Search', 'Categories', 'Deals', 'Pro', 'Profile'].includes(title);
     const headerStyles = [
@@ -177,8 +182,113 @@ class Header extends React.Component {
       styles.navbar,
       bgColor && { backgroundColor: bgColor }
     ];
+    
+    if (subasta == true){
 
-    return (
+      return (
+        <Block style={headerStyles}>
+          <NavBar
+            back={false}
+            title={'BetFast'}
+            style={navbarStyles}
+            transparent={transparent}
+            
+            right={
+              <Icon 
+                name={back ? 'chevron-left' : "back-in-time"} family="entypo" 
+                size={20} onPress={this.handleRightPress} 
+                color={iconColor || (white ? argonTheme.COLORS.WHITE : argonTheme.COLORS.ICON)}
+                style={{ marginTop: 2 }}
+              />
+            }
+            rightStyle={{ alignItems: 'center' }}
+            left={
+              <Icon 
+                name={back ? 'chevron-left' : "menu"} family="entypo" 
+                size={20} onPress={this.handleLeftPress} 
+                color={iconColor || (white ? argonTheme.COLORS.WHITE : argonTheme.COLORS.ICON)}
+                style={{ marginTop: 2 }}
+              />
+                
+            }
+            leftStyle={{ paddingVertical: 12, flex: 0.2 }}
+            titleStyle={[
+              styles.title,
+              { color: '#0084AE' },
+              titleColor && { color: titleColor }
+            ]}
+            {...props}
+          />
+          
+          {this.renderHeader()}
+        </Block>
+      );
+    }else{
+      if(perfil==true){
+        return (
+          <Block style={headerStyles}>
+            <NavBar
+              back={false}
+              title={'BetFast'}
+              style={navbarStyles}
+              transparent={transparent}
+              
+              
+              rightStyle={{ alignItems: 'center' }}
+              left={
+                <Icon 
+                  name={back ? 'chevron-left' : "menu"} family="entypo" 
+                  size={20} onPress={this.handleLeftPress} 
+                  color={iconColor || (white ? argonTheme.COLORS.WHITE : argonTheme.COLORS.ICON)}
+                  style={{ marginTop: 2 }}
+                />
+                  
+              }
+              leftStyle={{ paddingVertical: 12, flex: 0.2 }}
+              titleStyle={[
+                styles.title,
+                { color: '#0084AE' },
+                titleColor && { color: titleColor }
+              ]}
+              {...props}
+            />
+            
+            {this.renderHeader()}
+          </Block>
+        );
+      }else{
+      return (
+        <Block style={headerStyles}>
+          <NavBar
+            back={false}
+            title={title}
+            style={navbarStyles}
+            transparent={transparent}
+            
+            rightStyle={{ alignItems: 'center' }}
+            left={
+              <Icon 
+                name={back ? 'chevron-left' : "menu"} family="entypo" 
+                size={20} onPress={this.handleLeftPress} 
+                color={iconColor || (white ? argonTheme.COLORS.WHITE : argonTheme.COLORS.ICON)}
+                style={{ marginTop: 2 }}
+              />
+                
+            }
+            leftStyle={{ paddingVertical: 12, flex: 0.2 }}
+            titleStyle={[
+              styles.titleNav,
+              { color: argonTheme.COLORS.BLACK },
+              titleColor && { color: titleColor }
+            ]}
+            {...props}
+          />
+          {this.renderHeader()}
+        </Block>
+      );
+    }}
+
+    /* return (
       <Block style={headerStyles}>
         <NavBar
           back={false}
@@ -206,7 +316,7 @@ class Header extends React.Component {
         />
         {this.renderHeader()}
       </Block>
-    );
+    ); */
   }
 }
 

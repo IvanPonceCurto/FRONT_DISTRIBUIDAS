@@ -8,10 +8,11 @@ import {
   Platform
 } from "react-native";
 import { Block, Text, theme } from "galio-framework";
-
+import { Card } from '../components';
 import { Button } from "../components";
 import { Images, argonTheme } from "../constants";
 import { HeaderHeight } from "../constants/utils";
+import articles from '../constants/articles';
 
 const { width, height } = Dimensions.get("screen");
 
@@ -23,13 +24,13 @@ class Profile extends React.Component {
       <Block flex style={styles.profile}>
         <Block flex>
           <Block
-            //source={Images.ProfileBackground}
+            //zsource={Images.ProfileBackground}
             style={styles.profileContainer, {backgroundColor:argonTheme.COLORS.BLUE}}
             imageStyle={styles.profileBackground}
           >
             <ScrollView
               showsVerticalScrollIndicator={false}
-              style={{ width, marginTop: '25%' }}
+              style={{ width, marginTop: '30%' }}
             >
               <Block flex style={styles.profileCard}>
                 <Block middle style={styles.avatarContainer}>
@@ -39,7 +40,7 @@ class Profile extends React.Component {
                   />
                 </Block>
                 <Block style={styles.info}>
-                  <Block
+                  {/* <Block
                     middle
                     row
                     space="evenly"
@@ -57,8 +58,9 @@ class Profile extends React.Component {
                     >
                       MESSAGE
                     </Button>
-                  </Block>
-                  <Block row space="between">
+                  </Block> */}
+                  {/* <Block row space="between">  */}
+                  <Block style={{marginTop:15}} row space="evenly">
                     <Block middle>
                       <Text
                         bold
@@ -68,7 +70,10 @@ class Profile extends React.Component {
                       >
                         2K
                       </Text>
-                      <Text size={12} color={argonTheme.COLORS.TEXT}>Subastas Ganadas</Text>
+                      <Block>
+                        <Text style={{textAlign: 'center'}} size={12} color={argonTheme.COLORS.TEXT}>Subastas</Text>
+                        <Text style={{textAlign: 'center'}} size={12} color={argonTheme.COLORS.TEXT}>ganadas</Text>
+                      </Block>
                     </Block>
                     <Block middle>
                       <Text
@@ -79,7 +84,10 @@ class Profile extends React.Component {
                       >
                         10
                       </Text>
-                      <Text size={12} color={argonTheme.COLORS.TEXT}>Subastas Participadas</Text>
+                      <Block>
+                        <Text style={{textAlign: 'center'}} size={12} color={argonTheme.COLORS.TEXT}>Subastas</Text>
+                        <Text style={{textAlign: 'center'}} size={12} color={argonTheme.COLORS.TEXT}>participadas</Text>
+                      </Block>
                     </Block>
                     <Block middle>
                       <Text
@@ -90,23 +98,29 @@ class Profile extends React.Component {
                       >
                         89
                       </Text>
-                      <Text size={12} color={argonTheme.COLORS.TEXT}>Articulos Subastados</Text>
+                      <Block>
+                        <Text style={{textAlign: 'center'}} size={12} color={argonTheme.COLORS.TEXT}>Artículos</Text>
+                        <Text style={{textAlign: 'center'}} size={12} color={argonTheme.COLORS.TEXT}>subastados</Text>
+                      </Block>
                     </Block>
                   </Block>
                 </Block>
                 <Block flex>
                   <Block middle style={styles.nameInfo}>
                     <Text bold size={28} color="#32325D">
-                      Jessica Jones, 27
+                      Valentin Saettone, 21
                     </Text>
                     <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
-                      San Francisco, USA
+                      Buenos Aires, Argentina
                     </Text>
                   </Block>
                   <Block middle style={{ marginTop: 30, marginBottom: 16 }}>
                     <Block style={styles.divider} />
                   </Block>
                   <Block middle>
+                    <Card flag={false} item={articles[0]} horizontal  />
+                    <Card flag={true} item={articles[3]} horizontal  />
+                    <Card flag={true} item={articles[4]} horizontal  />
                     <Text
                       size={16}
                       color="#525F7F"
@@ -281,7 +295,8 @@ class Profile extends React.Component {
 
 const styles = StyleSheet.create({
   profile: {
-    marginTop: Platform.OS === "android" ? -HeaderHeight : 0,
+    marginTop: 0,
+    //marginTop: Platform.OS === "android" ? -HeaderHeight : 0,
     // marginBottom: -HeaderHeight * 2,
     flex: 1
   },

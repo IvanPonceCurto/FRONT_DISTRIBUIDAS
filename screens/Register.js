@@ -6,39 +6,59 @@ import {
   StatusBar,
   KeyboardAvoidingView,
   ScrollView,
-  View
+  View,
+  Modal,
+  SafeAreaView
 } from "react-native";
 import { Block, Checkbox, Text, theme } from "galio-framework";
 import {Picker} from '@react-native-picker/picker';
 
+import Header from '../components/Header'
 import { Switch, Button, Icon, Input, Select } from "../components";
 import { Images, argonTheme } from "../constants";
 import ImagePicker from 'react-native-image-picker';
 import ImagePick from '../components/ImagePick';
 import Menu from '../navigation/Menu'
 import PickerSelect from '../components/PickerSelect';
-
+//import SimpleModal from '../components/SimpleModal';
 import { RadioButton } from 'react-native-paper';
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useForm, Controller } from "react-hook-form";
 
 
 const { width, height } = Dimensions.get("screen");
 
+ 
 class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       switchValue:false,
-      inputValue:''
+      inputValue:'',
+      categoriaSeleccionada:'',
+      show:false
     }
   }
+ 
   toggleSwitch = (value) =>{
     this.setState({switchValue: value});
   }
   handleInput = (value) =>{
-    console.log(value.target.value);
-    console.log("value");
+    console.log(value);
     this.setState({inputValue: value});
   }
+  handleSelect = (value) =>{
+    console.log(value);
+    this.setState({categoriaSeleccionada: value});
+    console.log(this.state.categoriaSeleccionada);
+  }
+  handleForm = () => {
+
+  }
+  handleIcon = () => {
+    console.log("ok");
+  }
+
  
 
   render() {
@@ -46,26 +66,13 @@ class Register extends React.Component {
     let form;
     if(this.state.switchValue === false){
       form = (
+        <Block flex>
         <Block flex width={width * 0.8} style={{ marginBottom: 0 }}>
             <PickerSelect
-              style = {{width: 100}}
-              list = {['Seleccione una categoría','Obra de arte','Otro']}
+              list = {['Obra de arte','Otro']}
+              onValueChange = {value => this.handleSelect (value)}
             ></PickerSelect>
-            <Input
-            borderless
-            placeholder="Nombre del autor"
-            iconContent={false}
-          />
-          <Input
-            borderless
-            placeholder="Fecha de la obra"
-            iconContent={false}
-          />
-          <Input
-            borderless
-            placeholder="Historia de la obra"
-            iconContent={false}
-          />
+            <Text>categoria: {this.state.categoriaSeleccionada}</Text>
           <Input
             borderless
             placeholder="Observaciones"
@@ -75,29 +82,31 @@ class Register extends React.Component {
           <Input
             keyboardType="numeric"
             borderless
-            placeholder="Precio"
+            placeholder="Precio sugerido"
             iconContent={false}
             />
             
             <PickerSelect
               list = {['ARS','USD']}
+              width = {'50%'}
             ></PickerSelect>
             
 
           </Block>
           <ImagePick></ImagePick>
         </Block>
+        </Block>
       );
     }else{
       form = (
         <Block flex width={width * 0.8} style={{ marginBottom: 0 }}>
-          <Input
-            borderless
-            placeholder="¿De qué se trata tu colección de artículos?"
-            iconContent={false}
-            onChange={this.handleInput}
-          />
-          
+          <Text>valor: {this.state.inputValue}</Text>
+            <Input
+              borderless
+              placeholder="¿De qué se trata tu colección de artículos?"
+              iconContent={false}
+              onChange={this.handleInput}
+            />
           <Input
             borderless
             placeholder="Observaciones"
@@ -110,22 +119,17 @@ class Register extends React.Component {
             iconContent={false}
           />
           <Block>
-          <Input
-            keyboardType="numeric"
-            borderless
-            placeholder="Precio"
-            iconContent={false}
-            />
             <Block row>
           <Input
             keyboardType="numeric"
             borderless
-            placeholder="Precio"
+            placeholder="Precio sugerido"
             iconContent={false}
             />
             
             <PickerSelect
               list = {['ARS','USD']}
+              width = {'50%'}
             ></PickerSelect>
             
 
@@ -138,160 +142,145 @@ class Register extends React.Component {
     }
     
     return (
+      <View style={{marginTop:'20%'}}>
       <ScrollView>
       <KeyboardAvoidingView style={styles.container}>
-      
-        <ImageBackground
-          source={Images.RegisterBackground}
-          style={{ width, height, zIndex: 1 }}
-        >
-          <Block safe flex middle>
-            <Block style={styles.registerContainer}>
-              <Block flex={0.25} middle style={styles.socialConnect}>
-                <Text center color="#3483FA" size={22}>
-                  ¿Qué tipo de artículos te gustaría subastar?
-                </Text>
-                <Block row style={{marginTop: 10}}>
-                <Text style={{paddingRight: 50}} color="#000000" size={18}>
-                  Colección de artículos
-                </Text>
-                <Switch
-                  trackColor={{ false: "#767577", true: "#81b0ff" }}
-                  //thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-                  ios_backgroundColor="#3e3e3e"
-                  onValueChange={this.toggleSwitch}
-                  value={this.state.switchValue}
-                  >
-                </Switch>
-                </Block>
-                
-              </Block>
-              <Block flex>
-                <Block flex center>
-                  <KeyboardAvoidingView
-                    style={{ flex: 1 }}
-                    behavior="padding"
-                    enabled
-                  >
+        {/* <View style={styles.header}>
+        HEADER DE LAUTI
+        </View> */}
+        <View style={styles.formContainer}>
+            <Modal
+              transparent={true}
+              visible={this.state.show}
+            >
+              <View style={{backgroundColor:"#000000aa", flex: 1}}>
+                <View style={{backgroundColor:"#ffffff", alignItems: 'center', justifyContent: 'center', margin:30, marginVertical: 300 , borderRadius: 10 ,flex: 1}}>
+                    <Text style={[styles.text2, {fontSize: 24, color: '#3483FA'}]}>Artículo enviado exitosamente</Text>
+                    <Text style={styles.text2}>Recibirás un correo electrónico una vez que analicemos el artículo</Text>
+                  <Button
+                    onPress={() => {this.setState({show:false})}}
+                    size='small'
+                    >
+                    <Text bold size={14} color={argonTheme.COLORS.WHITE}>REGRESAR</Text></Button>
+                </View>
+              </View>
+            </Modal>
+            <Text center color="#3483FA" size={22}>
+              ¿Qué tipo de artículo te gustaría subastar?
+            </Text>
+            <TouchableOpacity
+                onPress = {this.handleIcon}
+              >
+              <Icon
+                  size={16}
+                  color={argonTheme.COLORS.ICON}
+                  name="hat-3"
+                  family="ArgonExtra"
+                  style={styles.inputIcons}
+                />
+            </TouchableOpacity>
+            <Block row style={{marginTop: 10}}>
+              <Text style={{paddingRight: 60}} color="#000000" size={18}>
+                Colección de artículos
+              </Text>
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                //thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={this.toggleSwitch}
+                value={this.state.switchValue}
+                >
+              </Switch>
+            </Block>
                   {form}
                   <Block middle>
-                      <Button color="primary" style={styles.createButton}>
+                      <Button 
+                        color= "primary" 
+                        onPress={() => {this.setState({show:true})}}>
                         <Text bold size={14} color={argonTheme.COLORS.WHITE}>
                           ENVIAR
-                        </Text>
+                      </Text>
                       </Button>
-                    </Block>
-                   {/* <Block width={width * 0.8} style={{ marginBottom: 15 }}>
-                      <Input
-                        borderless
-                        placeholder="Name"
-                        iconContent={
-                          <Icon
-                            size={16}
-                            color={argonTheme.COLORS.ICON}
-                            name="hat-3"
-                            family="ArgonExtra"
-                            style={styles.inputIcons}
-                          />
-                        }
-                      />
-                    </Block>
-                    <Block width={width * 0.8} style={{ marginBottom: 15 }}>
-                      <Input
-                        borderless
-                        placeholder="Email"
-                        iconContent={
-                          <Icon
-                            size={16}
-                            color={argonTheme.COLORS.ICON}
-                            name="ic_mail_24px"
-                            family="ArgonExtra"
-                            style={styles.inputIcons}
-                          />
-                        }
-                      />
-                    </Block>
-                    <Block width={width * 0.8}>
-                      <Input
-                        password
-                        borderless
-                        placeholder="Password"
-                        iconContent={
-                          <Icon
-                            size={16}
-                            color={argonTheme.COLORS.ICON}
-                            name="padlock-unlocked"
-                            family="ArgonExtra"
-                            style={styles.inputIcons}
-                          />
-                        }
-                      />
                       
-                    </Block> */}
-
-                  </KeyboardAvoidingView>
-                </Block>
-              </Block>
-            </Block>
-          </Block>
-        </ImageBackground>
-      </KeyboardAvoidingView>
-      </ScrollView>
+                    </Block>
+            </View>
+          </KeyboardAvoidingView>
+        </ScrollView>
+    </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  registerContainer: {
-    width: width * 0.9,
-    height: height * 0.875,
-    backgroundColor: "#F4F5F7",
-    borderRadius: 4,
-    shadowColor: argonTheme.COLORS.BLACK,
-    shadowOffset: {
-      width: 0,
-      height: 4
-    },
-    shadowRadius: 8,
-    shadowOpacity: 0.1,
-    elevation: 1,
-    overflow: "hidden"
+  container: {
+    flex: 1,
+    alignItems: 'center'
   },
-  socialConnect: {
-    backgroundColor: argonTheme.COLORS.WHITE,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: "#8898AA"
+  touchableOpacity: {
+    backgroundColor: 'orange',
+    paddingHorizontal: 50
   },
-  socialButtons: {
-    width: 120,
-    height: 40,
-    backgroundColor: "#fff",
-    shadowColor: argonTheme.COLORS.BLACK,
-    shadowOffset: {
-      width: 0,
-      height: 4
-    },
-    shadowRadius: 8,
-    shadowOpacity: 0.1,
-    elevation: 1
+  text: {
+    marginVertical: 20,
+    fontSize: 20,
+    fontWeight: 'bold'
   },
-  socialTextButtons: {
-    color: argonTheme.COLORS.PRIMARY,
-    fontWeight: "800",
-    fontSize: 14
+  header: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: '10%',
+    paddingBottom: '5%',
+    backgroundColor: '#EEBB00',
+    width: '100%'
+  },
+  title: {
+    fontSize: 20,
+    color: 'black'
+  },
+  formContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: '5%', //estaba en 10
+    width: width * 0.7
+  },
+  subtitle: {
+    fontSize: 20,
+    color: '#3483FA',
+    marginTop: '5%',
+    fontWeight: 'bold'
   },
   inputIcons: {
     marginRight: 12
   },
-  passwordCheck: {
-    paddingLeft: 15,
-    paddingTop: 13,
-    paddingBottom: 30
+  radioButtonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: '5%'
   },
-  createButton: {
-    width: width * 0.5,
-    marginTop: 25
-  }
+  radioButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 20
+  },
+  button: {
+    width: width - theme.SIZES.BASE * 12,
+    height: theme.SIZES.BASE * 3,
+    shadowRadius: 0,
+    shadowOpacity: 0,
+    marginTop: '1%',
+  },
+  error: {
+    color: 'red',
+    marginBottom: 10
+  },
+  input: {
+    borderWidth: 2
+  },
+  text2: {
+    margin: 5,
+    fontSize: 16,
+    textAlign: 'center'
+}
 });
 
 export default Register;
