@@ -37,7 +37,11 @@ class Card extends React.Component {
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Catalogo')}>
           <Block flex space="between" style={styles.cardDescription}>
-            <Text size={14} style={styles.cardTitle}>Subasta N°{item.idSubasta}</Text>
+            <Block>
+                <Text size={14} style={styles.cardTitle}>Subasta N°{item.idSubasta}</Text>
+                <Text size={12}>Fecha: {item.fecha}</Text>
+                <Text size={12}>Rematador: {item.rematador}</Text>
+            </Block>
             <Block row={horizontal} space="between">
             <Block style={{ backgroundColor:item.colorCategoria,
                             width:80,

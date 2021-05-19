@@ -13,6 +13,7 @@ class Producto extends React.Component{
         const {route,navigation} = this.props;
         const producto = route.params
         const ProductoParam = producto.producto;
+        const subasta = producto.catalogo;
         console.log(producto)
         console.log(producto.producto.foto)
         return(
@@ -49,7 +50,7 @@ class Producto extends React.Component{
                         <Text style={styles.descripcionLarga}>{producto.producto.descripcion}</Text>
                         <Text style={styles.descripcionLarga}>fmsfmsfosmfsofmsfosmfosfmsofsmfosfmsofmsfosmfsofmsfosfmsofmsfosmfsofmsfosfmsofmsfsfmosfmsfosmfosfmsfosmfsofmsfosmfsofmsfosfmsfomfmsofmsfomsfo</Text>
                     </Block>
-                    <Button style={styles.btnRealizarOferta} onPress={()=>navigation.navigate('Pujar',{ProductoParam})}>
+                    <Button style={styles.btnRealizarOferta} onPress={()=>navigation.navigate('Pujar',{ProductoParam,subasta})}>
                         <Text size={16} style={{color:'#FFFFFF'}} bold>Realiza tu Oferta!</Text>
                     </Button>
                 </Block>

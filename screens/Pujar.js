@@ -1,14 +1,64 @@
-import React, { useState } from "react";
-import { Image, StyleSheet, Dimensions, Platform,ScrollView, KeyboardAvoidingView,View} from 'react-native';
+import React, { useState, useEffect } from "react";
+import { Image, StyleSheet,SafeAreaView, Dimensions, Platform,ScrollView, KeyboardAvoidingView,View} from 'react-native';
 import { Block, Button, Text, theme } from 'galio-framework'; 
 import { HeaderHeight } from "../constants/utils";
 import {Picker} from '@react-native-picker/picker';
 import { Input, Icon } from "../components";
 import { useForm, Controller } from "react-hook-form";
+import CountDown from 'react-native-countdown-component';
+import moment from 'moment';
+
+
+const CountDownTimer = (fecha) => {
+
+    const [totalDuration, setTotalDuration] = useState(0);
+     
+    useEffect(() => {
+      //We are showing the coundown timer for a given expiry date-time
+      //If you are making a quize type app then you need to make a simple timer
+      //which can be done by using the simple like given below
+      //that.setState({ totalDuration: 30 }); //which is 30 sec
+      var date = moment().utcOffset('+05:30').format('YYYY-MM-DD hh:mm:ss');
+      //Getting the current date-time with required formate and UTC
+      var expirydate ='2021-12-23 04:00:45'; //You can set your own date-time
+      
+      //Let suppose we have to show the countdown for above date-time
+      var diffr = moment.duration(moment(expirydate).diff(moment(date)));
+      //difference of the expiry date-time given and current date-time 
+      var hours = parseInt(diffr.asHours());
+      var minutes = parseInt(diffr.minutes());
+      var seconds = parseInt(diffr.seconds());
+      var d = hours * 60 * 60 + minutes * 60 + seconds;
+      //converting in seconds
+      setTotalDuration(d);
+      //Settign up the duration of countdown in seconds to re-render
+    }, []);
+   
+    return (
+      <SafeAreaView style={styles.containerCountDown}>
+        <View style={styles.containerCountDown}>
+          <CountDown
+            digitStyle={{backgroundColor:'#3483FA'}}
+            digitTxtStyle={{color:'#FFFFFF'}}
+            until={totalDuration}
+            //duration of countdown in seconds
+            timetoShow={('H', 'M', 'S')}
+            //formate to show
+            onFinish={() => alert('finished')}
+            //on Finish call
+           
+            
+            size={22}
+            
+          />
+        </View>
+      </SafeAreaView> 
+    );
+  };
 
 const { height, width } = Dimensions.get('screen');
 
-const altura = height - height*0.5;
+const altura = height - height*0.4;
 const mediosDePago = [
     {
         idMedio:'1234',
@@ -27,6 +77,7 @@ const mediosDePago = [
     }
 ]
 
+//picker select fijarse meterle un preventDefault()
 class RenderPicker extends React.Component{
     
     constructor(props){
@@ -35,8 +86,8 @@ class RenderPicker extends React.Component{
             mediosDePago:this.props.mediosDePagoList,
             selectedMedioDePago:'Medio de Pago'
         }
-    }
-    
+    } 
+     
     render(){
        console.log(this.state.mediosDePago)
             return(
@@ -59,14 +110,17 @@ class RenderPicker extends React.Component{
      }
 
 }
-
+ 
 
 const Pujar = (props) =>{
   
     const {route,navigation} = props;
     const Object = route.params
+    
     const ProductoParam = Object.ProductoParam
-    console.log(ProductoParam)
+    const subasta = Object.subasta
+    console.log(subasta.fecha)
+   
     const { control, formState: { errors } } = useForm();
     return(
        
@@ -87,6 +141,12 @@ const Pujar = (props) =>{
                 <Block row space="between" style={styles.cardHeader}>
                     <Text size={40} style={styles.productPrizeText}>{ProductoParam.precioBase}</Text>
                 </Block>
+                <Block middle style={{ marginTop: 10}}>
+                    <Block style={styles.divider} />
+                </Block>
+            
+                    <CountDownTimer fecha={subasta.fecha}/>
+              
                 <Block middle style={{ marginTop: 10}}>
                     <Block style={styles.divider} />
                 </Block>
@@ -271,6 +331,13 @@ const styles = StyleSheet.create({
       error: {
         color: 'red',
         marginBottom: 10
+      },
+      containerCountDown: {
+
+       marginTop:10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    
       }
 
 

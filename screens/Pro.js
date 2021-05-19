@@ -12,7 +12,7 @@ const reloj = require("../assets/imgs/reloj.jpg")
 const wanchope = require("../assets/imgs/wanchope.jpg")
 const catalogo = {
                     idSubasta:1234,
-                    fecha: '20/05/2021',
+                    fecha: '2021-12-23 04:00:45',
                     rematador:'Ivan Ponce',
                     categoriaSubasta:'Platino',
                     colorCategoria:'#15E18E',
@@ -62,26 +62,52 @@ const catalogo = {
 
 
 class Pro extends React.Component{
-  renderProductos = ()=>{
+  constructor(props){
+    super(props);
+    this.state= catalogo.productos[0]
+  }
+
+  renderProductos(){
     const { navigation } = this.props
     return(
-    
-    catalogo.productos.map(producto =>(
-      <Block key={producto.idProducto} row style={styles.imageContainerProximos} >
-          <TouchableWithoutFeedback  onPress={() => navigation.navigate('Producto',{producto})}>
-              <Image
-                
-                  style={styles.imagen}
-                  source={producto.foto}
-                />
-          </TouchableWithoutFeedback>
-          <Text size={14} bold  style={styles.textoArticulosProximos}>{producto.nombreProducto} </Text>
-      </Block>
-  
-    )))
-  }
-  render(){
+      <Block style={styles.cardBody}>
+        <Text bold size={16} style={styles.subastaActual}>Subastandose Actualmente</Text>
+        <Block style={styles.imageContainer}>
+            <Image
+                style={styles.imagen}
+                source={this.state.foto}
+              />
+        </Block>
+        <Text normal size={14} style={{textAlign:'center',marginTop:10}}>{this.state.nombreProducto}</Text>
 
+        <Button style={styles.btnVerProducto}>
+          <Text size={16} style={{color:'#FFFFFF'}} bold>Ver Producto</Text>
+        </Button>
+        <Text bold size={16} style={styles.textoArticulosProximos}>Próximos a Subastar:</Text>
+          {catalogo.productos.map(producto =>{
+            if(producto.idProducto!=this.state.idProducto){
+              return(
+                <Block key={producto.idProducto} row style={styles.imageContainerProximos} >
+                    <TouchableWithoutFeedback onPress={() => navigation.navigate('Producto',{catalogo,producto})} /*onPress={this.setState({ state: producto })}*/>
+                      
+                        <Image
+                          
+                            style={styles.imagen}
+                            source={producto.foto}
+                          />
+                    </TouchableWithoutFeedback>
+                    <Text size={14} bold  style={styles.textoArticulosProximos}>{producto.nombreProducto} </Text>
+                </Block>
+              )}
+          })}
+    </Block>
+    )
+}
+  
+
+
+  render(){
+    
     return (
       
         <Block flex style={styles.catalogo}>
@@ -106,25 +132,13 @@ class Pro extends React.Component{
                       <Block middle style={{ marginTop: 30, marginBottom: 16 }}>
                         <Block style={styles.divider} />
                       </Block>
-                      <Block style={styles.cardBody}>
+                      
                        
-                          <Text bold size={16} style={styles.subastaActual}>Subastandose Actualmente</Text>
-                          <Block style={styles.imageContainer}>
-                              <Image
-                                  style={styles.imagen}
-                                  source={catalogo.productos[0].foto}
-                                />
-                          </Block>
-                          <Text normal size={14} style={{textAlign:'center',marginTop:10}}>{catalogo.productos[0].nombreProducto}</Text>
-                    
-                          <Button style={styles.btnVerProducto}>
-                            <Text size={16} style={{color:'#FFFFFF'}} bold>Ver Producto</Text>
-                          </Button>
-                          <Text bold size={16} style={styles.textoArticulosProximos}>Próximos a Subastar:</Text>
+                         
                          {this.renderProductos()}
                           
                       </Block>
-                    </Block>
+                
                 </ScrollView>
               </Block>
           </Block>
