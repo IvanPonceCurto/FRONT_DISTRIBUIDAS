@@ -18,6 +18,7 @@ function CustomDrawerContent({ drawerPosition, navigation, profile, focused, sta
     "Account",
     "Elements",
     "Articles",
+    "PM"
   ];
 
   return (
@@ -31,6 +32,7 @@ function CustomDrawerContent({ drawerPosition, navigation, profile, focused, sta
       <Block flex style={{ paddingLeft: 8, paddingRight: 14 },styles.content}>
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
           {screens.map((item, index) => {
+              console.log("Item-> "+item+" index->"+index)
               return (
                 <DrawerCustomItem
                   title={item}

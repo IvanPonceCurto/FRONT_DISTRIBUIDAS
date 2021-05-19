@@ -1,11 +1,11 @@
 import React from "react";
-import { Easing, Animated, Dimensions } from "react-native";
+import { Easing, Animated, Dimensions, View, TextInputComponent } from "react-native";
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { Block } from "galio-framework";
+import { Block, Button, Card } from "galio-framework";
 
 // screens
 import Home from "../screens/Home";
@@ -15,18 +15,35 @@ import Profile from "../screens/Profile";
 import Register from "../screens/Register";
 import Elements from "../screens/Elements";
 import Articles from "../screens/Articles";
+import InputPM from "../components/InputPM"
 // drawer
 import CustomDrawerContent from "./Menu";
+
 
 // header for screens
 import { Icon, Header } from "../components";
 import { argonTheme, tabs } from "../constants";
+import CardPaymentMethod from "../components/CardPaymentMethod";
+import CargaCorrecta from "../components/CargaCorrecta"
+
+
+const cardsList = [
+  {
+    cardNumber:"4517650612345678"
+  },
+  {
+    cardNumber:"4517650612345698"
+  },{
+    cardNumber:"4517610612345699"
+  }
+];
 
 const { width } = Dimensions.get("screen");
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
+
 
 function ElementsStack(props) {
   return (
@@ -82,7 +99,7 @@ function ArticlesStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               title=""
-              back
+              black
               white
               transparent
               navigation={navigation}
@@ -95,7 +112,46 @@ function ArticlesStack(props) {
     </Stack.Navigator>
   );
 }
+function MediosDePagoStack(props){
+  return(
+    <Stack.Navigator  mode="card" headerMode="screen">
+      <Stack.Screen
+        name="PM"
+        component={props=><CardPaymentMethod {...props} horizontal cardsList={cardsList}/>}
+        options={{
+          header: ({navigation,scene}) =>(
+            <Header
+              black
+              title="Medios de Pago"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" }
+        }}
+      />
+           <Stack.Screen
+        name="Pro"
+        component={Pro}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title=""
+              back
+              white
+              transparent
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: true
+        }}
+      />
 
+    
+    </Stack.Navigator>
+  )
+}
 function ProfileStack(props) {
   return (
     <Stack.Navigator initialRouteName="Profile" mode="card" headerMode="screen">
@@ -228,6 +284,8 @@ function AppStack(props) {
       <Drawer.Screen name="Account" component={Register} />
       <Drawer.Screen name="Elements" component={ElementsStack} />
       <Drawer.Screen name="Articles" component={ArticlesStack} />
+      <Drawer.Screen name="PM" component={MediosDePagoStack} />
+
     </Drawer.Navigator>
   );
 }
