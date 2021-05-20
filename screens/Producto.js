@@ -4,7 +4,9 @@ import { Block, Button, Text, theme } from 'galio-framework';
 import {Card} from '../components/Card'
 import { Images, argonTheme } from '../constants/';
 import { HeaderHeight } from "../constants/utils";
+import {SliderBox} from 'react-native-image-slider-box'
 const { height, width } = Dimensions.get('screen');
+/*  <Image  source={producto.producto.foto} style={styles.backgroundImage}/>*/
 
 const altura = height - height*0.20
 class Producto extends React.Component{
@@ -13,16 +15,16 @@ class Producto extends React.Component{
         const {route,navigation} = this.props;
         const producto = route.params
         const ProductoParam = producto.producto;
-        const subasta = producto.catalogo;
+        const subasta = producto.subasta;
         console.log(producto)
-        console.log(producto.producto.foto)
+    
         return(
         
             <Block flex style={styles.producto}>
             <Block flex>
               <Block style={styles.container}>
                 <Block style={styles.backgroundImageContainer}>
-                    <Image  source={producto.producto.foto} style={styles.backgroundImage}/>
+                <SliderBox images={producto.producto.fotos} dotStyle={{marginBottom:90}} style={styles.backgroundImage} ></SliderBox>
                 </Block>
                 <ScrollView
                   showsVerticalScrollIndicator={false}

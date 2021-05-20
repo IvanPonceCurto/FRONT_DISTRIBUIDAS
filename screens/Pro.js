@@ -5,12 +5,16 @@ import { Images, argonTheme } from '../constants/';
 import { useNavigation } from '@react-navigation/native';
 import { HeaderHeight } from "../constants/utils";
 import { renderNode } from 'react-native-elements/dist/helpers';
+import {SliderBox} from 'react-native-image-slider-box'
 const { height, width } = Dimensions.get('screen');
 const zapas = require("../assets/imgs/zapas.jpg")
 const auto = require("../assets/imgs/ferrari.jpg")
 const reloj = require("../assets/imgs/reloj.jpg")
+const reloj2 = require("../assets/imgs/reloj2.jpg")
+const reloj3 = require("../assets/imgs/reloj3.jpg")
 const wanchope = require("../assets/imgs/wanchope.jpg")
-const catalogo = {
+
+const subasta = {
                     idSubasta:1234,
                     fecha: '2021-12-23 04:00:45',
                     rematador:'Ivan Ponce',
@@ -20,7 +24,7 @@ const catalogo = {
                                 {
                                   idProducto:123,
                                   nombreProducto:'Zapatillas Nike',
-                                  foto: zapas,
+                                  fotos: [zapas,auto,reloj],
                                   precioBase:'$10000',
                                   duenio:{
                                     nombre:'Wanchope Avila',
@@ -31,7 +35,7 @@ const catalogo = {
                                 {
                                   idProducto:12,
                                   nombreProducto:'Ferrari',
-                                  foto:auto,
+                                  fotos: [auto,zapas,reloj],
                                   precioBase:'$10000',
                                   duenio:{
                                     nombre:'Wanchope Avila',
@@ -42,7 +46,7 @@ const catalogo = {
                                 {
                                   idProducto:2,
                                   nombreProducto:"Reloj Rolex",
-                                  foto:reloj,
+                                  fotos: [reloj,reloj2,reloj3],
                                   precioBase:'$10000',
                                   duenio:{
                                     nombre:'Wanchope Avila',
@@ -64,36 +68,37 @@ const catalogo = {
 class Pro extends React.Component{
   constructor(props){
     super(props);
-    this.state= catalogo.productos[0]
+    this.state= subasta.productos[0]
   }
 
   renderProductos(){
-    const { navigation } = this.props
+    const {route, navigation } = this.props
+    var subasta = route.params.item
     return(
       <Block style={styles.cardBody}>
         <Text bold size={16} style={styles.subastaActual}>Subastandose Actualmente</Text>
         <Block style={styles.imageContainer}>
             <Image
                 style={styles.imagen}
-                source={this.state.foto}
+                source={this.state.fotos[0]}
               />
         </Block>
         <Text normal size={14} style={{textAlign:'center',marginTop:10}}>{this.state.nombreProducto}</Text>
 
         <Button style={styles.btnVerProducto}>
-          <Text size={16} style={{color:'#FFFFFF'}} bold>Ver Producto</Text>
+          <Text size={16} style={{color:'#FFFFFF'}} bold onPress={() => navigation.navigate('Producto',{subasta,producto: this.state})}>Ver Producto</Text>
         </Button>
         <Text bold size={16} style={styles.textoArticulosProximos}>Próximos a Subastar:</Text>
-          {catalogo.productos.map(producto =>{
+          {subasta.productos.map(producto =>{
             if(producto.idProducto!=this.state.idProducto){
               return(
                 <Block key={producto.idProducto} row style={styles.imageContainerProximos} >
-                    <TouchableWithoutFeedback onPress={() => navigation.navigate('Producto',{catalogo,producto})} /*onPress={this.setState({ state: producto })}*/>
+                    <TouchableWithoutFeedback onPress={() => navigation.navigate('Producto',{subasta,producto})} /*onPress={this.setState({ state: producto })}*/>
                       
                         <Image
                           
                             style={styles.imagen}
-                            source={producto.foto}
+                            source={producto.fotos[0]}
                           />
                     </TouchableWithoutFeedback>
                     <Text size={14} bold  style={styles.textoArticulosProximos}>{producto.nombreProducto} </Text>
@@ -107,7 +112,11 @@ class Pro extends React.Component{
 
 
   render(){
-    
+        const {route, navigation } = this.props
+      
+        var subasta2 = route.params.item
+        //DE SUBASTA 2 SACARIA EL ID, Y LE PEGARIA AL ENDPOINT DE CATALOGO PARA TRAERME EL OBJETO "SUBASTA" QUE TENGO MAS ARRIBA
+       
     return (
       
         <Block flex style={styles.catalogo}>
@@ -119,12 +128,12 @@ class Pro extends React.Component{
                   >
                     <Block flex style={styles.catalogoCard}>
                       <Block style={styles.cardHeader}>
-                        <Text size={20} style={{textAlign:'center',fontWeight:'bold',marginTop:10}}>Subasta Nro: {catalogo.idSubasta}</Text>
-                        <Text style = {{marginTop:15,marginLeft:20}}>Fecha: {catalogo.fecha}</Text>
+                        <Text size={20} style={{textAlign:'center',fontWeight:'bold',marginTop:10}}>Subasta Nro: {subasta.idSubasta}</Text>
+                        <Text style = {{marginTop:15,marginLeft:20}}>Fecha: {subasta.fecha}</Text>
                         <Block row space="between">
-                          <Text style = {{marginTop:10,marginLeft:20}}>Rematador: {catalogo.rematador}</Text>
+                          <Text style = {{marginTop:10,marginLeft:20}}>Rematador: {subasta.rematador}</Text>
                           <Block style={styles.rectanguloCategoria}>
-                            <Text size={12} color={argonTheme.COLORS.WHITE} bold>{catalogo.categoriaSubasta}</Text>
+                            <Text size={12} color={argonTheme.COLORS.WHITE} bold>{subasta.categoriaSubasta}</Text>
                           </Block>
 
                         </Block>
@@ -196,7 +205,7 @@ const styles = StyleSheet.create({
 
   },
   rectanguloCategoria:{
-    backgroundColor: catalogo.colorCategoria,
+    backgroundColor:subasta.colorCategoria,
     width:60,
     alignItems:'center',
     borderRadius:50,

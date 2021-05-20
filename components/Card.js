@@ -23,19 +23,19 @@ class Card extends React.Component {
 
     return (
       <Block row={horizontal} card flex style={cardContainer}>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Catalogo')}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('Catalogo',{item})}>
           <Block row={horizontal}  style={imgContainer}>
          
-            <Image  source={item.productos[0].foto} style={imageStyles} /> 
+            <Image  source={item.productos[0].fotos[0]} style={imageStyles} /> 
            
             <Block style={{width:'100%'}}>         
-            <Image source={item.productos[1].foto} style={styles.secondaryImages} />
-            <Image source={item.productos[2].foto} style={styles.secondaryImages} />
+            <Image source={item.productos[1].fotos[0]} style={styles.secondaryImages} />
+            <Image source={item.productos[2].fotos[0]} style={styles.secondaryImages} />
             </Block>
 
           </Block>
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Catalogo')}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('Catalogo',{item})}>
           <Block flex space="between" style={styles.cardDescription}>
             <Block>
                 <Text size={14} style={styles.cardTitle}>Subasta N°{item.idSubasta}</Text>

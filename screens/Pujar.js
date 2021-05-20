@@ -7,7 +7,7 @@ import { Input, Icon } from "../components";
 import { useForm, Controller } from "react-hook-form";
 import CountDown from 'react-native-countdown-component';
 import moment from 'moment';
-
+import {SliderBox} from 'react-native-image-slider-box'
 
 const CountDownTimer = (fecha) => {
 
@@ -128,7 +128,7 @@ const Pujar = (props) =>{
         <Block flex>
           <Block style={styles.container}>
             <Block style={styles.backgroundImageContainer}>
-                <Image  source={ProductoParam.foto} style={styles.backgroundImage}/>
+            <SliderBox images={ProductoParam.fotos} dotStyle={{marginBottom:90}} style={styles.backgroundImage} ></SliderBox>
             </Block>
             <ScrollView
               showsVerticalScrollIndicator={false}

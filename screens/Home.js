@@ -9,6 +9,8 @@ const { width } = Dimensions.get('screen');
 const zapas = require("../assets/imgs/zapas.jpg")
 const auto = require("../assets/imgs/ferrari.jpg")
 const reloj = require("../assets/imgs/reloj.jpg")
+const reloj2 = require("../assets/imgs/reloj2.jpg")
+const reloj3 = require("../assets/imgs/reloj3.jpg")
 const wanchope = require("../assets/imgs/wanchope.jpg")
 const subastas = [
                     {
@@ -21,7 +23,7 @@ const subastas = [
                         {
                           idProducto:123,
                           nombreProducto:'Zapatillas Nike',
-                          foto: zapas,
+                          fotos: [zapas,auto,reloj],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -32,7 +34,7 @@ const subastas = [
                         {
                           idProducto:12,
                           nombreProducto:'Ferrari',
-                          foto:auto,
+                          fotos: [auto,zapas,reloj],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -43,7 +45,7 @@ const subastas = [
                         {
                           idProducto:2,
                           nombreProducto:"Reloj Rolex",
-                          foto:reloj,
+                          fotos: [reloj,reloj2,reloj3],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -64,7 +66,7 @@ const subastas = [
                         {
                           idProducto:123,
                           nombreProducto:'Zapatillas Nike',
-                          foto: zapas,
+                          fotos: [zapas,auto,reloj],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -75,7 +77,7 @@ const subastas = [
                         {
                           idProducto:12,
                           nombreProducto:'Ferrari',
-                          foto:auto,
+                          fotos: [auto,zapas,reloj],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -86,7 +88,7 @@ const subastas = [
                         {
                           idProducto:2,
                           nombreProducto:"Reloj Rolex",
-                          foto:reloj,
+                          fotos: [reloj,reloj2,reloj3],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -107,7 +109,7 @@ const subastas = [
                         {
                           idProducto:123,
                           nombreProducto:'Zapatillas Nike',
-                          foto: zapas,
+                          fotos: [zapas,auto,reloj],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -118,7 +120,7 @@ const subastas = [
                         {
                           idProducto:12,
                           nombreProducto:'Ferrari',
-                          foto:auto,
+                          fotos: [auto,zapas,reloj],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -129,7 +131,7 @@ const subastas = [
                         {
                           idProducto:2,
                           nombreProducto:"Reloj Rolex",
-                          foto:reloj,
+                          fotos: [reloj,reloj2,reloj3],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -150,7 +152,7 @@ const subastas = [
                         {
                           idProducto:123,
                           nombreProducto:'Zapatillas Nike',
-                          foto: zapas,
+                          fotos: [zapas,auto,reloj],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -161,7 +163,7 @@ const subastas = [
                         {
                           idProducto:12,
                           nombreProducto:'Ferrari',
-                          foto:auto,
+                          fotos: [auto,zapas,reloj],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -172,7 +174,7 @@ const subastas = [
                         {
                           idProducto:2,
                           nombreProducto:"Reloj Rolex",
-                          foto:reloj,
+                          fotos: [reloj,reloj2,reloj3],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -193,7 +195,7 @@ const subastas = [
                         {
                           idProducto:123,
                           nombreProducto:'Zapatillas Nike',
-                          foto: zapas,
+                          fotos: [zapas,auto,reloj],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -204,7 +206,7 @@ const subastas = [
                         {
                           idProducto:12,
                           nombreProducto:'Ferrari',
-                          foto:auto,
+                          fotos: [auto,zapas,reloj],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -215,7 +217,7 @@ const subastas = [
                         {
                           idProducto:2,
                           nombreProducto:"Reloj Rolex",
-                          foto:reloj,
+                          fotos: [reloj,reloj2,reloj3],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -236,7 +238,7 @@ const subastas = [
                         {
                           idProducto:123,
                           nombreProducto:'Zapatillas Nike',
-                          foto: zapas,
+                          fotos: [zapas,auto,reloj],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -247,7 +249,7 @@ const subastas = [
                         {
                           idProducto:12,
                           nombreProducto:'Ferrari',
-                          foto:auto,
+                          fotos: [auto,zapas,reloj],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -258,7 +260,7 @@ const subastas = [
                         {
                           idProducto:2,
                           nombreProducto:"Reloj Rolex",
-                          foto:reloj,
+                          fotos: [reloj,reloj2,reloj3],
                           precioBase:'$10000',
                           duenio:{
                             nombre:'Wanchope Avila',
@@ -323,7 +325,14 @@ class Home extends React.Component {
     const { open, value, items } = this.state;
     return (
       <Block flex center style={styles.home}>
-       <DropDownPicker
+      
+        <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.articles}>
+        <Block>
+        
+         
+        <DropDownPicker
                multiple={true}
                 open={open}
                 value={value}
@@ -333,19 +342,13 @@ class Home extends React.Component {
                 setItems={this.setItems}
                 
            /> 
-        <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.articles}>
-        <Block>
-        
-         
-     
-       
-        {subastas.map(subasta =>{
-            return <Card key={subasta.idSubasta} item={subasta} horizontal/>
+      
+          
+          {subastas.map(subasta =>{
+              return <Card key={subasta.idSubasta} item={subasta} horizontal/>
 
-        })}
-        
+          })}
+         
         </Block>
       </ScrollView>
       </Block>
@@ -360,6 +363,9 @@ const styles = StyleSheet.create({
   articles: {
     width: width - theme.SIZES.BASE * 2,
     paddingVertical: theme.SIZES.BASE,
+  },
+  dropDownContainer:{
+    marginBottom:10
   }
   
 });
