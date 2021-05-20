@@ -5,8 +5,9 @@ import {Picker} from '@react-native-picker/picker'
 import { Input, Select } from "."
 import { argonTheme } from "../constants"
 import CustomModal from "../components/CustomModal"
+import { TouchableOpacity } from "react-native-gesture-handler"
 
-
+const addTarjeta=require("../assets/imgs/addTarjIcon.png")
 
 const ancho= Dimensions.get("screen")
 const listaPaises=[
@@ -40,11 +41,11 @@ class CustomizedPicker extends React.Component{
     
     render(){
         return(
-            <Block>
+            <Block flex alignItems={"center"}>
                 <Picker
                     style={stylesSheet.picker}
                     selectedValue={this.state.selectedValue}
-                    onValueChange={(item)=>{this.setState({selectedValue:item});console.log("Holiwis"+this.state.selectedValue)}}
+                    onValueChange={(item)=>{this.setState({selectedValue:item})}}
                 >
                     {
                         this.state.listaPaisesRenderizar.map((elem)=>{
@@ -86,10 +87,13 @@ class InputPM extends React.Component{
     }
 
     renderInput=()=>{
-
+        const inputStyles = [
+            stylesSheet.input,stylesSheet.shadow,
+            {...this.props.style}
+          ];
         return(
             <View>
-                <Text style={stylesSheet.titulo} size={20}>AÑADIR NUEVA TARJETA</Text>
+                <Text h4 style={stylesSheet.titulo} size={20}>AÑADIR NUEVA TARJETA</Text>
                 <Block style={{paddingHorizontal:theme.SIZES.BASE}}>
 
                     <Input right
@@ -100,6 +104,7 @@ class InputPM extends React.Component{
                     iconContent={<Block/>}
                     onChangeText={(texto)=>{this.setState({cardNumber:texto});}}
                     />
+                    
                     <Input right
                     placeholder="Exp.Date"
                     iconContent={<Block/>}
@@ -110,7 +115,9 @@ class InputPM extends React.Component{
                     iconContent={<Block/>}
                     onChangeText={(texto)=>{this.setState({CVV:texto})}}
                     />
-                    <Block style={stylesSheet.pickerContainer}>
+                    
+                    
+                    <Block style={inputStyles}>
                         <CustomizedPicker listaPaises={listaPaises}></CustomizedPicker>
                     
                     </Block>
@@ -120,9 +127,8 @@ class InputPM extends React.Component{
             </View>
         )
     }
-    sendData=(e)=>{
+    sendData=()=>{
         //TODO 
-        e.preventDefault();
         if(this.state.cardNumber.length===8){
             if(this.state.expiryDate.length===4){
                 if(this.state.CVV.length===3){
@@ -131,8 +137,6 @@ class InputPM extends React.Component{
                     this.props.navigation.navigate("CargaCorrecta",{cardNumber:this.state.cardNumber});
                 }
             }
-        }else{
-            
         }
     }
     eliminarCard=(e)=>{
@@ -141,9 +145,11 @@ class InputPM extends React.Component{
     }
     
     renderLoadButton= () => {
-        return(<Block flex right style={{paddingTop:50}}>
-            <Button round onPress={this.sendData} right>AÑADIR</Button>
-        </Block>)
+        return(<TouchableOpacity onPress={()=>this.sendData()} style={{alignItems:"flex-end",paddingTop:245}}>
+        <Image source={addTarjeta}></Image> 
+    </TouchableOpacity>)
+        
+        
     }
     renderModalOnUpdate=()=>{
         const estadoModal=this.state.estadoModal;
@@ -215,7 +221,7 @@ const stylesSheet= StyleSheet.create({
         paddingBottom: theme.SIZES.BASE,
         paddingHorizontal: theme.SIZES.BASE * 2,
         marginTop: 22,
-        color: argonTheme.COLORS.HEADER
+        color: "black"
     },
     pickerContainer:{
         alignSelf:'center',
@@ -233,9 +239,10 @@ const stylesSheet= StyleSheet.create({
 
     },
     picker:{
-        width:350,
+        width:370,
         height:44,
-        borderRadius:50
+        borderRadius:50,
+        paddingLeft:10
     
     },input: {
         borderRadius: 4,
@@ -292,6 +299,24 @@ const stylesSheet= StyleSheet.create({
         shadowColor:"#000",
         borderRadius:20,
         backgroundColor:"white"
+      },input: {
+        borderRadius: 4,
+        borderColor: argonTheme.COLORS.BORDER,
+        height: 44,
+        backgroundColor: '#FFFFFF'
+      },
+      success: {
+        borderColor: argonTheme.COLORS.INPUT_SUCCESS,
+      },
+      error: {
+        borderColor: argonTheme.COLORS.INPUT_ERROR,
+      },
+      shadow: {
+        shadowColor: argonTheme.COLORS.BLACK,
+        shadowOffset: { width: 0, height: 1 },
+        shadowRadius: 2,
+        shadowOpacity: 0.05,
+        elevation: 2,
       }
 })
 export default InputPM;

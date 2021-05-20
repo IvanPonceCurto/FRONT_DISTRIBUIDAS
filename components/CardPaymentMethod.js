@@ -12,6 +12,8 @@ import CustomModal from "../components/CustomModal"
 const Menu = require("../assets/imgs/visa.png");
 const master = require ("../assets/imgs/mastercard-logo.png")
 const borrarIcon = require("../assets/imgs/Vector.png")
+const validateIcon = require("../assets/imgs/validate.png")
+
 const visaDigits = "45176506"
 //Objetivo crear componente Card que nos permita 
 
@@ -34,6 +36,24 @@ class CardPaymentMethod extends React.Component{
       //e.preventDefault();
       this.setState({isVisible:true})
     }
+
+    renderButtonOnValidation=(isValid)=>{
+      if(isValid){
+        return(
+          <TouchableOpacity disabled={true} style={{alignItems:"flex-end",paddingTop:0}}>
+           <Image style={{alignItems:'flex-end'}}source={validateIcon}></Image>
+         </TouchableOpacity>
+         )
+      }
+      return(
+        <TouchableOpacity onPress={this.changeState} style={{alignItems:'flex-end',paddingBottom:20}}>
+                <Image style={{alignItems:'flex-end'}} source={borrarIcon}></Image>
+      </TouchableOpacity>
+      )
+      
+
+   
+  }
 
     renderImagenCard=(cardNumber,imgStyles,imgContainer)=>{
       console.log("Numero de tarjeta"+cardNumber)
@@ -65,6 +85,7 @@ class CardPaymentMethod extends React.Component{
         styles.shadow
     ];
     
+    
     return(
           <Block row={"horizontal"} card  height={80} style={cardContainer} key={this.sumarKey()}>
             <Block row={"horizontal"} height={50} alignItems={"center"} paddingLeft={20}>
@@ -77,9 +98,10 @@ class CardPaymentMethod extends React.Component{
               {/*<Button onPress={props=>{<CustomModal {...props} visible={true}/>;console.log("e")}} style={{borderRadius:40}}>BORRAR</Button>*/}
             </Block> 
             <Block row={"horizontal"} height={10} alignItems={"center"} >
-            <TouchableOpacity onPress={this.changeState} style={{alignItems:'flex-end',paddingBottom:20}}>
-                <Image style={{alignItems:'flex-end'}} source={borrarIcon}></Image>
-              </TouchableOpacity>
+            {this.renderButtonOnValidation(false)
+            //con este bool ponemos el otro iconito o no.
+            }
+            
             </Block>
             
             

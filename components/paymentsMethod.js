@@ -1,11 +1,12 @@
 import React from 'react'
 import { Block, Button, Card, Text } from "galio-framework"
-import { View,StyleSheet,Image} from "react-native"
+import { View,StyleSheet,Image, TouchableOpacityBase} from "react-native"
 import CardPaymentMethod from "./CardPaymentMethod"
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 
 const plusIcon = require("../assets/imgs/iconChico.png")
+const validateIcon = require("../assets/imgs/validate.png")
 
 //Screen que renderizo todo los medios de pago, preguntar por el tema del boton, y del futuro ScrollView.
 
@@ -17,13 +18,15 @@ class PaymentsMethod extends React.Component{
     }
    } 
 
-   renderButton=(navigation)=>{
+   renderButton=()=>{
        return(
         <TouchableOpacity onPress={()=>this.props.navigation.navigate("InputPM")} style={{alignItems:"flex-end",paddingTop:150}}>
             <Image source={plusIcon}></Image>
         </TouchableOpacity>
        )
    }
+
+  
    
    render(){
        return(
@@ -33,7 +36,7 @@ class PaymentsMethod extends React.Component{
                 return(
                 <CardPaymentMethod horizontal cardsObject={e}/>
             )})}
-            {this.renderButton(this.props.navigation)}
+            {this.renderButton()}
            </View>
         )
    }

@@ -18,14 +18,20 @@ class CargaCorrecta extends React.Component{
             botonMostrar:this.props.mostrar
         }
     }
-    isVisaOrMaster=(cardIssuer,cardType,numeroTarjeta)=>{
+    isVisaOrMaster=(cardType,numeroTarjeta)=>{
+        if(numeroTarjeta.substring(0,8)==="45176506"){
+            return(
+                <View alignItems={"center"}>
+                    <Image source={visa} style={{alignItems:'center',height:100,width:150}}></Image>
+                    <Text>VISA {cardType} terminada en {numeroTarjeta}</Text>
+                </View>
+            )
+        }
         return(
             <View alignItems={"center"}>
-                <Image source={visa} style={{alignItems:'center',height:100,width:150}}></Image>
-                <Text>{cardIssuer} {cardType} terminada en {numeroTarjeta}</Text>
+                <Image source={masterCard} style={{alignItems:'center',height:100,width:150}}></Image>
+                <Text>MASTER {cardType} terminada en {numeroTarjeta}</Text>
             </View>
-                
-            
         )
     }
     render(){
@@ -35,7 +41,7 @@ class CargaCorrecta extends React.Component{
             <Text style={{fontWeight:'bold',fontSize:30,color:"#0084AE",textAlign:'center',paddingLeft:25,marginVertical:20}}>¡Tu tarjeta ha sido vinculada con éxito!</Text>
                 <View style={styles.flexboxContainer}>
                 {console.log(this.props.route.params)}
-                {this.isVisaOrMaster("Visa","Debito",this.props.route.params.cardNumber)}
+                {this.isVisaOrMaster("Debito",this.props.route.params.cardNumber)}
                 </View>
                 <View alignItems={"center"}  paddingTop={100}>
                     <View alignItems={"center"}>
