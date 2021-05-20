@@ -276,53 +276,9 @@ const subastas = [
 
 class Home extends React.Component {
 
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      open: false,
-      value: null,
-      items: [
-          {
-              label:'Platino',
-              value:'platino'
-            },
-            {
-              label:'Oro',
-              value:'oro'
-            },
-            {
-              label:'Plata',
-              value:'plata'
-            }
-          ]
-    };
-
-    this.setValue = this.setValue.bind(this);
-    this.setOpen = this.setOpen.bind(this);
-    this.setItems = this.setItems.bind(this);
-  }
-
-  setOpen(open) {
-    this.setState({
-      open
-    });
-  }
-
-  setValue(callback) {
-    this.setState(state => ({
-      value: callback(state.value)
-    }));
-  }
-
-  setItems(callback) {
-    this.setState(state => ({
-      items: callback(state.items)
-    }));
-  }
-
+ 
   render() {
-    const { open, value, items } = this.state;
+    
     return (
       <Block flex center style={styles.home}>
       
@@ -331,17 +287,7 @@ class Home extends React.Component {
         contentContainerStyle={styles.articles}>
         <Block>
         
-         
-        <DropDownPicker
-               multiple={true}
-                open={open}
-                value={value}
-                items={items}
-                setOpen={this.setOpen}
-                setValue={this.setValue}
-                setItems={this.setItems}
-                
-           /> 
+    
       
           
           {subastas.map(subasta =>{
