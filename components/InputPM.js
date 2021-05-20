@@ -127,15 +127,19 @@ class InputPM extends React.Component{
             if(this.state.expiryDate.length===4){
                 if(this.state.CVV.length===3){
                     console.log("Aca llego");
-                    this.setState({estadoModal:true})
+                    //this.setState({estadoModal:true})
+                    this.props.navigation.navigate("CargaCorrecta",{cardNumber:this.state.cardNumber});
                 }
             }
+        }else{
+            
         }
     }
     eliminarCard=(e)=>{
         e.preventDefault();
         this.setState({estadoModal:false})
     }
+    
     renderLoadButton= () => {
         return(<Block flex right style={{paddingTop:50}}>
             <Button round onPress={this.sendData} right>AÑADIR</Button>
@@ -143,13 +147,14 @@ class InputPM extends React.Component{
     }
     renderModalOnUpdate=()=>{
         const estadoModal=this.state.estadoModal;
+        const agregarTarjeta="¿Estás seguro que querés agregar esta tarjeta?"
         if(estadoModal){
             return(
-                <CustomModal visible={estadoModal} cardNumber={1234} hijo={
+                <CustomModal visible={estadoModal} decir={false} cardNumber={1234} hijo={
                         
                     <View style={{alignItems:"center",flex:1,padding:20,flexDirection:"row"}}>
                         <View>
-                        <Text style={{textAlign:"center"}}>texto</Text>
+                        <Text style={{textAlign:"center"}}>{agregarTarjeta}</Text>
                         </View>
                         <View style={{alignContent:"space-between",flex:1,flexDirection:"row"}}>
                         

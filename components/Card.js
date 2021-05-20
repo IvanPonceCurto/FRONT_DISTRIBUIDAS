@@ -22,7 +22,7 @@ class Card extends React.Component {
     ];
 
     return (
-      <Block row={horizontal} card flex style={cardContainer}>
+      <Block row={horizontal} card  style={cardContainer}>
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
           <Block flex style={imgContainer}>
             <Image source={{uri: item.image}} style={imageStyles} />

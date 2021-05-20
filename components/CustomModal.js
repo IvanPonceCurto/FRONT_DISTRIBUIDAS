@@ -1,49 +1,56 @@
-import {Text,Button,theme} from "galio-framework"
+import {Text,Button,theme,Block} from "galio-framework"
 import React, { useState } from "react"
 import {View,StyleSheet} from "react-native"
 import { argonTheme } from "../constants"
 import {Modal} from "react-native"
 
+
 class CustomModal extends React.Component{
     constructor(props){
         super(props)
+        console.log(this.props.visible+" "+this.props.decir)
         this.state={
-            visible:this.props.visible
+            visible:this.props.visible,
+            cardNumber:this.props.cardNumber,
+            añadirTarjeta:this.props.tarjeta
         }
-        console.log("Props:"+this.props.visible)
+        console.log("Props acá:"+this.state.añadirTarjeta)
         console.log("Estado"+this.state.visible)
     }
     changeState=(e)=>{
         e.preventDefault();
         this.setState({visible:false})
     }
+
+    conditionalRender=(param)=>{
+        console.log("El parametro es:"+param)
+        if(param){
+            return(
+                <Text style={{marginTop:30,fontSize:15,textAlign:'center'}}>¿Estás seguro de que querés añadir la tarjeta {this.state.cardNumber}?</Text>
+            )
+        }
+        return(
+            <Text style={{marginTop:30,fontSize:15,textAlign:'center'}}>¿Estás seguro de que querés borrar la tarjeta {this.state.cardNumber}?</Text>
+        )
+    }
+
     render(){
         const isVisible=this.state.visible
         return(
-            <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+            <View style={{alignItems:"center"}}>
             <Modal
                 transparent
                 visible={isVisible}
             >
-                <View style={stylesSheet.modalFondo}>
-                    <View style={stylesSheet.modalMostrar}>
-                    <View style={{alignItems:"center",flex:1,padding:20,flexDirection:"row"}}>
-                        <View>
-                        <Text style={{textAlign:"center"}}>texto</Text>
-                        </View>
-                        <View style={{alignContent:"space-between",flex:1,flexDirection:"row"}}>
-                        
-                            <Button style={stylesSheet.botonSi,{width:100,height:30,borderRadius:40}}
-                                onPress={this.changeState}
-                            >SI</Button>
-                        
-                        
-                            <Button style={stylesSheet.botonNo,{width:100,height:30,borderRadius:40}}>NO</Button>
-                        
-                        </View>
-                    </View>
-                    </View>
-                </View>
+                <Block flex style={stylesSheet.modalFondo}>
+                    <Block center style={stylesSheet.modalMostrar}>
+                        {this.conditionalRender(this.state.decir)}
+                        <Block flex row style={{marginTop:30}}>
+                            <Button style={stylesSheet.botonSi} onPress={this.changeState}>SI</Button>
+                            <Button style={stylesSheet.botonNo} onPress={this.changeState}>NO</Button>
+                    </Block>
+                    </Block>
+                </Block>
                 
             </Modal>
             </View>
@@ -53,10 +60,16 @@ class CustomModal extends React.Component{
 
 const stylesSheet= StyleSheet.create({
     botonSi:{
-        paddingLeft:10
+        backgroundColor:"#00BB2D",
+        height:45,
+        width:130,
+        borderRadius:10
     },
     botonNo:{
-        paddingRight:10
+        backgroundColor:"#EA0000",
+        height:45,
+        width:130,
+        borderRadius:10
     },
     headerModal:{
         width: '100%',

@@ -20,7 +20,7 @@ class CargaCorrecta extends React.Component{
     }
     isVisaOrMaster=(cardIssuer,cardType,numeroTarjeta)=>{
         return(
-            <View>
+            <View alignItems={"center"}>
                 <Image source={visa} style={{alignItems:'center',height:100,width:150}}></Image>
                 <Text>{cardIssuer} {cardType} terminada en {numeroTarjeta}</Text>
             </View>
@@ -31,15 +31,19 @@ class CargaCorrecta extends React.Component{
     render(){
         const {navigation} = this.props
         return(
-            
-            <View style={styles.flexboxContainer}>
-                <Text style={{fontWeight:'bold',fontSize:30,color:"#3483FA",alignItems:'center',paddingLeft:30,paddingBottom:10}}>Felicitaciones, su tarjeta ha sido registrada!</Text>
+            <View>
+            <Text style={{fontWeight:'bold',fontSize:30,color:"#0084AE",textAlign:'center',paddingLeft:25,marginVertical:20}}>¡Tu tarjeta ha sido vinculada con éxito!</Text>
                 <View style={styles.flexboxContainer}>
-                {this.isVisaOrMaster("Visa","Debito",this.props.numeroTarjeta)}
+                {console.log(this.props.route.params)}
+                {this.isVisaOrMaster("Visa","Debito",this.props.route.params.cardNumber)}
                 </View>
-                <View style={styles.flexboxContainer}>
+                <View alignItems={"center"}  paddingTop={100}>
+                    <View alignItems={"center"}>
+                        <Text style={{marginVertical: 30, fontSize: 15, textAlign: 'center'}} >En breve, luego de que la empresa la avale, la podrás utilizar como medio de pago</Text>
+                    </View>
+                
                     <Button style={styles.Button} onPress={(e)=>{
-                        navigation.navigate("Articles")
+                        navigation.navigate("PM")
                     }}>Volver</Button>    
                 </View>
                 
@@ -55,7 +59,6 @@ CargaCorrecta.propTypes={
     texto: PropTypes.string,
     botonVolver: PropTypes.object
 }
-export default CargaCorrecta;
 
 const styles=StyleSheet.create({
     flexboxContainer:{
@@ -104,3 +107,4 @@ const styles=StyleSheet.create({
         backgroundColor:"#3483FA"
     }
 })
+export default CargaCorrecta;

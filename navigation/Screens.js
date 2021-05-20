@@ -25,6 +25,7 @@ import { Icon, Header } from "../components";
 import { argonTheme, tabs } from "../constants";
 import CardPaymentMethod from "../components/CardPaymentMethod";
 import CargaCorrecta from "../components/CargaCorrecta"
+import PaymentsMethod from "../components/paymentsMethod";
 
 
 const cardsList = [
@@ -117,37 +118,53 @@ function MediosDePagoStack(props){
     <Stack.Navigator  mode="card" headerMode="screen">
       <Stack.Screen
         name="PM"
-        component={props=><CardPaymentMethod {...props} horizontal cardsList={cardsList}/>}
+        component={props=>{return <PaymentsMethod {...props} lista={cardsList}/>}
+        }
         options={{
           header: ({navigation,scene}) =>(
             <Header
-              black
+              back
               title="Medios de Pago"
               navigation={navigation}
               scene={scene}
+              bgColor={"#EEBB00"}
             />
           ),
           cardStyle: { backgroundColor: "#F8F9FE" }
         }}
       />
-           <Stack.Screen
-        name="Pro"
-        component={Pro}
+      <Stack.Screen
+        name="InputPM"
+        component={InputPM}
         options={{
-          header: ({ navigation, scene }) => (
+          header: ({navigation,scene}) =>(
             <Header
-              title=""
               back
-              white
-              transparent
+              title="Ingresar medio de pago"
               navigation={navigation}
               scene={scene}
+              bgColor={"#EEBB00"}
             />
           ),
-          headerTransparent: true
+          cardStyle: { backgroundColor: "#F8F9FE" }
         }}
       />
-
+      <Stack.Screen
+        name="CargaCorrecta"
+        component={CargaCorrecta}
+        options={{
+          header: ({navigation,scene}) =>(
+            <Header
+              back
+              title="Carga correcta de medio de pago"
+              navigation={navigation}
+              scene={scene}
+              bgColor={"#EEBB00"}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" }
+        }}
+      />
     
     </Stack.Navigator>
   )
