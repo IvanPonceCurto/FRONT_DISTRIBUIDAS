@@ -25,14 +25,7 @@ class ArInput extends React.Component {
         placeholderTextColor={argonTheme.COLORS.MUTED}
         style={inputStyles}
         color={argonTheme.COLORS.HEADER}
-        iconContent={
-          <Icon
-            size={14}
-            color={argonTheme.COLORS.ICON}
-            name="warning"
-            family="AntDesign"
-          />
-        }
+       
         {...this.props}
       />
     );
@@ -66,7 +59,7 @@ const styles = StyleSheet.create({
   },
   shadow: {
     shadowColor: argonTheme.COLORS.BLACK,
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: { width: 0, height: 2 },
     shadowRadius: 2,
     shadowOpacity: 0.05,
     elevation: 2,

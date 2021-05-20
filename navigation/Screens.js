@@ -13,6 +13,7 @@ import Onboarding from "../screens/Onboarding";
 import Pro from "../screens/Pro";
 import Profile from "../screens/Profile";
 import Register from "../screens/Register";
+import Registro from "../screens/Registro";
 import Elements from "../screens/Elements";
 import Articles from "../screens/Articles";
 import Producto from "../screens/Producto";
@@ -20,6 +21,9 @@ import Pujar from "../screens/Pujar";
 import Articulos from "../screens/Articulos";
 import Metricas from "../screens/Metricas";
 import TrackSubasta from "../screens/TrackSubasta";
+import RegistroFinalizado from "../screens/RegistroFinalizado";
+import SelectUserImage from "../screens/SelectUserImage";
+
 // drawer
 import CustomDrawerContent from "./Menu";
 
@@ -46,7 +50,7 @@ function ElementsStack(props) {
           cardStyle: { backgroundColor: "#F8F9FE" }
         }}
       />
-            <Stack.Screen
+      <Stack.Screen
         name="Pro"
         component={Pro}
         options={{
@@ -80,7 +84,7 @@ function ArticlesStack(props) {
           cardStyle: { backgroundColor: "#F8F9FE" }
         }}
       />
-            <Stack.Screen
+      <Stack.Screen
         name="Pro"
         component={Pro}
         options={{
@@ -111,7 +115,7 @@ function SubastarStack (props) {
           header: ({ navigation, scene }) => (
             <Header
               transparent
-              white
+              
               title="Subastar"
               subasta={true}
               bgColor={"#EEBB00"}
@@ -125,9 +129,21 @@ function SubastarStack (props) {
         }}
       />
       <Stack.Screen
-        name="Articulos"
-        component={Articulos}
-        bgColor={"#EEBB00"}
+        name="Pro"
+        component={Pro}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title=""
+              back
+              white
+              transparent
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: true
+        }}
       />
     </Stack.Navigator>
   );
@@ -145,7 +161,7 @@ function ProfileStack(props) {
             header: ({ navigation, scene }) => (
               <Header
                 transparent
-                white
+                
                 title="Subastar"
                 perfil={true}
                 bgColor={"#EEBB00"}
@@ -261,6 +277,18 @@ export default function OnboardingStack(props) {
         }}
       />
       <Stack.Screen name="App" component={AppStack} />
+      <Stack.Screen
+        name="Registro"
+        component={Registro}
+      />
+      <Stack.Screen
+        name="Seleccionar Imagen"
+        component={SelectUserImage}
+      />
+      <Stack.Screen
+        name="Registro Finalizado"
+        component={RegistroFinalizado}
+      />
     </Stack.Navigator>
   );
 }
