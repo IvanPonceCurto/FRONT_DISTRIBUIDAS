@@ -14,6 +14,13 @@ class Elements extends React.Component {
     "switch-2": false
   };
 
+  contador = 0;
+
+  setContador = () =>{
+    this.contador++;
+    console.log(this.contador)
+  }
+
   toggleSwitch = switchId =>
     this.setState({ [switchId]: !this.state[switchId] });
 
@@ -25,8 +32,8 @@ class Elements extends React.Component {
         </Text>
         <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
           <Block center>
-            <Button color="default" style={styles.button}>
-              DEFAULT
+            <Button color="default" style={styles.button} onPress={this.setContador}>
+              MODIFICO BOTON
             </Button>
           </Block>
           <Block center>
@@ -74,7 +81,7 @@ class Elements extends React.Component {
               </Button>
             </Block>
             <Block flex={1.25} right>
-              <Button center color="default" style={styles.optionsButton}>
+              <Button center color="default" style={styles.optionsButton} onPress={console.log("aca")}>
                 SAVE FOR LATER
               </Button>
             </Block>
@@ -123,6 +130,7 @@ class Elements extends React.Component {
             h5
             style={{ marginBottom: theme.SIZES.BASE / 2 }}
             color={argonTheme.COLORS.DEFAULT}
+            center
           >
             Heading 5
           </Text>

@@ -8,10 +8,13 @@ import {
   Dimensions
 } from "react-native";
 //galio
-import { Block, Text, theme } from "galio-framework";
+import { Block, Button, Text, theme } from "galio-framework";
 //argon
-import { articles, Images, argonTheme } from "../constants/";
+import { articles, Images, argonTheme,cardsConstants } from "../constants/";
 import { Card } from "../components/";
+import CardPaymentMethod from "../components/CardPaymentMethod";
+import PopUpDeletePM from "../components/CargaCorrecta";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const { width } = Dimensions.get("screen");
 
@@ -35,6 +38,11 @@ const categories = [
     price: "$35"
   }
 ];
+const objeto= {
+      imagen: "C:\Users\IVAN\Desktop\frontDistribuidas\FRONT_DISTRIBUIDAS\assets\imgs\visa.png",
+      estado: "Pendiente de aprobación",
+      cardNumber: "1234"
+}
 
 class Articles extends React.Component {
   renderProduct = (item, index) => {
@@ -44,7 +52,7 @@ class Articles extends React.Component {
       <TouchableWithoutFeedback
         style={{ zIndex: 3 }}
         key={`product-${item.title}`}
-        onPress={() => navigation.navigate("Pro", { product: item })}
+        onPress={() => navigation.navigate("Elements", { product: item })}
       >
         <Block center style={styles.productItem}>
           <Image
@@ -82,19 +90,16 @@ class Articles extends React.Component {
     return (
       <Block flex style={styles.group}>
         <Text bold size={16} style={styles.title}>
-          Cards
+          Tarjetas
         </Text>
         <Block flex>
           <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
             <Card item={articles[0]} horizontal />
-            <Block flex row>
               <Card
-                item={articles[1]}
-                style={{ marginRight: theme.SIZES.BASE }}
+                item={articles[1]} horizontal
               />
-              <Card item={articles[2]} />
-            </Block>
-            <Card item={articles[4]} full />
+              <Card item={articles[2]} horizontal/>
+            <Card item={articles[4]} horizontal />
             <Block flex card shadow style={styles.category}>
               <ImageBackground
                 source={{ uri: Images.Products["View article"] }}
@@ -138,6 +143,30 @@ class Articles extends React.Component {
       </Block>
     );
   };
+  
+  renderPaymentMethods = ()  => {
+    return (
+      <Block flex styles={styles.group}>
+        <Text bold size={16} style={styles.title}>Medios de Pago</Text>
+        <Block flex>
+          <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
+            <CardPaymentMethod cardItem={objeto} horizontal>
+              
+            </CardPaymentMethod>
+            <CardPaymentMethod cardNumber={"1234"} horizontal imagen={"FRONT_DISTRIBUIDAS\assets\imgs\visa.png"}/>
+            <CardPaymentMethod cardNumber={"1234"} horizontal imagen={"FRONT_DISTRIBUIDAS\assets\imgs\visa.png"}/>
+
+          </Block>
+        </Block>
+      </Block>
+    );
+  }
+
+  renderCargaDeTarjetasCorrecta = () => {
+    return(
+      <CargaTarjetasCorrecta></CargaTarjetasCorrecta>
+    )
+  }
 
   renderAlbum = () => {
     const { navigation } = this.props;
@@ -179,6 +208,18 @@ class Articles extends React.Component {
       </Block>
     );
   };
+  contador=0;
+  setContador= () =>{
+    this.contador++;
+    console.log("Numero que va:; "+this.contador)
+  }
+  renderButton = () =>{
+    return(
+      <Block flex right>
+        <Button round onPress={this.setContador} right>Boton</Button>
+      </Block>
+    )
+  }
 
   render() {
     return (
@@ -188,6 +229,7 @@ class Articles extends React.Component {
         >
           {this.renderCards()}
           {this.renderAlbum()}
+          {this.renderButton()}
         </ScrollView>
       </Block>
     );

@@ -23,7 +23,9 @@ import Metricas from "../screens/Metricas";
 import TrackSubasta from "../screens/TrackSubasta";
 import RegistroFinalizado from "../screens/RegistroFinalizado";
 import SelectUserImage from "../screens/SelectUserImage";
-
+import InputPM from "../components/InputPM";
+import PaymentsMethod from "../components/paymentsMethod"
+import CargaCorrecta from "../components/CargaCorrecta";
 // drawer
 import CustomDrawerContent from "./Menu";
 
@@ -176,10 +178,37 @@ function ProfileStack(props) {
         <Stack.Screen
           name="Metricas"
           component={Metricas}
+          options={{
+            header: ({ navigation, scene }) => (
+              <Header
+            
+                back
+                title="Metricas"
+                
+                bgColor={"#EEBB00"}
+                navigation={navigation}
+                scene={scene}
+              />
+            )
+        
+          }}
         />
         <Stack.Screen
           name="TrackSubasta"
           component={TrackSubasta}
+          options={{
+            header: ({ navigation, scene }) => (
+              <Header
+               
+                back
+                title="Track Subasta"
+         
+                bgColor={"#EEBB00"}
+                navigation={navigation}
+                scene={scene}
+              />
+            ),
+          }}
         />
       </Stack.Navigator>
   );
@@ -293,6 +322,74 @@ export default function OnboardingStack(props) {
   );
 }
 
+const cardsList = [
+  {
+    cardNumber:"4517650612345678"
+  },
+  {
+    cardNumber:"4517650612345698"
+  },{
+    cardNumber:"4517610612345699"
+  }
+];
+
+function MediosDePagoStack(props){
+  return(
+    <Stack.Navigator  mode="card" headerMode="screen">
+      <Stack.Screen
+        name="PM"
+        component={props=>{return <PaymentsMethod {...props} lista={cardsList}/>}
+        }
+        options={{
+          header: ({navigation,scene}) =>(
+            <Header
+              back
+              title="Medios de Pago"
+              navigation={navigation}
+              scene={scene}
+              bgColor={"#EEBB00"}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" }
+        }}
+      />
+      <Stack.Screen
+        name="InputPM"
+        component={InputPM}
+        options={{
+          header: ({navigation,scene}) =>(
+            <Header
+              back
+              title="Ingresar medio de pago"
+              navigation={navigation}
+              scene={scene}
+              bgColor={"#EEBB00"}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" }
+        }}
+      />
+      <Stack.Screen
+        name="CargaCorrecta"
+        component={CargaCorrecta}
+        options={{
+          header: ({navigation,scene}) =>(
+            <Header
+              back
+              title="Carga correcta de medio de pago"
+              navigation={navigation}
+              scene={scene}
+              bgColor={"#EEBB00"}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" }
+        }}
+      />
+    
+    </Stack.Navigator>
+  )
+}
+
 function AppStack(props) {
   return (
     <Drawer.Navigator
@@ -329,7 +426,7 @@ function AppStack(props) {
       <Drawer.Screen name="Subasta" component={SubastarStack} />
       <Drawer.Screen name="Elements" component={ElementsStack} />
       <Drawer.Screen name="Articles" component={ArticlesStack} />
-      
+      <Drawer.Screen name="PM" component={MediosDePagoStack} />
     </Drawer.Navigator>
   );
 }
