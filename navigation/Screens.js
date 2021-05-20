@@ -15,6 +15,8 @@ import Profile from "../screens/Profile";
 import Register from "../screens/Register";
 import Elements from "../screens/Elements";
 import Articles from "../screens/Articles";
+import Producto from "../screens/Producto";
+import Pujar from "../screens/Pujar";
 // drawer
 import CustomDrawerContent from "./Menu";
 
@@ -116,23 +118,6 @@ function ProfileStack(props) {
           headerTransparent: true
         }}
       />
-            <Stack.Screen
-        name="Pro"
-        component={Pro}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              title=""
-              back
-              white
-              transparent
-              navigation={navigation}
-              scene={scene}
-            />
-          ),
-          headerTransparent: true
-        }}
-      />
     </Stack.Navigator>
   );
 }
@@ -147,7 +132,9 @@ function HomeStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               title="Home"
+              home={true}
               search
+              bgColor={'#EEBB00'}
               options
               navigation={navigation}
               scene={scene}
@@ -157,22 +144,61 @@ function HomeStack(props) {
         }}
       />
       <Stack.Screen
-        name="Pro"
+        name="Catalogo"
         component={Pro}
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              title=""
+              title="Catalogo"
               back
-              white
-              transparent
+              home={true}
+              bgColor={'#EEBB00'}
               navigation={navigation}
               scene={scene}
             />
           ),
-          headerTransparent: true
+        
+          headerTransparent:true,
+          cardStyle: { backgroundColor: '#3483FA'}
         }}
       />
+                 <Stack.Screen
+              name="Producto"
+              component={Producto}
+              options={{
+                header: ({ navigation, scene }) => (
+                  <Header
+                    title=""
+                    back
+                    iconColor={'#FFFFFF'}
+                    transparent
+                    navigation={navigation}
+                    scene={scene}
+                  />
+                ),
+                headerTransparent:true,
+                cardStyle: { backgroundColor: '#EEBB00'}
+              }}
+            />
+              <Stack.Screen
+              name="Pujar"
+              component={Pujar}
+              options={{
+                header: ({ navigation, scene }) => (
+                  <Header
+                    title=""
+                    back
+                    iconColor={'#FFFFFF'}
+                    transparent
+                    navigation={navigation}
+                    scene={scene}
+                  />
+                ),
+                headerTransparent:true,
+                cardStyle: { backgroundColor: '#EEBB00'}
+              }}
+            />
+    
     </Stack.Navigator>
   );
 }
@@ -228,6 +254,7 @@ function AppStack(props) {
       <Drawer.Screen name="Account" component={Register} />
       <Drawer.Screen name="Elements" component={ElementsStack} />
       <Drawer.Screen name="Articles" component={ArticlesStack} />
+      
     </Drawer.Navigator>
   );
 }

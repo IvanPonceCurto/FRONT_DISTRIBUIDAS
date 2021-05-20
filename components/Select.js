@@ -9,7 +9,7 @@ import { argonTheme } from '../constants';
 
 class DropDown extends React.Component {
   state = {
-    value: 1,
+    value: 'Medio de Pago',
   }
 
   handleOnSelect = (index, value) => {
@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: argonTheme.COLORS.WHITE,
-    fontWeight: '600'
+    fontWeight: '600',
+    textAlign:'center'
   },
   dropdown: {
     marginTop: 8,
