@@ -1,99 +1,110 @@
 import React from "react";
 import {
-  ImageBackground,
-  Image,
   StyleSheet,
-  StatusBar,
-  Dimensions
+  Dimensions,
+  View,
+  KeyboardAvoidingView
 } from "react-native";
-import { Block, Button, Text, theme } from "galio-framework";
-
-const { height, width } = Dimensions.get("screen");
-
+import { Input, Icon } from "../components";
+import { Button, Text, theme } from "galio-framework";
 import argonTheme from "../constants/Theme";
-import Images from "../constants/Images";
 
-class Onboarding extends React.Component {
-  render() {
-    const { navigation } = this.props;
+const { width } = Dimensions.get("screen");
 
-    return (
-      <Block flex style={styles.container}>
-        <StatusBar hidden />
-        <Block flex center>
-        <ImageBackground
-            source={Images.Onboarding}
-            style={{ height, width, zIndex: 1 }}
+const Onboarding = (props) => {
+
+  const { navigation } = props;
+
+  return (
+    <View style={styles.container}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior="padding"
+        enabled
+      >
+        <View style={styles.logoContainer}>
+          <Text style={styles.title}>BetFast</Text>
+        </View>
+        <View style={styles.formContainer}>
+          <Input
+            borderless
+            placeholder="Email"
+            iconContent={
+              <Icon
+                size={16}
+                color={argonTheme.COLORS.ICON}
+                name="hat-3"
+                family="ArgonExtra"
+                style={styles.inputIcons}
+              />
+            }
           />
-        </Block>
-        <Block center>
-          <Image source={Images.LogoOnboarding} style={styles.logo} />
-        </Block>
-        <Block flex space="between" style={styles.padded}>
-            <Block flex space="around" style={{ zIndex: 2 }}>
-              <Block style={styles.title}>
-                <Block>
-                  <Text color="white" size={60}>
-                    Design
-                  </Text>
-                </Block>
-                <Block>
-                  <Text color="white" size={60}>
-                    System
-                  </Text>
-                </Block>
-                <Block style={styles.subTitle}>
-                  <Text color="white" size={16}>
-                    Fully coded React Native components.
-                  </Text>
-                </Block>
-              </Block>
-              <Block center>
-                <Button
-                  style={styles.button}
-                  color={argonTheme.COLORS.SECONDARY}
-                  onPress={() => navigation.navigate("App")}
-                  textStyle={{ color: argonTheme.COLORS.BLACK }}
-                >
-                  Get Started
-                </Button>
-              </Block>
-          </Block>
-        </Block>
-      </Block>
-    );
-  }
+          <Input
+            borderless
+            placeholder="Clave"
+            iconContent={
+              <Icon
+                size={16}
+                color={argonTheme.COLORS.ICON}
+                name="hat-3"
+                family="ArgonExtra"
+                style={styles.inputIcons}
+              />
+            }
+          />
+          <Button
+            style={styles.button}
+            color={argonTheme.COLORS.BLUE}
+            onPress={() => navigation.navigate("App")}
+            textStyle={{ color: argonTheme.COLORS.WHITE }}
+          >
+            Iniciar sesión
+          </Button>
+          <Text style={styles.subtitle}>Solicitar cuenta</Text>
+          <Text style={styles.subtitle}>Ingresar como invitado</Text>
+        </View>
+      </KeyboardAvoidingView>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.COLORS.BLACK
+    backgroundColor: '#EEBB00',
+    flex: 1,
+    alignItems: 'center'
   },
-  padded: {
-    paddingHorizontal: theme.SIZES.BASE * 2,
-    position: "relative",
-    bottom: theme.SIZES.BASE,
-    zIndex: 2,
-  },
-  button: {
-    width: width - theme.SIZES.BASE * 4,
-    height: theme.SIZES.BASE * 3,
-    shadowRadius: 0,
-    shadowOpacity: 0
-  },
-  logo: {
-    width: 200,
-    height: 60,
-    zIndex: 2,
-    position: 'relative',
-    marginTop: '-50%'
+  logoContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: '30%',
   },
   title: {
-    marginTop:'-5%'
+    fontSize: 40,
+    color: '#0084AE'
   },
-  subTitle: {
-    marginTop: 20
-  }
+  formContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: '10%',
+    width: width * 0.7
+  },
+  subtitle: {
+    fontSize: 20,
+    color: '#3483FA',
+    marginTop: '5%',
+    fontWeight: 'bold'
+  },
+  inputIcons: {
+    marginRight: 12
+  },
+  button: {
+    width: width - theme.SIZES.BASE * 12,
+    height: theme.SIZES.BASE * 3,
+    shadowRadius: 0,
+    shadowOpacity: 0,
+    marginTop: '10%',
+  },
 });
 
 export default Onboarding;
