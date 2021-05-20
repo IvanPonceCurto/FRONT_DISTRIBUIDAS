@@ -55,6 +55,10 @@ class Header extends React.Component {
     navigation.navigate("Articulos");
     //return (back ? navigation.goBack() : navigation.navigate("Articulos"));
   }
+  handleMetricas = () => {
+    const { back, navigation } = this.props;
+    navigation.navigate("Metricas");
+  }
   renderRight = () => {
     const { white, title, navigation } = this.props;
 
@@ -86,7 +90,7 @@ class Header extends React.Component {
           <BellButton key='chat-deals' navigation={navigation} isWhite={white} />,
           <BasketButton key='basket-deals' navigation={navigation} isWhite={white} />
         ]);
-      case 'Profile':
+      case 'Perfil':
         return ([
           <BellButton key='chat-profile' navigation={navigation} isWhite={white} />,
           <BasketButton key='basket-deals' navigation={navigation} isWhite={white} />
@@ -170,7 +174,7 @@ class Header extends React.Component {
     }
   }
   render() {
-    const { back, title, white, transparent, bgColor, iconColor, titleColor, subasta,perfil, navigation, ...props } = this.props;
+    const { back, title, white, transparent, bgColor, iconColor, titleColor, subasta, perfil, navigation, ...props } = this.props;
 
     const noShadow = ['Search', 'Categories', 'Deals', 'Pro', 'Profile'].includes(title);
     const headerStyles = [
@@ -194,12 +198,14 @@ class Header extends React.Component {
             transparent={transparent}
             
             right={
-              <Icon 
-                name={back ? 'chevron-left' : "back-in-time"} family="entypo" 
-                size={20} onPress={this.handleRightPress} 
-                color={iconColor || (white ? argonTheme.COLORS.WHITE : argonTheme.COLORS.ICON)}
-                style={{ marginTop: 2 }}
-              />
+              <TouchableOpacity onPress={this.handleRightPress}>
+                <Icon 
+                  name={'back-in-time'} family="entypo" 
+                  size={20} 
+                  color={'black'}
+                  style={{ marginTop: 2 }}
+                />
+              </TouchableOpacity>
             }
             rightStyle={{ alignItems: 'center' }}
             left={
@@ -235,6 +241,17 @@ class Header extends React.Component {
               
               
               rightStyle={{ alignItems: 'center' }}
+              right={
+                <TouchableOpacity onPress={this.handleMetricas} >
+                  <Icon 
+                  name={'linechart'} family="AntDesign" 
+                  size={20} 
+                  color={'black'}
+                  style={{ marginTop: 2 }}
+                />
+                </TouchableOpacity>
+                  
+              }
               left={
                 <Icon 
                   name={back ? 'chevron-left' : "menu"} family="entypo" 

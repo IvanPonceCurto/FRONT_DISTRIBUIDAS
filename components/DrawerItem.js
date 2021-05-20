@@ -37,7 +37,7 @@ class DrawerItem extends React.Component {
             color={focused ? "white" : argonTheme.COLORS.PRIMARY}
           />
         );
-      case "Profile":
+      case "Perfil":
         return (
           <Icon
             name="chart-pie-35"

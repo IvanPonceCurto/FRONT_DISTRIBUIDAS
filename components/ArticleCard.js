@@ -1,15 +1,15 @@
 import React from 'react';
 import { withNavigation } from '@react-navigation/compat';
 import PropTypes from 'prop-types';
-import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback, View } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
 
 import { argonTheme } from '../constants';
 
 
-class Card extends React.Component {
+class ArticleCard extends React.Component {
   render() {
-    const { navigation, item, horizontal, full, style, ctaColor, imageStyle } = this.props;
+    const { navigation, item, horizontal, full, style, ctaColor, imageStyle, titulo, estado, tipo, perfil, estadoFinal} = this.props;
     
     const imageStyles = [
       full ? styles.fullImage : styles.horizontalImage,
@@ -20,26 +20,89 @@ class Card extends React.Component {
       horizontal ? styles.horizontalStyles : styles.verticalStyles,
       styles.shadow
     ];
+    let estadoItem;
+    let tipoItem;
+    let estadoFinalItem;
+    let colorEstadoFinal;
+    if(estado==='aprobado'){
+      estadoItem = (
+        <Text size={16} color={'green'} bold>Aprobado</Text>
+      );
+    }
+    if(estado==='rechazado'){
+        estadoItem = (
+          <Text size={16} color={'red'} bold>Rechazado</Text>
+        );
+    }
+    if(estado==='revision'){
+      estadoItem = (
+        <Text size={16} color={'black'} bold>En revisión</Text>
+      );
+    }
+    if (tipo==='coleccion'){
+        tipoItem = (
+          <Text size={16} color={'black'}>Coleccion de artículos</Text>
+        );
+      }
+      if(tipo==='articulo'){
+        tipoItem = (
+          <Text size={16} color={'black'}>Artículo individual</Text>
+        );
+    }
+        //<TouchableWithoutFeedback onPress={() => navigation.navigate('Home')}>
+    if(perfil===false){
+      estadoFinalItem = (
+        <Block row={horizontal} card flex style={cardContainer}>
+        
+            <Block flex style={imgContainer}>
+              <Image source={this.props.imagen} style={imageStyles}/>
+            </Block>
+          <TouchableWithoutFeedback>
+            <Block flex space="between" style={styles.cardDescription}>
+              <Text size={18} style={styles.cardTitle} bold>{titulo}</Text>
+              {tipoItem}
+              {estadoItem}
+            </Block>
+          </TouchableWithoutFeedback>
+        </Block>
+      );
+    }else{
+      if (estadoFinal==='ganado'){
+        colorEstadoFinal = (
+          <Text size={19} color='green' >Ganado</Text>
+        );
+      }else{
+        colorEstadoFinal = (
+          <Text size={19} color='red' >Perdido</Text>
+        );
+      }
+      estadoFinalItem = (
+        <Block row={horizontal} card flex style={cardContainer}>
+          
+              <Block flex style={imgContainer}>
+                <Image source={this.props.imagen} style={imageStyles}/>
+              </Block>
+            <TouchableWithoutFeedback onPress={() => navigation.navigate('TrackSubasta')}>
+              <Block flex space="between" style={styles.cardDescription}>
+                <Text size={18} style={styles.cardTitle} bold>{titulo}</Text>
+                {tipoItem}
+                {colorEstadoFinal}
+              </Block>
+            </TouchableWithoutFeedback>
+          </Block>
+      );
+    }
+
 
     return (
-      <Block row={horizontal} card flex style={cardContainer}>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
-          <Block flex style={imgContainer}>
-            <Image source={{uri: item.image}} style={imageStyles} />
-          </Block>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
-          <Block flex space="between" style={styles.cardDescription}>
-            <Text size={14} style={styles.cardTitle}>{item.title}</Text>
-            <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold>{item.cta}</Text>
-          </Block>
-        </TouchableWithoutFeedback>
+      <Block row={horizontal}>
+        {estadoFinalItem}
       </Block>
     );
   }
 }
 
-Card.propTypes = {
+ArticleCard.propTypes = {
   item: PropTypes.object,
   horizontal: PropTypes.bool,
   full: PropTypes.bool,
@@ -95,4 +158,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(Card);
+export default withNavigation(ArticleCard);

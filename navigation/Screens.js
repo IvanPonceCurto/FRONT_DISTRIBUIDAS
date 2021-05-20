@@ -16,6 +16,8 @@ import Register from "../screens/Register";
 import Elements from "../screens/Elements";
 import Articles from "../screens/Articles";
 import Articulos from "../screens/Articulos";
+import Metricas from "../screens/Metricas";
+import TrackSubasta from "../screens/TrackSubasta";
 // drawer
 import CustomDrawerContent from "./Menu";
 
@@ -101,7 +103,7 @@ function SubastarStack (props) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
-        name="Profile"
+        name="Perfil"
         component={Register}
         options={{
           header: ({ navigation, scene }) => (
@@ -113,85 +115,29 @@ function SubastarStack (props) {
               bgColor={"#EEBB00"}
               navigation={navigation}
               scene={scene}
+              //back
             />
           ),
           cardStyle: { backgroundColor: "#FFFFFF" },
-          headerTransparent: true
-        }}
-      />
-            <Stack.Screen
-        name="Pro"
-        component={Pro}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              title=""
-              back
-              white
-              transparent
-              navigation={navigation}
-              scene={scene}
-            />
-          ),
           headerTransparent: true
         }}
       />
       <Stack.Screen
         name="Articulos"
         component={Articulos}
+        bgColor={"#EEBB00"}
       />
     </Stack.Navigator>
   );
 }
 
-function ArticulosStack (props) {
-  return (
-    <Stack.Navigator mode="card" headerMode="screen">
-      <Stack.Screen
-        name="Profile"
-        component={Articulos}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              transparent
-              white
-              title="Mis Artículos"
-              //subasta={true}
-              bgColor={"#EEBB00"}
-              navigation={navigation}
-              scene={scene}
-            />
-          ),
-          cardStyle: { backgroundColor: "#FFFFFF" },
-          headerTransparent: true
-        }}
-      />
-            <Stack.Screen
-        name="Pro"
-        component={Pro}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              title=""
-              back
-              white
-              transparent
-              navigation={navigation}
-              scene={scene}
-            />
-          ),
-          headerTransparent: true
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
+
 
 function ProfileStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
         <Stack.Screen
-          name="Profile"
+          name="Perfil"
           component={Profile}
           options={{
             header: ({ navigation, scene }) => (
@@ -209,26 +155,13 @@ function ProfileStack(props) {
             headerTransparent: true
           }}
         />
-              <Stack.Screen
-          name="Pro"
-          component={Pro}
-          options={{
-            header: ({ navigation, scene }) => (
-              <Header
-                title=""
-                back
-                white
-                transparent
-                navigation={navigation}
-                scene={scene}
-              />
-            ),
-            headerTransparent: true
-          }}
+        <Stack.Screen
+          name="Metricas"
+          component={Metricas}
         />
         <Stack.Screen
-          name="Articulos"
-          component={Articulos}
+          name="TrackSubasta"
+          component={TrackSubasta}
         />
       </Stack.Navigator>
   );
@@ -321,7 +254,7 @@ function AppStack(props) {
       initialRouteName="Home"
     >
       <Drawer.Screen name="Home" component={HomeStack} />
-      <Drawer.Screen name="Profile" component={ProfileStack} />
+      <Drawer.Screen name="Perfil" component={ProfileStack} />
       <Drawer.Screen name="Subasta" component={SubastarStack} />
       <Drawer.Screen name="Elements" component={ElementsStack} />
       <Drawer.Screen name="Articles" component={ArticlesStack} />
