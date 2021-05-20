@@ -46,7 +46,7 @@ class DrawerItem extends React.Component {
             color={focused ? "white" : argonTheme.COLORS.WARNING}
           />
         );
-      case "Subastar":
+      case "Subasta":
         return (
           <Icon
             name="calendar-date"

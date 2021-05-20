@@ -16,10 +16,10 @@ function CustomDrawerContent({ drawerPosition, navigation, profile, focused, sta
   const screens = [
     "Home", 
     "Perfil",
-    "Subastar",
-    "Medios de Pago",
-    "Ayuda",
-  ]; 
+    "Subasta",
+    "Elements",
+    "Articles",
+  ];
 
   return (
     <Block
