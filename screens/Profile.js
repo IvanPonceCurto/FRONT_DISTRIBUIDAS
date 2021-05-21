@@ -4,12 +4,13 @@ import {
   Dimensions,
   ScrollView,
   Image
+
+
 } from "react-native";
-import { Block, Text, theme } from "galio-framework";
+import { Block, Text, theme} from "galio-framework";
 import { Icon } from '../components';
 import { Button } from "../components";
-import { argonTheme } from "../constants";
-
+import { argonTheme } from "../constants/index";
 import ArticleCard from '../components/ArticleCard';
 import im1 from '../assets/imgs/s20.jpg';
 import im2 from '../assets/imgs/rolex.jpg';
