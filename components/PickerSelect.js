@@ -1,14 +1,7 @@
-import React, { useState} from "react";
+import React from "react";
 import {
-  StyleSheet,
-  ImageBackground,
-  Dimensions,
-  StatusBar,
-  KeyboardAvoidingView,
-  ScrollView,
-  View
+  Dimensions
 } from "react-native";
-import { Block, Checkbox, Text, theme } from "galio-framework";
 import {Picker} from '@react-native-picker/picker';
 
 const { width, height } = Dimensions.get("screen");

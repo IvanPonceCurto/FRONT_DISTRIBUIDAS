@@ -1,5 +1,5 @@
 import {Text,Button,theme,Block} from "galio-framework"
-import React, { useState } from "react"
+import React from "react"
 import {View,StyleSheet} from "react-native"
 import { argonTheme } from "../constants"
 import {Modal} from "react-native"

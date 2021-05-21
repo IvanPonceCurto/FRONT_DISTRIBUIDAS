@@ -1,11 +1,9 @@
 import React from 'react';
-import { ImageBackground, Image, StyleSheet, StatusBar, Dimensions, Platform, Linking,ScrollView, View ,TouchableWithoutFeedback} from 'react-native';
+import { Image, StyleSheet, Dimensions, Platform,ScrollView,TouchableWithoutFeedback} from 'react-native';
 import { Block, Button, Text, theme } from 'galio-framework'; 
-import { Images, argonTheme } from '../constants/';
-import { useNavigation } from '@react-navigation/native';
+import {argonTheme } from '../constants/';
 import { HeaderHeight } from "../constants/utils";
-import { renderNode } from 'react-native-elements/dist/helpers';
-import {SliderBox} from 'react-native-image-slider-box'
+
 const { height, width } = Dimensions.get('screen');
 const zapas = require("../assets/imgs/zapas.jpg")
 const auto = require("../assets/imgs/ferrari.jpg")

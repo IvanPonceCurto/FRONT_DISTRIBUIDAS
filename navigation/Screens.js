@@ -1,11 +1,8 @@
 import React from "react";
-import { Easing, Animated, Dimensions } from "react-native";
-
+import {Dimensions } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-import { Block } from "galio-framework";
 
 // screens
 import Home from "../screens/Home";
@@ -14,11 +11,8 @@ import Pro from "../screens/Pro";
 import Profile from "../screens/Profile";
 import Register from "../screens/Register";
 import Registro from "../screens/Registro";
-import Elements from "../screens/Elements";
-import Articles from "../screens/Articles";
 import Producto from "../screens/Producto";
 import Pujar from "../screens/Pujar";
-import Articulos from "../screens/Articulos";
 import Metricas from "../screens/Metricas";
 import TrackSubasta from "../screens/TrackSubasta";
 import RegistroFinalizado from "../screens/RegistroFinalizado";
@@ -30,8 +24,8 @@ import CargaCorrecta from "../components/CargaCorrecta";
 import CustomDrawerContent from "./Menu";
 
 // header for screens
-import { Icon, Header } from "../components";
-import { argonTheme, tabs } from "../constants";
+import { Header } from "../components";
+
 
 const { width } = Dimensions.get("screen");
 
@@ -39,73 +33,7 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
-function ElementsStack(props) {
-  return (
-    <Stack.Navigator mode="card" headerMode="screen">
-      <Stack.Screen
-        name="Elements"
-        component={Elements}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header title="Elements" navigation={navigation} scene={scene} />
-          ),
-          cardStyle: { backgroundColor: "#F8F9FE" }
-        }}
-      />
-      <Stack.Screen
-        name="Pro"
-        component={Pro}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              title=""
-              back
-              white
-              transparent
-              navigation={navigation}
-              scene={scene}
-            />
-          ),
-          headerTransparent: true
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
 
-function ArticlesStack(props) {
-  return (
-    <Stack.Navigator mode="card" headerMode="screen">
-      <Stack.Screen
-        name="Articles"
-        component={Articles}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header title="Articles" navigation={navigation} scene={scene} />
-          ),
-          cardStyle: { backgroundColor: "#F8F9FE" }
-        }}
-      />
-      <Stack.Screen
-        name="Pro"
-        component={Pro}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              title=""
-              back
-              white
-              transparent
-              navigation={navigation}
-              scene={scene}
-            />
-          ),
-          headerTransparent: true
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
 
 function SubastarStack (props) {
   return (
@@ -424,8 +352,6 @@ function AppStack(props) {
       <Drawer.Screen name="Home" component={HomeStack} />
       <Drawer.Screen name="Perfil" component={ProfileStack} />
       <Drawer.Screen name="Subasta" component={SubastarStack} />
-      <Drawer.Screen name="Elements" component={ElementsStack} />
-      <Drawer.Screen name="Articles" component={ArticlesStack} />
       <Drawer.Screen name="PM" component={MediosDePagoStack} />
     </Drawer.Navigator>
   );

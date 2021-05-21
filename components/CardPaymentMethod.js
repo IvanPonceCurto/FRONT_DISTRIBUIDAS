@@ -1,12 +1,12 @@
-import React, { Children } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import {withNavigation} from '@react-navigation/compat'
-import {StyleSheet, View, Dimensions, Pressable, Image, TouchableWithoutFeedback, Modal, TouchableOpacityBase} from 'react-native'
-import {Block, Button, Text, theme} from 'galio-framework'
-import { ScrollView, TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler'
-import imagen from '../assets/imgs/visa.png'
-import MyIcon from '../assets/nucleo icons/x-circle.svg'
-import Icon from '.'
+
+import {StyleSheet, Image} from 'react-native'
+import {Block, Text, theme} from 'galio-framework'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+
+
+
 import CustomModal from "../components/CustomModal"
 
 const Menu = require("../assets/imgs/visa.png");

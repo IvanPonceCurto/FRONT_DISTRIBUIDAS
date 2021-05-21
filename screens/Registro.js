@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import { RadioButton } from 'react-native-paper';
-import { Input, Icon } from "../components";
+import { Input} from "../components";
 import { Button, Text, theme } from "galio-framework";
 import argonTheme from "../constants/Theme";
 import { useForm, Controller } from "react-hook-form";

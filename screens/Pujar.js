@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Image, StyleSheet,SafeAreaView, Dimensions, Platform,ScrollView, KeyboardAvoidingView,View} from 'react-native';
+import { StyleSheet,SafeAreaView, Dimensions, Platform,ScrollView, KeyboardAvoidingView,View} from 'react-native';
 import { Block, Button, Text, theme } from 'galio-framework'; 
 import { HeaderHeight } from "../constants/utils";
 import {Picker} from '@react-native-picker/picker';
-import { Input, Icon } from "../components";
+import { Input} from "../components";
 import { useForm, Controller } from "react-hook-form";
 import CountDown from 'react-native-countdown-component';
 import moment from 'moment';

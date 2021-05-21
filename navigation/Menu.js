@@ -1,24 +1,20 @@
 import React from "react";
-import { useSafeArea } from "react-native-safe-area-context";
+
 import {
-  View,
   ScrollView,
   StyleSheet,
-  Image
 } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 
-import Images from "../constants/Images";
+
 import { DrawerItem as DrawerCustomItem } from '../components';
 
 function CustomDrawerContent({ drawerPosition, navigation, profile, focused, state, ...rest }) {
-  const insets = useSafeArea();
+
   const screens = [
     "Home", 
     "Perfil",
     "Subasta",
-    "Elements",
-    "Articles",
     "PM"
   ];
 

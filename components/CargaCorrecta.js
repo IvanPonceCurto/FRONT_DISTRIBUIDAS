@@ -1,11 +1,9 @@
 import React from 'react';
-import { Pressable, View } from "react-native";
+import {View } from "react-native";
 import {StyleSheet,Image,Text} from "react-native"
 import PropTypes from "prop-types"
-import { Colors } from "react-native/Libraries/NewAppScreen";
-import { withNavigation } from "@react-navigation/compat";
-import { Block, Button } from "galio-framework";
-import Modal from "react-native"
+import { Button } from "galio-framework";
+
 
 const visa=require("../assets/imgs/visa.png")
 const masterCard=require("../assets/imgs/mastercard-logo.png")

@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import {
   StyleSheet,
   Dimensions,
-  KeyboardAvoidingView,
-  ScrollView,
   SafeAreaView,
   View,
   Modal,
@@ -13,7 +11,6 @@ import { Switch, Button, Icon, Input } from "../components";
 import { argonTheme } from "../constants";
 import ImagePick from '../components/ImagePick';
 import PickerSelect from '../components/PickerSelect';
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { useForm, Controller } from "react-hook-form";
 
 

@@ -1,10 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import PropTypes from 'prop-types';
-
 import { Input } from "galio-framework";
-
-import Icon from './Icon';
 import { argonTheme } from "../constants";
 
 class ArInput extends React.Component {
