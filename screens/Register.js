@@ -220,10 +220,12 @@ const Register = (props) => {
               />
               <Text style={styles.text2}>Recibirás un correo electrónico una vez que analicemos el artículo</Text>
               <Button
+                style={styles.btnVerProducto}
                 onPress={() => {setShow(false), navigation.navigate('Home')}}
                 size='small'
               >
-                <Text bold size={14} color={argonTheme.COLORS.WHITE}>REGRESAR</Text></Button>
+                <Text size={16} style={{color:'#FFFFFF'}} bold >Regresar</Text>
+                </Button>
             </View>
           </View>
         </Modal>
@@ -245,13 +247,11 @@ const Register = (props) => {
           </Switch>
         </Block>
         {switchValue === false ? form1 : form2}
-        
+          
           <Button
-            color="primary"
+            style={styles.btnVerProducto}
             onPress={(handleSubmit(onSubmit))}>
-            <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-              ENVIAR
-              </Text>
+            <Text size={16} style={{color:'#FFFFFF'}} bold >Enviar</Text>
           </Button>
          
           
@@ -338,6 +338,12 @@ const styles = StyleSheet.create({
     margin: 5,
     fontSize: 16,
     textAlign: 'center'
+  },
+  btnVerProducto:{
+    alignSelf:'center',
+    marginTop:20,
+    borderRadius:10,
+    backgroundColor:'#3483FA'
   }
 });
 

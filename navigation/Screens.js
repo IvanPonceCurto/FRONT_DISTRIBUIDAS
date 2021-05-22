@@ -20,6 +20,7 @@ import SelectUserImage from "../screens/SelectUserImage";
 import InputPM from "../components/InputPM";
 import PaymentsMethod from "../components/paymentsMethod"
 import CargaCorrecta from "../components/CargaCorrecta";
+import Articulos from "../screens/Articulos";
 // drawer
 import CustomDrawerContent from "./Menu";
 
@@ -59,22 +60,25 @@ function SubastarStack (props) {
         }}
       />
       <Stack.Screen
-        name="Pro"
-        component={Pro}
+        name="Articulos"
+        component={Articulos}
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              title=""
-              back
-              white
-              transparent
+              
+              
+              title="Mis Articulos"
+              
+              bgColor={"#EEBB00"}
               navigation={navigation}
               scene={scene}
+              back
             />
           ),
-          headerTransparent: true
+          
         }}
       />
+      
     </Stack.Navigator>
   );
 }
