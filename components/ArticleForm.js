@@ -90,7 +90,6 @@ const ArticleForm = (props) => {
 					/>
 				)}
 				name="observaciones"
-				rules={{ required: true }}
 				defaultValue=""
 			/>
 

@@ -57,8 +57,8 @@ const CollectionForm = (props) => {
 					<Input
 						onBlur={onBlur}
 						onChangeText={value => onChange(value)}
-						error={!!errors.coleccion}
-						placeholder="¿De qué se trata tu colección de artículos?"
+						error={!!errors.descripcionColeccion}
+						placeholder="Descripción"
 						iconContent={false}
 						style={styles.input}
 					/>
@@ -67,7 +67,7 @@ const CollectionForm = (props) => {
 				rules={{ required: true }}
 				defaultValue=""
 			/>
-			{errors.coleccion?.type === 'required' &&
+			{errors.descripcionColeccion?.type === 'required' &&
 				<Text style={styles.error}>
 					Este campo es obligatorio.
           </Text>}
@@ -84,7 +84,6 @@ const CollectionForm = (props) => {
 					/>
 				)}
 				name="observaciones"
-				rules={{ required: true }}
 				defaultValue=""
 			/>
 
