@@ -13,7 +13,7 @@ const CountDownTimer = (fecha) => {
 
     const [totalDuration, setTotalDuration] = useState(0);
      
-    useEffect(() => {
+    useEffect(() => { 
       //We are showing the coundown timer for a given expiry date-time
       //If you are making a quize type app then you need to make a simple timer
       //which can be done by using the simple like given below

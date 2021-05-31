@@ -10,6 +10,8 @@ const reloj = require("../assets/imgs/reloj.jpg")
 const reloj2 = require("../assets/imgs/reloj2.jpg")
 const reloj3 = require("../assets/imgs/reloj3.jpg")
 const wanchope = require("../assets/imgs/wanchope.jpg")
+const {getFotosByProducto,createFoto} = require("../services/foto.service");
+
 const subastas = [
                     {
                       idSubasta:1,
@@ -271,12 +273,20 @@ const subastas = [
                     }
 ]
 
-
+const prueba = async() =>{
+  try{
+   var fotos = await getFotosByProducto(1)
+   console.log(fotos)
+  }catch(e){
+    console.error(e);
+  }
+}
 class Home extends React.Component {
 
  
   render() {
-    
+    //prueba()
+    console.log(zapas)
     return (
       <Block flex center style={styles.home}>
       

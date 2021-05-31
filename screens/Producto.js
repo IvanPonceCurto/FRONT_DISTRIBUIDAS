@@ -5,7 +5,7 @@ import { HeaderHeight } from "../constants/utils";
 import {SliderBox} from 'react-native-image-slider-box'
 const { height, width } = Dimensions.get('screen');
 /*  <Image  source={producto.producto.foto} style={styles.backgroundImage}/>*/
-
+//<SliderBox images={producto.producto.fotos} dotStyle={{marginBottom:90}} style={styles.backgroundImage} ></SliderBox>
 const altura = height - height*0.20
 class Producto extends React.Component{
 
@@ -15,14 +15,14 @@ class Producto extends React.Component{
         const ProductoParam = producto.producto;
         const subasta = producto.subasta;
         console.log(producto)
-    
+        console.log(producto.producto.fotos)
         return(
         
             <Block flex style={styles.producto}>
             <Block flex>
               <Block style={styles.container}>
                 <Block style={styles.backgroundImageContainer}>
-                <SliderBox images={producto.producto.fotos} dotStyle={{marginBottom:90}} style={styles.backgroundImage} ></SliderBox>
+                <Image style={styles.backgroundImage} source ={{uri:'https://res.cloudinary.com/apisbackfranivan/image/upload/v1607555915/MiAuto-MiAuto-93-1.png'}}/>
                 </Block>
                 <ScrollView
                   showsVerticalScrollIndicator={false}

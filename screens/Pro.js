@@ -72,6 +72,7 @@ class Pro extends React.Component{
   renderProductos(){
     const {route, navigation } = this.props
     var subasta = route.params.item
+    
     return(
       <Block style={styles.cardBody}>
         <Text bold size={16} style={styles.subastaActual}>Subastandose Actualmente</Text>
