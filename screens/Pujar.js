@@ -6,6 +6,7 @@ import { Picker } from '@react-native-picker/picker';
 import { Input } from "../components";
 import { useForm, Controller } from "react-hook-form";
 import { SliderBox } from 'react-native-image-slider-box'
+const {getPujaActual,nuevaPuja} = require('../services/registroDeSubasta.service')
 
 const { height, width } = Dimensions.get('screen');
 
@@ -40,7 +41,6 @@ class RenderPicker extends React.Component {
   }
 
   render() {
-    console.log(this.state.mediosDePago)
     return (
 
       <Picker
@@ -63,26 +63,43 @@ class RenderPicker extends React.Component {
 }
 
 
-const Pujar = (props) => {
 
-  const { route, navigation } = props;
-  const Object = route.params
+//COSAS A HACER EN PANTALLA: 
+//falta crear el useEffect y dentro meterle el get puja actual
+//falta pegarle a los medios de pago 
+//falta hacer el post de registro de subasta (puja)
+//falta pegarle al precio actual de la subasta (get puja actual)
+export default function Pujar({route,navigation}) {
 
-  const ProductoParam = Object.ProductoParam;
-  const subasta = Object.subasta;
-  console.log(subasta.fecha);
+  const objeto = route.params;
+	const subasta = objeto.subasta;
+	const producto = objeto.producto;
+
+	const fotos = producto.lightfotos.map(foto =>{
+		return foto.referencia_url;
+	})
+ 
+  const[oferta,setOferta] = useState(0);
+  const[pujaActual,setPujaActual] = useState();
+
   const [marginTopScrollView, setMarginTopScrollView] = useState('-20%')
   const { control, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = data => {
     console.log(data);
   };
 
+  useEffect(()=>{
+   
+    getPujaActual(subasta.idSubasta,producto.idProducto,setPujaActual);
+    
+  },[setPujaActual])
+
   return (
 
     <KeyboardAvoidingView style={styles.producto}>
         <Block style={styles.container}>
           <Block style={styles.backgroundImageContainer}>
-            <SliderBox images={ProductoParam.fotos} dotStyle={{ marginBottom: 90 }} style={styles.backgroundImage} ></SliderBox>
+            <SliderBox images={fotos} dotStyle={{ marginBottom: 90 }} style={styles.backgroundImage} ></SliderBox>
           </Block>
           <ScrollView
             showsVerticalScrollIndicator={false}
@@ -93,7 +110,7 @@ const Pujar = (props) => {
               <KeyboardAvoidingView style={{ flex: 1 }}>
                 <View>
                   <Block row space="between" style={styles.cardHeader}>
-                    <Text size={40} style={styles.productPrizeText}>{ProductoParam.precioBase}</Text>
+                    <Text size={40} style={styles.productPrizeText}>{pujaActual}</Text>
                   </Block>
                 </View>
                 <View style={{ alignItems: 'center' }}>
@@ -108,8 +125,11 @@ const Pujar = (props) => {
                         style={styles.input}
                         onBlur={onBlur, () => setMarginTopScrollView('-20%')}
                         onFocus={() => setMarginTopScrollView('-65%')}
-                        onChangeText={value => onChange(value)}
-                        value={value}
+                        onChangeText={value => {
+                          onChange(value)
+                          setOferta(value);
+                          }}
+                        value={oferta}
                         error={!!errors.monto}
                         placeholder="Monto"
                         keyboardType='decimal-pad'
@@ -128,7 +148,7 @@ const Pujar = (props) => {
                     style={styles.btnRealizarOferta}
                     onPress={(handleSubmit(onSubmit))}
                   >
-                    <Text size={16} style={{ color: '#FFFFFF' }} bold>Pujar</Text>
+                    <Text size={16} style={{ color: '#FFFFFF' }} bold onPress={()=>{nuevaPuja(subasta.idSubasta,producto.id_duenio,producto.idProducto,1,oferta);setOferta()}}>Pujar</Text>
                   </Button>
                 </View>
               </KeyboardAvoidingView>
@@ -285,4 +305,3 @@ const styles = StyleSheet.create({
 
 
 })
-export default Pujar

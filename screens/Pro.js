@@ -1,9 +1,10 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Image, StyleSheet, Dimensions, Platform,ScrollView,TouchableWithoutFeedback} from 'react-native';
 import { Block, Button, Text, theme } from 'galio-framework'; 
 import {argonTheme } from '../constants/';
 import { HeaderHeight } from "../constants/utils";
-
+import PrimaryProductCard from '../components/PrimaryProductCard';
+import SecondaryProductCard from '../components/SecondaryProductCard';
 const { height, width } = Dimensions.get('screen');
 const zapas = require("../assets/imgs/zapas.jpg")
 const auto = require("../assets/imgs/ferrari.jpg")
@@ -59,62 +60,18 @@ const subasta = {
 
 
 
-/*FALTA HACER ONCLICK PARA NAVEGAR A CADA PRODUCTO Y VER SU DESCRIPCION*/
+//COSAS A HACER EN LA PANTALLA:
+//falta hacer join de la subasta con personas 
+//falta un poquito de mejora en lo visual
 
+export default function Pro({route,navigation}){
+ 
+  var subasta = route.params.item
+  const[productoActual,setProductoActual] = useState(subasta.catalogo.productos[0])
+  const[selected, setSelected] = useState({});
 
-
-class Pro extends React.Component{
-  constructor(props){
-    super(props);
-    this.state= subasta.productos[0]
-  }
-
-  renderProductos(){
-    const {route, navigation } = this.props
-    var subasta = route.params.item
-    
-    return(
-      <Block style={styles.cardBody}>
-        <Text bold size={16} style={styles.subastaActual}>Subastandose Actualmente</Text>
-        <Block style={styles.imageContainer}>
-            <Image
-                style={styles.imagen}
-                source={this.state.fotos[0]}
-              />
-        </Block>
-        <Text normal size={14} style={{textAlign:'center',marginTop:10}}>{this.state.nombreProducto}</Text>
-
-        <Button style={styles.btnVerProducto}>
-          <Text size={16} style={{color:'#FFFFFF'}} bold onPress={() => navigation.navigate('Producto',{subasta,producto: this.state})}>Ver Producto</Text>
-        </Button>
-        <Text bold size={16} style={styles.textoArticulosProximos}>Próximos a Subastar:</Text>
-          {subasta.productos.map(producto =>{
-            if(producto.idProducto!=this.state.idProducto){
-              return(
-                <Block key={producto.idProducto} row style={styles.imageContainerProximos} >
-                    <TouchableWithoutFeedback onPress={() => navigation.navigate('Producto',{subasta,producto})} /*onPress={this.setState({ state: producto })}*/>
-                      
-                        <Image
-                          
-                            style={styles.imagen}
-                            source={producto.fotos[0]}
-                          />
-                    </TouchableWithoutFeedback>
-                    <Text size={14} bold  style={styles.textoArticulosProximos}>{producto.nombreProducto} </Text>
-                </Block>
-              )}
-          })}
-    </Block>
-    )
-}
   
-
-
-  render(){
-        const {route, navigation } = this.props
-      
-        var subasta2 = route.params.item
-        //DE SUBASTA 2 SACARIA EL ID, Y LE PEGARIA AL ENDPOINT DE CATALOGO PARA TRAERME EL OBJETO "SUBASTA" QUE TENGO MAS ARRIBA
+   
        
     return (
       
@@ -130,9 +87,9 @@ class Pro extends React.Component{
                         <Text size={20} style={{textAlign:'center',fontWeight:'bold',marginTop:10}}>Subasta Nro: {subasta.idSubasta}</Text>
                         <Text style = {{marginTop:15,marginLeft:20}}>Fecha: {subasta.fecha}</Text>
                         <Block row space="between">
-                          <Text style = {{marginTop:10,marginLeft:20}}>Rematador: {subasta.rematador}</Text>
+                          <Text style = {{marginTop:10,marginLeft:20}}>Rematador: {subasta.id_subastador}</Text>
                           <Block style={styles.rectanguloCategoria}>
-                            <Text size={12} color={argonTheme.COLORS.WHITE} bold>{subasta.categoriaSubasta}</Text>
+                            <Text size={12} color={argonTheme.COLORS.WHITE} bold>{subasta.categoria}</Text>
                           </Block>
 
                         </Block>
@@ -140,10 +97,23 @@ class Pro extends React.Component{
                       <Block middle style={{ marginTop: 30, marginBottom: 16 }}>
                         <Block style={styles.divider} />
                       </Block>
-                      
+                      <Block style={styles.cardBody}>
+                        <Text bold size={16} style={styles.subastaActual}>Subastandose Actualmente</Text>
+                          {subasta.catalogo.productos.map(producto =>{
+                            if(producto.idProducto === subasta.catalogo.productos[0].idProducto){
+                              return(
+                                <PrimaryProductCard navigation={navigation} producto={producto} subasta={subasta}/>
+                              )
+                            }
+                            else{
+                              return(
+                                    <SecondaryProductCard navigation={navigation} producto={producto} subasta={subasta}/>
+                              )}
+                          })}
+                    </Block>
                        
                          
-                         {this.renderProductos()}
+                        
                           
                       </Block>
                 
@@ -155,7 +125,7 @@ class Pro extends React.Component{
     
     );
   }
-}
+
 const styles = StyleSheet.create({
   catalogo:{
     marginTop: Platform.OS === 'android' ? -HeaderHeight : 0,
@@ -204,7 +174,7 @@ const styles = StyleSheet.create({
 
   },
   rectanguloCategoria:{
-    backgroundColor:subasta.colorCategoria,
+    backgroundColor:'#000000',
     width:60,
     alignItems:'center',
     borderRadius:50,
@@ -273,4 +243,3 @@ const styles = StyleSheet.create({
 });
 
 
-export default Pro;

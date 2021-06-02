@@ -21,17 +21,18 @@ class Card extends React.Component {
       styles.shadow
     ];
 
+   
 
     return (
       <Block row={horizontal} card flex style={cardContainer}>
         <TouchableWithoutFeedback onPress={() => navigation.navigate('Catalogo',{item})}>
           <Block row={horizontal}  style={imgContainer}>
          
-            <Image  source={item.productos[0].fotos[0]} style={imageStyles} /> 
+            <Image  source={{uri:item.catalogo.productos[0].lightfotos[0].referencia_url}} style={imageStyles} /> 
            
             <Block style={{width:'100%'}}>         
-            <Image source={item.productos[1].fotos[0]} style={styles.secondaryImages} />
-            <Image source={item.productos[2].fotos[0]} style={styles.secondaryImages} />
+            <Image source={{uri:item.catalogo.productos[1].lightfotos[0].referencia_url}} style={styles.secondaryImages} />
+            <Image source={{uri:item.catalogo.productos[2].lightfotos[0].referencia_url}} style={styles.secondaryImages} />
             </Block>
 
           </Block>
@@ -41,14 +42,14 @@ class Card extends React.Component {
             <Block>
                 <Text size={14} style={styles.cardTitle}>Subasta N°{item.idSubasta}</Text>
                 <Text size={12}>Fecha: {item.fecha}</Text>
-                <Text size={12}>Rematador: {item.rematador}</Text>
+                <Text size={12}>Rematador: {item.id_subastador}</Text>
             </Block>
             <Block row={horizontal} space="between">
-            <Block style={{ backgroundColor:item.colorCategoria,
+            <Block style={{ backgroundColor:'#000000',
                             width:80,
                             alignItems:'center',
                             borderRadius:50}}>
-            <Text size={12} muted={!ctaColor} color={argonTheme.COLORS.WHITE} bold>{item.categoriaSubasta}</Text>
+            <Text size={12} muted={!ctaColor} color={argonTheme.COLORS.WHITE} bold>{item.categoria}</Text>
             </Block>
             <Block style={styles.rectangulo}>
             <Text size={12} muted={!ctaColor} color={argonTheme.COLORS.WHITE} bold>Ver Catálogo</Text>
