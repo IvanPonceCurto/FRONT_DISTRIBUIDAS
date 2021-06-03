@@ -1,19 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   StyleSheet,
-  ImageBackground,
   Dimensions,
-  StatusBar,
-  KeyboardAvoidingView,
   ScrollView,
-  View,
-  Modal,
-  SafeAreaView,
-  Image
 } from "react-native";
-import { Block, Checkbox, Text, theme } from "galio-framework";
+import { Block, theme } from "galio-framework";
 import ArticleCard from '../components/ArticleCard';
-import { articles, Images, argonTheme } from "../constants/";
 import im1 from '../assets/imgs/s20.jpg';
 import im2 from '../assets/imgs/rolex.jpg';
 import im3 from '../assets/imgs/anillo.jpg';

@@ -5,18 +5,11 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    ImageBackground,
     Dimensions,
-    StatusBar,
-    KeyboardAvoidingView
 } from "react-native";
-import {ActionSheet, Root, Title} from  "native-base";
-import { Block, Checkbox, Text, theme } from "galio-framework";
-
-import { Switch, Button, Icon, Input } from "../components";
-import { Images, argonTheme } from "../constants";
+import {ActionSheet, Root} from  "native-base";
+import { Text} from "galio-framework";
 import ImagePicker from 'react-native-image-picker';
-import { ActionSheetIOS } from "react-native";
 
 //const width = Dimensions.get('window').width;
 const { width, height } = Dimensions.get("screen");

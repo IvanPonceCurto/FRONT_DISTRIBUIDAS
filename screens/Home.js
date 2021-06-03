@@ -1,8 +1,6 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
-
-import DropDownPicker from 'react-native-dropdown-picker';
 import { Card } from '../components';
 
 const { width } = Dimensions.get('screen');
@@ -12,6 +10,9 @@ const reloj = require("../assets/imgs/reloj.jpg")
 const reloj2 = require("../assets/imgs/reloj2.jpg")
 const reloj3 = require("../assets/imgs/reloj3.jpg")
 const wanchope = require("../assets/imgs/wanchope.jpg")
+const {getFotosByProducto,createFoto} = require("../services/foto.service");
+const{getSubastasActivas} = require("../services/subasta.service")
+
 const subastas = [
                     {
                       idSubasta:1,
@@ -274,11 +275,16 @@ const subastas = [
 ]
 
 
-class Home extends React.Component {
+//COSAS A HACER EN LA PANTALLA:
+//falta hacer join de la subasta con personas 
+//falta vincular la categoria de la subasta a un color en especifico 
 
- 
-  render() {
-    
+export default function Home() {
+  const[subastasActivas,setsubastasActivas]=useState([])
+
+  useEffect(()=>{
+      getSubastasActivas(setsubastasActivas);
+  },[])
     return (
       <Block flex center style={styles.home}>
       
@@ -289,8 +295,9 @@ class Home extends React.Component {
         
     
       
-          
-          {subastas.map(subasta =>{
+         
+          {subastasActivas.map(subasta =>{
+            
               return <Card key={subasta.idSubasta} item={subasta} horizontal/>
 
           })}
@@ -300,7 +307,6 @@ class Home extends React.Component {
       </Block>
     );
   }
-}
 
 const styles = StyleSheet.create({
   home: {
@@ -316,4 +322,3 @@ const styles = StyleSheet.create({
   
 });
 
-export default Home;

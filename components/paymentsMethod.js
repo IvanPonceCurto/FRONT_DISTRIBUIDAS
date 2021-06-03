@@ -1,12 +1,12 @@
 import React from 'react'
-import { Block, Button, Card, Text } from "galio-framework"
-import { View,StyleSheet,Image, TouchableOpacityBase} from "react-native"
+import { Text } from "galio-framework"
+import { View,StyleSheet,Image} from "react-native"
 import CardPaymentMethod from "./CardPaymentMethod"
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { TouchableOpacity} from 'react-native-gesture-handler'
 
 
 const plusIcon = require("../assets/imgs/iconChico.png")
-const validateIcon = require("../assets/imgs/validate.png")
+
 
 //Screen que renderizo todo los medios de pago, preguntar por el tema del boton, y del futuro ScrollView.
 

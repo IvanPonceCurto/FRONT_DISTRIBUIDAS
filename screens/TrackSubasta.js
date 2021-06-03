@@ -4,8 +4,8 @@ import {
   Dimensions,
   View
 } from "react-native";
-import { Block, Text, theme } from "galio-framework";
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import { Block, Text} from "galio-framework";
+import { Table, Row, Rows} from 'react-native-table-component';
 
 const { width, height } = Dimensions.get("screen");
 

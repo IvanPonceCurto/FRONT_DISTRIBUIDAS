@@ -1,16 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   StyleSheet,
   Dimensions,
   View,
-  KeyboardAvoidingView,
-  ScrollView,
   Image
 } from "react-native";
 import icon from '../assets/confirm.png'
-import { RadioButton } from 'react-native-paper';
-import { Input } from "../components";
-import { Button, Text, theme } from "galio-framework";
+import { Button, Text} from "galio-framework";
 import argonTheme from "../constants/Theme";
 
 

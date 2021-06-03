@@ -1,8 +1,8 @@
 import { Block,Text,Button,theme} from "galio-framework"
-import React, { useDebugValue, useState } from "react"
-import { Pressable, View,StyleSheet, Dimensions, Image,Animated} from "react-native"
+import React, {useState } from "react"
+import { View,StyleSheet, Dimensions, Image,Animated} from "react-native"
 import {Picker} from '@react-native-picker/picker'
-import { Input, Select } from "."
+import {Input} from "."
 import { argonTheme } from "../constants"
 import CustomModal from "../components/CustomModal"
 import { TouchableOpacity } from "react-native-gesture-handler"

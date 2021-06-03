@@ -1,10 +1,9 @@
 import React from 'react';
 import { withNavigation } from '@react-navigation/compat';
 import { TouchableOpacity, StyleSheet, Platform, Dimensions } from 'react-native';
-import { Button, Block, NavBar, Text, theme } from 'galio-framework';
+import {Block, NavBar, theme } from 'galio-framework';
 
 import Icon from './Icon';
-import Input from './Input';
 import Tabs from './Tabs';
 import argonTheme from '../constants/Theme';
 const { height, width } = Dimensions.get('window');

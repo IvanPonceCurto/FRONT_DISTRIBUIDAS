@@ -1,7 +1,5 @@
-import { withNavigation } from "@react-navigation/compat"
 import { Block } from "galio-framework"
 import {React} from "react"
-import { ImageBackground } from "react-native"
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
 import { argonTheme } from "../constants"
 

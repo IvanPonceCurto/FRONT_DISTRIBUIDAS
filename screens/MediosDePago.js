@@ -1,21 +1,13 @@
 import { Block, theme} from "galio-framework";
 import React from "react";
-import { Dimensions, ScrollView } from "react-native";
+import { Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Card } from "../components";
 import CardPaymentMethod from "../components/CardPaymentMethod";
 
 const {width} = Dimensions.get("screen")
 
-class MediosDePago extends React.Component {
-    state = {
-        aceptada: false,
-        rechazada: false,
-    };
-    //REEVER ESTA PARTE DEL CODIGO PORQUE NO SIRVE SI TENGO MAS DE 2
 
-
-    cambiarEstadoTarjeta = (estado) =>
+    cambiarEstadoTarjeta = (estado) =>{
         this.setState({
         [estado]: !this.state[estado],
     });
@@ -39,7 +31,7 @@ class MediosDePago extends React.Component {
             </Block>
         )
      }
-     render(){
+     render = () => {
          return(
              <Block>
                 <ScrollView showsVerticalScrollIndicator={false}>
