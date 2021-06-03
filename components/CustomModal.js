@@ -8,14 +8,11 @@ import {Modal} from "react-native"
 class CustomModal extends React.Component{
     constructor(props){
         super(props)
-        console.log(this.props.visible+" "+this.props.decir)
         this.state={
             visible:this.props.visible,
             cardNumber:this.props.cardNumber,
             añadirTarjeta:this.props.tarjeta
         }
-        console.log("Props acá:"+this.state.añadirTarjeta)
-        console.log("Estado"+this.state.visible)
     }
     changeState=(e)=>{
         e.preventDefault();
@@ -36,6 +33,7 @@ class CustomModal extends React.Component{
 
     render(){
         const isVisible=this.state.visible
+        console.log("visible"+this.props.visible)
         return(
             <View style={{alignItems:"center"}}>
             <Modal

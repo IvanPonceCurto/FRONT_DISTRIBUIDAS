@@ -19,7 +19,8 @@ function CustomDrawerContent({ drawerPosition, navigation, profile, focused, sta
     "Subasta",
     "Elements",
     "Articles",
-    "PM"
+    "PM",
+    "Ayuda"
   ];
 
   return (

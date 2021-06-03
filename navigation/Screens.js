@@ -32,6 +32,7 @@ import CustomDrawerContent from "./Menu";
 // header for screens
 import { Icon, Header } from "../components";
 import { argonTheme, tabs } from "../constants";
+import FAQ from "../screens/FAQ";
 
 const { width } = Dimensions.get("screen");
 
@@ -213,7 +214,27 @@ function ProfileStack(props) {
       </Stack.Navigator>
   );
 }
-
+function PreguntasFrecuentesStack(props){
+  return(
+    <Stack.Navigator  mode="card" headerMode="screen">
+    <Stack.Screen
+      name="Ayuda"
+      component={FAQ}
+      options={{
+        header: ({navigation,scene}) =>(
+          <Header
+            back
+            title="Preguntas frecuentes"
+            navigation={navigation}
+            scene={scene}
+            bgColor={"#EEBB00"}
+          />
+        )
+      }}
+    />
+    </Stack.Navigator>
+  )
+}
 function HomeStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
@@ -427,6 +448,7 @@ function AppStack(props) {
       <Drawer.Screen name="Elements" component={ElementsStack} />
       <Drawer.Screen name="Articles" component={ArticlesStack} />
       <Drawer.Screen name="PM" component={MediosDePagoStack} />
+      <Drawer.Screen name ="Ayuda" component={PreguntasFrecuentesStack}/>
     </Drawer.Navigator>
   );
 }
