@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Dimensions,
@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity
 } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Input, Icon } from "../components";
 import { Button, Text, theme } from "galio-framework";
 import argonTheme from "../constants/Theme";
@@ -13,16 +14,25 @@ import { useForm, Controller } from "react-hook-form";
 const { login } = require("../services/cliente.service");
 
 const { width } = Dimensions.get("screen");
-
 const Onboarding = (props) => {
-
+  const [leyenda, setLeyenda] = useState();
   const { navigation } = props;
   const { control, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = async (data) => {
+    
     const res = await login(data.email, data.password);
     console.log(res);
     if (res.ok === true) {
+      try{
+        await AsyncStorage.setItem('idCliente', res.cliente.idCliente.toString());
+        await AsyncStorage.setItem('mailCliente', res.cliente.mail);
+      }catch(error){
+        console.log(error);
+      }
+      setLeyenda();
       navigation.navigate("App");
+    }else{
+      setLeyenda(<Text style={{color:'red', fontSize:15}}>Email y/o contraseña incorrecto/s</Text>)
     }
   };
 
@@ -90,7 +100,7 @@ const Onboarding = (props) => {
             rules={{ required: true }}
             defaultValue=""
           />
-
+          {leyenda}
           <Button
             style={styles.button}
             color={argonTheme.COLORS.BLUE}
