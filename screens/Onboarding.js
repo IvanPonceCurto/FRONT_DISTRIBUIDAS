@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Dimensions,
@@ -16,8 +16,6 @@ const { login } = require("../services/cliente.service");
 const { width } = Dimensions.get("screen");
 const Onboarding = (props) => {
   const [leyenda, setLeyenda] = useState();
-  const [idClienteState, setIdCliente] = useState('idCliente');
-  const [emailClienteState, setEmailCliente] = useState('mailCliente');
   const { navigation } = props;
   const { control, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = async (data) => {
@@ -26,8 +24,8 @@ const Onboarding = (props) => {
     console.log(res);
     if (res.ok === true) {
       try{
-        await AsyncStorage.setItem(idClienteState, res.cliente.idCliente.toString());
-        await AsyncStorage.setItem(emailClienteState, res.cliente.mail);
+        await AsyncStorage.setItem('idCliente', res.cliente.idCliente.toString());
+        await AsyncStorage.setItem('mailCliente', res.cliente.mail);
       }catch(error){
         console.log(error);
       }

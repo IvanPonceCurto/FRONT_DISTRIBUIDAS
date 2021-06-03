@@ -58,7 +58,7 @@ const CollectionForm = (props) => {
 						onBlur={onBlur}
 						onChangeText={value => onChange(value)}
 						error={!!errors.descripcionColeccion}
-						placeholder="Descripción"
+						placeholder="Descripción de la colección"
 						iconContent={false}
 						style={styles.input}
 					/>
@@ -93,7 +93,7 @@ const CollectionForm = (props) => {
 					<Input
 						onBlur={onBlur}
 						onChangeText={value => onChange(value)}
-						error={!!errors.piezas}
+						error={!!errors.cantidadPiezas}
 						placeholder="Cantidad de piezas"
 						iconContent={false}
 						style={styles.input}
@@ -104,7 +104,7 @@ const CollectionForm = (props) => {
 				rules={{ required: true }}
 				defaultValue=""
 			/>
-			{errors.piezas?.type === 'required' &&
+			{errors.cantidadPiezas?.type === 'required' &&
 				<Text style={styles.error}>
 					Este campo es obligatorio.
           </Text>}
@@ -117,7 +117,7 @@ const CollectionForm = (props) => {
 						<Input
 							onBlur={onBlur}
 							onChangeText={value => onChange(value)}
-							error={!!errors.precioArticulo}
+							error={!!errors.precioColeccion}
 							placeholder="Precio sugerido"
 							iconContent={false}
 							style={styles.input}
@@ -133,7 +133,10 @@ const CollectionForm = (props) => {
 					width={'50%'}
 				></PickerSelect>
 			</View>
-
+			{errors.precioColeccion?.type === 'required' &&
+				<Text style={styles.error}>
+					Este campo es obligatorio.
+          </Text>}
 			<Button
 				style={styles.btnVerProducto}
 				onPress={(handleSubmit(onSubmit))}>
@@ -188,9 +191,11 @@ const styles = StyleSheet.create({
 		textAlign: 'center'
 	},
 	btnVerProducto: {
+		flex: 1,
 		borderRadius: 10,
 		marginTop: 30,
-		backgroundColor: '#3483FA'
+		backgroundColor: '#3483FA',
+		alignSelf: 'center'
 	}
 });
 
