@@ -10,6 +10,7 @@ import { Input, Icon } from "../components";
 import { Button, Text, theme } from "galio-framework";
 import argonTheme from "../constants/Theme";
 import { useForm, Controller } from "react-hook-form";
+const { login } = require("../services/cliente.service");
 
 const { width } = Dimensions.get("screen");
 
@@ -17,9 +18,12 @@ const Onboarding = (props) => {
 
   const { navigation } = props;
   const { control, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = data => {
-    console.log(data);
-    navigation.navigate("App");
+  const onSubmit = async (data) => {
+    const res = await login(data.email, data.password);
+    console.log(res);
+    if (res.ok === true) {
+      navigation.navigate("App");
+    }
   };
 
   return (
