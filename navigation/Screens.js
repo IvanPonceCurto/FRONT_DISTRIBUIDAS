@@ -12,7 +12,7 @@ import Profile from "../screens/Profile";
 import Register from "../screens/Register";
 import Registro from "../screens/Registro";
 import Producto from "../screens/Producto";
-import Pujar from "../screens/Pujar";
+import Pujar from "../screens/Pujar"; 
 import Metricas from "../screens/Metricas";
 import TrackSubasta from "../screens/TrackSubasta";
 import RegistroFinalizado from "../screens/RegistroFinalizado";
@@ -29,7 +29,7 @@ import CustomDrawerContent from "./Menu";
 // header for screens
 import { Header } from "../components";
 
-
+const {fetchPaymentsMethod} = require('../services/mediosDePago.service')
 const { width } = Dimensions.get("screen");
 
 const Stack = createStackNavigator();
@@ -281,23 +281,14 @@ export default function OnboardingStack(props) {
   );
 }
 
-const cardsList = [
-  {
-    cardNumber: "4517650612345678"
-  },
-  {
-    cardNumber: "4517650612345698"
-  }, {
-    cardNumber: "4517610612345699"
-  }
-];
+
 
 function MediosDePagoStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
         name="PM"
-        component={props => { return <PaymentsMethod {...props} lista={cardsList} /> }
+        component={props => { return <PaymentsMethod {...props} lista={fetchPaymentsMethod(localStorage.getItem('idCliente'))} /> }
         }
         options={{
           header: ({ navigation, scene }) => (
