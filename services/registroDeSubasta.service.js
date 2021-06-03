@@ -7,14 +7,14 @@ const getPujaActual = (idSubasta,idProducto,setPujaActual) =>{
 
     fetch(`https://distribuidas-backend.herokuapp.com/api/registrosDeSubasta/getRegistroActual/${idSubasta}/${idProducto}`, requestOptions)
     .then(response => {
-        console.log(response)
+        
         return response.json()
     }).then(result => {setPujaActual(result.pujaActual)})
     .catch(error => console.log('error', error));
     }
 
 
-const nuevaPuja = (idSubasta,idDuenio,idProducto,idCliente,importe) =>{
+const nuevaPuja = (idSubasta,idDuenio,idProducto,idCliente,importe,setPujaActual) =>{
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -29,7 +29,7 @@ const nuevaPuja = (idSubasta,idDuenio,idProducto,idCliente,importe) =>{
 
     fetch("https://distribuidas-backend.herokuapp.com/api/registrosDeSubasta/createRegistroDeSubasta", requestOptions)
     .then(response => {return response.json()})
-    .then(result => console.log(result))
+    .then(result => setPujaActual(result.nuevoRegistro.importe))
     .catch(error => console.log('error', error));
 }
 

@@ -4,8 +4,10 @@ import { Block, Button, Text, theme } from 'galio-framework';
 import { HeaderHeight } from "../constants/utils";
 import { Picker } from '@react-native-picker/picker';
 import { Input } from "../components";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, set } from "react-hook-form";
 import { SliderBox } from 'react-native-image-slider-box'
+import Dialog, { SlideAnimation, DialogContent } from 'react-native-popup-dialog';
+import {CustomModal} from '../components/CustomModal';
 const {getPujaActual,nuevaPuja} = require('../services/registroDeSubasta.service')
 
 const { height, width } = Dimensions.get('screen');
@@ -65,10 +67,9 @@ class RenderPicker extends React.Component {
 
 
 //COSAS A HACER EN PANTALLA: 
-//falta crear el useEffect y dentro meterle el get puja actual
-//falta pegarle a los medios de pago 
-//falta hacer el post de registro de subasta (puja)
-//falta pegarle al precio actual de la subasta (get puja actual)
+//falta pegarle a los medios de pago, para esto necesito sacar el idCliente del localstorage una vez que se loguee, y con ese id le pego al servicio.
+//falta hacer controles sobre cuando puja
+
 export default function Pujar({route,navigation}) {
 
   const objeto = route.params;
@@ -79,20 +80,45 @@ export default function Pujar({route,navigation}) {
 		return foto.referencia_url;
 	})
  
-  const[oferta,setOferta] = useState(0);
-  const[pujaActual,setPujaActual] = useState();
-
+  const[oferta,setOferta] = useState();
+  const[pujaActual,setPujaActual] = useState(producto.itemsCatalogo.precioBase);
+  const[open,setOpen] = useState(false);
+  const[messageError,setMessageError] = useState("holaaaa");
   const [marginTopScrollView, setMarginTopScrollView] = useState('-20%')
   const { control, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = data => {
     console.log(data);
   };
 
-  useEffect(()=>{
-   
-    getPujaActual(subasta.idSubasta,producto.idProducto,setPujaActual);
+	const obtenerPuja = async function(){
+	  var requestOptions = {
+		method: 'GET'
+	  
+		};
+		
+		let response = await fetch(`https://distribuidas-backend.herokuapp.com/api/registrosDeSubasta/getRegistroActual/${subasta.idSubasta}/${producto.idProducto}`, requestOptions)
+		
+		let data = await response.json();
+    if(data.pujaActual != 0){  
+		setPujaActual(data.pujaActual);
+    }
+	}
+  
+  
+	 useEffect(()=>{
+	   obtenerPuja()
+	 },[])
+	 
+  const pujar = function(){
+    //aca antes me falta controlar que el monto este bien
+    if(oferta > pujaActual && oferta >= producto.itemsCatalogo.precioBase *0.01 && oferta <= pujaActual*1.2){
+        nuevaPuja(subasta.idSubasta,producto.id_duenio,producto.idProducto,1,oferta,setPujaActual);
+    }else{
+
+        setOpen(true)
+    }
     
-  },[setPujaActual])
+  }
 
   return (
 
@@ -110,7 +136,7 @@ export default function Pujar({route,navigation}) {
               <KeyboardAvoidingView style={{ flex: 1 }}>
                 <View>
                   <Block row space="between" style={styles.cardHeader}>
-                    <Text size={40} style={styles.productPrizeText}>{pujaActual}</Text>
+                    <Text size={40} style={styles.productPrizeText}>${pujaActual}</Text>
                   </Block>
                 </View>
                 <View style={{ alignItems: 'center' }}>
@@ -143,12 +169,13 @@ export default function Pujar({route,navigation}) {
                     <Text style={styles.error}>
                       Este campo es obligatorio.
                     </Text>}
-
+                  
                   <Button
                     style={styles.btnRealizarOferta}
-                    onPress={(handleSubmit(onSubmit))}
+                    
+                    onPress={handleSubmit(pujar)}
                   >
-                    <Text size={16} style={{ color: '#FFFFFF' }} bold onPress={()=>{nuevaPuja(subasta.idSubasta,producto.id_duenio,producto.idProducto,1,oferta);setOferta()}}>Pujar</Text>
+                    <Text size={16} style={{ color: '#FFFFFF' }} bold >Pujar</Text>
                   </Button>
                 </View>
               </KeyboardAvoidingView>
@@ -156,8 +183,10 @@ export default function Pujar({route,navigation}) {
 
           </ScrollView>
         </Block>
+  
+        
+            
     </KeyboardAvoidingView>
-
   )
 }
 
@@ -182,7 +211,11 @@ const styles = StyleSheet.create({
     height: '100%'
 
   },
-
+  modalContainer:{
+      width:250,
+      height:150,
+      borderRadius:30
+  },
   productCard: {
 
     padding: 0,
@@ -244,7 +277,7 @@ const styles = StyleSheet.create({
   },
   btnRealizarOferta: {
     alignSelf: 'center',
-    marginTop: 10,
+    marginTop: 30,
     borderRadius: 10,
     backgroundColor: '#3483FA'
 
@@ -252,7 +285,7 @@ const styles = StyleSheet.create({
   pickerContainer: {
     alignSelf: 'center',
 
-    marginTop: 30,
+    marginTop: 40,
     width: 250,
     height: 50,
     borderRadius: 2,

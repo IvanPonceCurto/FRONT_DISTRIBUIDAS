@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { withNavigation } from '@react-navigation/compat';
 import PropTypes from 'prop-types';
 import { StyleSheet, Image, TouchableWithoutFeedback } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
-
 import { argonTheme } from '../constants';
 
+const {getPersonaById} = require('../services/persona.service')
 
-class Card extends React.Component {
-  render() {
-    const { navigation, item, horizontal, full, style, ctaColor, imageStyle, } = this.props;
+
+function Card(props){
+
+    const { navigation, item, horizontal, full, style, ctaColor, imageStyle, } = props;
     
     const imageStyles = [
       full ? styles.fullImage : styles.horizontalImage,
@@ -21,7 +22,24 @@ class Card extends React.Component {
       styles.shadow
     ];
 
-   
+   const[subastador,setSubastador] = useState({})
+
+  const obtenerPersona = async function(){
+    var requestOptions = {
+      method: 'GET'
+    
+      };
+      
+      let response = await fetch(`https://distribuidas-backend.herokuapp.com/api/personas/getPersonaById/${item.id_subastador}`, requestOptions)
+      
+      let data = await response.json();   
+      setSubastador(data.persona)
+  }
+
+
+   useEffect(()=>{
+     obtenerPersona()
+   },[setSubastador])
 
     return (
       <Block row={horizontal} card flex style={cardContainer}>
@@ -42,10 +60,10 @@ class Card extends React.Component {
             <Block>
                 <Text size={14} style={styles.cardTitle}>Subasta N°{item.idSubasta}</Text>
                 <Text size={12}>Fecha: {item.fecha}</Text>
-                <Text size={12}>Rematador: {item.id_subastador}</Text>
+                <Text size={12}>Rematador: {subastador.nombre}</Text>
             </Block>
             <Block row={horizontal} space="between">
-            <Block style={{ backgroundColor:'#000000',
+            <Block style={{ backgroundColor:item.colorCategoria,
                             width:80,
                             alignItems:'center',
                             borderRadius:50}}>
@@ -60,7 +78,7 @@ class Card extends React.Component {
       </Block>
     );
   }
-}
+
 
 Card.propTypes = {
   item: PropTypes.object,
