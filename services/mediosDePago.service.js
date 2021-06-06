@@ -1,19 +1,19 @@
-const fetchPaymentsMethod= async (idCliente)=>{
+const fetchPaymentsMethod = async (idCliente)=>{
 
     try{
         const requestOptions={
-            method:'POST',
+            method:'GET',
             headers:{
                 'Content-Type':'application/json'
-            },
-            redirect:'follow'
-            
+            }
         }
-        const listaTarjetas = await fetch(`https://distribuidas-backend.herokuapp.com/api/mediosdepago/paymentMethod/${idCliente}`,requestOptions)
-        const listaTarjetasRespuesta= await listaTarjetas.json();
-        console.log("Lista de tarjetas"+listaTarjetasRespuesta)
-        return listaTarjetasRespuesta;
+        console.log("Llamada del cliente: "+idCliente)
+        const resultadoFetch = await fetch(`https://distribuidas-backend.herokuapp.com/api/mediosdepago/paymentMethod/${idCliente}`,requestOptions)
+        const resultadoJson = await resultadoFetch.text();
+        console.log("El resultado del Json es: "+JSON.parse(JSON.stringify(resultadoJson)))
+        return JSON.parse(JSON.stringify(resultadoJson));
     }catch(err){
+        console.log(err)
         throw new Error("Error al traer las tarjetas del cliente");
     }
 }

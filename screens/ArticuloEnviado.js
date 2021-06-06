@@ -32,8 +32,6 @@ const RegistroFinalizado = (props) => {
       </View>
       <Button
         style={styles.button}
-        color={argonTheme.COLORS.BLUE}
-        textStyle={{ color: argonTheme.COLORS.WHITE }}
         onPress={() => navigation.navigate("Home")}
       >
         Volver
@@ -80,7 +78,11 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
     marginTop: 40
-  }
+  },
+  button: {
+		borderRadius: 10,
+		backgroundColor: '#3483FA',
+	}
 });
 
 

@@ -288,8 +288,7 @@ function MediosDePagoStack(props) {
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
         name="PM"
-        component={props => { return <PaymentsMethod {...props} lista={fetchPaymentsMethod(localStorage.getItem('idCliente'))} /> }
-        }
+        component={PaymentsMethod}
         options={{
           header: ({ navigation, scene }) => (
             <Header

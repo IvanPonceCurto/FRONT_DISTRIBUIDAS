@@ -130,10 +130,11 @@ const styles = StyleSheet.create({
 		marginHorizontal: 20
 	},
 	button: {
-		width: width - theme.SIZES.BASE * 12,
-		height: theme.SIZES.BASE * 3,
-		shadowRadius: 0,
-		shadowOpacity: 0,
+		flex: 1,
+		borderRadius: 10,
+		marginTop: 30,
+		backgroundColor: '#3483FA',
+		alignSelf: 'center'
 	},
 	error: {
 		color: 'red',

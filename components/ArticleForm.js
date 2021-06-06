@@ -32,7 +32,7 @@ const ArticleForm = (props) => {
 	return (
 		<View width={width * 0.8}>
 			<PickerSelect
-				list={['Obra de arte', 'Otro']}
+				list={['Auto', 'Obra de arte','Reloj', 'Smartphone', 'Otro']}
 				onValueChange={value => setCategoriaSeleccionada(value)}
 			></PickerSelect>
 
@@ -138,9 +138,11 @@ const styles = StyleSheet.create({
 		marginBottom: 10
 	},
 	btnVerProducto: {
+		flex: 1,
 		borderRadius: 10,
 		marginTop: 30,
-		backgroundColor: '#3483FA'
+		backgroundColor: '#3483FA',
+		alignSelf: 'center'
 	}
 });
 
