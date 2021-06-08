@@ -36,32 +36,22 @@ class PaymentsMethod extends React.Component {
   listaTarjetas = async () => {
     const numeroCliente = await AsyncStorage.getItem("idCliente");
     const lista = await fetchPaymentsMethod(numeroCliente);
-    console.log("La lista con la que setea el state es: "+lista)
     this.setState({listaTarjetas:lista})
-    console.log("Lo que sale del state: "+this.state.listaTarjetas)
   };
 
-  lista = () => {
+  lista = async () => {
     //console.log(await this.listaTarjetas(12345678))
+    //const numeroCliente = await AsyncStorage.getItem("idCliente")
+    //const lista = await fetchPaymentsMethod(numeroCliente)
     return [{ cardNumber: "****-****-****-9568" },{ cardNumber: "****-****-****-9568" },{ cardNumber: "****-****-****-9568" }];
   };
-  turnObjectIntoCard = (listaTarjetas) => {
-    var lista = [];
-    var objeto = {};
-    listaTarjetas.map((e) => {
-      objeto = {
-        cardNumber: e.cardNumber,
-      };
-      lista.push(objeto);
-    });
-    console.log("La lista es: " + lista);
-    return lista;
-  };
+ 
 
   render() {
     //console.log("El idCliente es: "+ await AsyncStorage.getAllKeys())
     //this.setState({listaTarjetas:this.listaTarjetas(await AsyncStorage.getItem(idCliente))})
     //const lista = this.listaTarjetas();
+    //useEffect(()=>{this.listaTarjetas()},[])
     return (
       <View>
         <Text h4 style={{ paddingLeft: 20, paddingTop: 10 }}>

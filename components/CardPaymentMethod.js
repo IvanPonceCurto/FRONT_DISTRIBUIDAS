@@ -23,7 +23,7 @@ class CardPaymentMethod extends React.Component{
     constructor(props){
       super(props);
       this.state={
-        cardsObject:this.props.cardsObject,
+        cardsObject:JSON.parse(this.props.cardsObject),
         uniqueKey:0,
         isVisible:false
       }
