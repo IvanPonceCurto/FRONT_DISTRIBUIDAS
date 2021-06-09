@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import {StyleSheet, Image} from 'react-native'
@@ -13,8 +13,9 @@ const Menu = require("../assets/imgs/visa.png");
 const master = require ("../assets/imgs/mastercard-logo.png")
 const borrarIcon = require("../assets/imgs/Vector.png")
 const validateIcon = require("../assets/imgs/validate.png")
+const {fetchDeleteMethod} = require("../services/mediosDePago.service")
 
-const visaDigits = "45176506"
+const visaDigits = "4"
 //Objetivo crear componente Card que nos permita 
 
 class CardPaymentMethod extends React.Component{
@@ -27,9 +28,6 @@ class CardPaymentMethod extends React.Component{
         uniqueKey:0,
         isVisible:false
       }
-    }
-    sumarKey=()=>{
-      this.state.uniqueKey++;
     }
 
     changeState=(e)=>{
@@ -46,7 +44,7 @@ class CardPaymentMethod extends React.Component{
          )
       }
       return(
-        <TouchableOpacity onPress={this.changeState} style={{alignItems:'flex-end',paddingBottom:20}}>
+        <TouchableOpacity onPress={this.changeState,fetchDeleteMethod()} style={{alignItems:'flex-end',paddingBottom:20}}>
                 <Image style={{alignItems:'flex-end'}} source={borrarIcon}></Image>
       </TouchableOpacity>
       )
@@ -57,7 +55,7 @@ class CardPaymentMethod extends React.Component{
 
     renderImagenCard=(cardNumber,imgStyles,imgContainer)=>{
       console.log("Numero de tarjeta"+cardNumber)
-      if(cardNumber.substring(0,8)===visaDigits){
+      if(cardNumber.substring(0,1)===visaDigits){
         return(
         <Block flex center row={"horizontal"} style={{maxHeight:50,maxWidth:100,alignContent:'center'}}> 
             <Image source={Menu} style={imgStyles,{height:50,width:100,alignItems:'center'}}></Image>
@@ -87,7 +85,7 @@ class CardPaymentMethod extends React.Component{
     
     
     return(
-          <Block row={"horizontal"} card  height={80} style={cardContainer} key={this.sumarKey()}>
+          <Block row={"horizontal"} card  height={80} style={cardContainer} key={this.state.cardsObject.cardNumber}>
             <Block row={"horizontal"} height={50} alignItems={"center"} paddingLeft={20}>
               {this.renderImagenCard(this.state.cardsObject.cardNumber,imageStyles,imgContainer)}
             </Block>

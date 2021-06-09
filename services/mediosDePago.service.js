@@ -20,8 +20,18 @@ const fetchPaymentsMethod = (idCliente,setListaTarjetas)=>{
     }
 }
 
+const fetchDeleteMethod=(idCliente,cardNumber,setListaTarjetas)=>{
+    try{
+        fetch(`https://distribuidas-backend.herokuapp.com/api/mediosdepago/paymentMethod/${idCliente}/${cardNumber}`,{
+            method:'DELETE'
+        }).then(result=>{return result.json()}).then(res=>{setListaTarjetas(res.cardsList)}).catch(err=>console.log(err))
+    }catch(err){
+        console.log(err)
+    }
+}
 
 
 module.exports={
-    fetchPaymentsMethod
+    fetchPaymentsMethod,
+    fetchDeleteMethod
 }

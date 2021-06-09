@@ -13,9 +13,8 @@ export default function MediosDePago({navigation}) {
   const [listaTarjetas, setListaTarjetas] = useState([]);
   const [numeroCliente, setNumeroCliente] = useState("");
 
-  useEffect(() => {
-    fetchPaymentsMethod(5, setListaTarjetas);
-  }, []);
+  
+  useEffect(()=>{fetchPaymentsMethod(5, setListaTarjetas)},[])
 
   //useEffect(()=>{fetchClientNumber(setNumeroCliente)})
 
@@ -54,6 +53,7 @@ const fetchClientNumber = async (setNumeroCliente) => {
   const nc = await AsyncStorage.getItem("idCliente");
   console.log("El numero de cliente es: " + nc);
   setNumeroCliente(nc);
+  return nc;
 };
 
 const renderButton = () => {
