@@ -13,7 +13,7 @@ export default function MediosDePago({navigation}) {
   const [listaTarjetas, setListaTarjetas] = useState([]);
   const [numeroCliente, setNumeroCliente] = useState("");
 
-  
+  //useEffect(()=>{fetchClientNumber(setNumeroCliente)},[numeroCliente]) 
   useEffect(()=>{fetchPaymentsMethod(5, setListaTarjetas)},[])
 
   //useEffect(()=>{fetchClientNumber(setNumeroCliente)})
@@ -28,7 +28,7 @@ export default function MediosDePago({navigation}) {
       {listaTarjetas.map((e) => {
         var cardObject = JSON.stringify(e)
         console.log("CardObject "+cardObject)
-        return <CardPaymentMethod horizontal cardsObject={cardObject} />;
+        return <CardPaymentMethod horizontal cardsObject={cardObject} clientNumber={5} />;
       })}
       <View
       style={{

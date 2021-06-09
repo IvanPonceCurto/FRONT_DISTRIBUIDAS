@@ -18,7 +18,6 @@ const postPaymentsMethod=(formData)=>{
 
 }
 
-
 const fetchPaymentsMethod = (idCliente,setListaTarjetas)=>{
 
     try{
@@ -40,6 +39,7 @@ const fetchPaymentsMethod = (idCliente,setListaTarjetas)=>{
 }
 
 const fetchDeleteMethod=(idCliente,cardNumber,setListaTarjetas)=>{
+    console.log("Lllegó con "+idCliente,cardNumber)
     try{
         fetch(`https://distribuidas-backend.herokuapp.com/api/mediosdepago/paymentMethod/${idCliente}/${cardNumber}`,{
             method:'DELETE'

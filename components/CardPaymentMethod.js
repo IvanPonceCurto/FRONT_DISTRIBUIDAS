@@ -26,17 +26,19 @@ class CardPaymentMethod extends React.Component{
       this.state={
         cardsObject:JSON.parse(this.props.cardsObject),
         uniqueKey:0,
-        isVisible:false
+        isVisible:false,
+        clientNumber: this.props.clientNumber
       }
     }
 
     changeState=(e)=>{
-      //e.preventDefault();
+      //.preventDefault();
       this.setState({isVisible:true})
+      console.log("PASO POR ACA")
     }
 
     renderButtonOnValidation=(isValid)=>{
-      if(isValid){
+      if(!isValid){
         return(
           <TouchableOpacity disabled={true} style={{alignItems:"flex-end",paddingTop:0}}>
            <Image style={{alignItems:'flex-end'}}source={validateIcon}></Image>
@@ -44,7 +46,7 @@ class CardPaymentMethod extends React.Component{
          )
       }
       return(
-        <TouchableOpacity onPress={this.changeState,fetchDeleteMethod()} style={{alignItems:'flex-end',paddingBottom:20}}>
+        <TouchableOpacity onPress={this.changeState} style={{alignItems:'flex-end',paddingBottom:20}}>
                 <Image style={{alignItems:'flex-end'}} source={borrarIcon}></Image>
       </TouchableOpacity>
       )
@@ -96,7 +98,7 @@ class CardPaymentMethod extends React.Component{
               {/*<Button onPress={props=>{<CustomModal {...props} visible={true}/>;console.log("e")}} style={{borderRadius:40}}>BORRAR</Button>*/}
             </Block> 
             <Block row={"horizontal"} height={10} alignItems={"center"} >
-            {this.renderButtonOnValidation(false)
+            {this.renderButtonOnValidation(this.state.cardsObject.isValidated)
             //con este bool ponemos el otro iconito o no.
             }
             
@@ -111,11 +113,11 @@ class CardPaymentMethod extends React.Component{
     
     renderCosaLoca=()=>{
       const isVisible=this.state.isVisible;
-      const cardNumber=this.state.cardNumber
+      const cardNumber=this.state.cardsObject.cardNumber
       const toDecir=true;
       if(isVisible){
         return(
-          <CustomModal visible={isVisible} cardNumber={cardNumber} decir={toDecir}>
+          <CustomModal visible={isVisible} cardNumber={cardNumber} decir={toDecir} clientNumber={this.state.clientNumber}>
           </CustomModal>
           
         )
@@ -127,7 +129,7 @@ class CardPaymentMethod extends React.Component{
       return(
         <Block>
           {this.renderCards()}
-          {this.renderCosaLoca()} 
+          {this.renderCosaLoca()}
         </Block>
         
         

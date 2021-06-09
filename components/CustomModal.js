@@ -3,6 +3,7 @@ import React from "react"
 import {View,StyleSheet} from "react-native"
 import { argonTheme } from "../constants"
 import {Modal} from "react-native"
+import {fetchDeleteMethod} from "../services/mediosDePago.service"
 
 
 class CustomModal extends React.Component{
@@ -11,7 +12,8 @@ class CustomModal extends React.Component{
         this.state={
             visible:this.props.visible,
             cardNumber:this.props.cardNumber,
-            añadirTarjeta:this.props.tarjeta
+            añadirTarjeta:this.props.tarjeta,
+            clientNumber: this.props.clientNumber
         }
     }
     changeState=(e)=>{
@@ -44,7 +46,7 @@ class CustomModal extends React.Component{
                     <Block center style={stylesSheet.modalMostrar}>
                         {this.conditionalRender(this.state.decir)}
                         <Block flex row style={{marginTop:30}}>
-                            <Button style={stylesSheet.botonSi} onPress={this.changeState}>SI</Button>
+                            <Button style={stylesSheet.botonSi} onPress={fetchDeleteMethod(this.state.clientNumber,this.state.cardNumber),this.changeState}>SI</Button>
                             <Button style={stylesSheet.botonNo} onPress={this.changeState}>NO</Button>
                     </Block>
                     </Block>

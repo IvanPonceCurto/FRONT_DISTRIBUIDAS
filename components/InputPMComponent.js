@@ -30,6 +30,7 @@ const fetchPM = (formData, nc) => {
 };
 export default function InputPMComponent({ navigation }) {
   const [postPM, setPostPM] = useState();
+  const [isVisible,setEstadoVisible] = useState(false);
 
   useEffect(() => {
     getClient(setPostPM);
@@ -184,8 +185,7 @@ export default function InputPMComponent({ navigation }) {
 
 //this.props.navigation.navigate("CargaCorrecta",{cardNumber:this.state.cardNumber});
 //Va tercero en el render
-const renderModalOnUpdate = () => {
-  const estadoModal = this.state.estadoModal;
+const renderModalOnUpdate = (estadoModal) => {
   const agregarTarjeta = "¿Estás seguro que querés agregar esta tarjeta?";
   if (estadoModal) {
     return (
