@@ -15,6 +15,21 @@ const getPersonaById = async function(idPersona){
     }
 }
 
+const getPersona = async(idPersona) => {
+   
+    try {
+        const res = await fetch(`https://distribuidas-backend.herokuapp.com/api/personas/getPersonaById/${idPersona}`, {
+            method: 'GET',
+            //body: JSON.stringify(body)
+        });
+        const dataRes = await res.json();
+        return dataRes;
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 const createPersona = async (persona) => {
     const nombre = persona.firstName+" "+persona.lastname
@@ -44,5 +59,6 @@ const createPersona = async (persona) => {
 
 module.exports = {
      getPersonaById,
-     createPersona
+     createPersona,
+     getPersona
 }

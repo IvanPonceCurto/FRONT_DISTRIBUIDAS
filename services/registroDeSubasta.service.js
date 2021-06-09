@@ -54,6 +54,8 @@ const getRegistrosByIdCliente = async(idCliente) => {
 			method: 'GET',
 		});
 		const dataRes = await res.json();
+
+    
 		return dataRes;
 	} catch (error) {
 		console.log(error);

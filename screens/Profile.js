@@ -40,45 +40,41 @@ const { width, height } = Dimensions.get("screen");
 
 const thumbMeasure = (width - 48 - 32) / 3;
 
+
 const Profile = (props) => {
 
   const [categoria, setCategoria] = useState();
   const [direccion, setDireccion] = useState();
   const [nombre, setNombre] = useState();
   const [cliente, setCliente] = useState();
-  const [componente, setComponente] = useState();
-  const [nombreProductos, setNombreProductos] = useState([]);
+  const [productos, setProductos] = useState([]);
   const [subastasParticipadas, setSubastasParticipadas] = useState('');
   const [listaTarjetas, setListaTarjetas] = useState([]);
-
-  useEffect(() => {
+ 
+  useEffect(() => { 
     recuperar();
     obtenerCards();
-    obtenerNombreProductos();
+    
   }, []);
 
-  obtenerNombreProductos = async () => {
-    try {
-        var listaProductos = [];
-        listaTarjetas.forEach(async item => {
-          var objeto = await getProducto(item.producto);
-          //console.log(objeto.producto.descripcion);
-          listaProductos.push(objeto.producto);
-          setNombreProductos(listaProductos);
-      });
-
-    } catch(error) {
-        console.log(error);
-    }
+ 
+  function getCalculatedList(listaTarjetas) {
+    return Promise.all(
+      listaTarjetas.map(async (item) => {
+        var objeto = await getProducto(item.producto) 
+        console.log(objeto)
+        return objeto; 
+      })
+    );
   }
 
   const obtenerCards = async () => {
     try {
+      
       const res1 = await getRegistrosByIdCliente(cliente);
       var listaPujas = res1.listaPujasDeCliente;
       var listaCards = [];
       var flag = false;
-      console.log("hola");
       listaPujas.forEach(i => {
           for (var j = 0; j < listaCards.length; j++){
               if(i.producto == listaCards[j].producto){
@@ -92,7 +88,8 @@ const Profile = (props) => {
       });
       setSubastasParticipadas(listaCards.length);
       setListaTarjetas(listaCards);
-      
+
+     
     }catch (error) {
         console.log(error);
     }
@@ -112,7 +109,6 @@ const Profile = (props) => {
         console.log(error);
     }
   }
-  const aux = nombreProductos;
 
     return (
       <Block flex style={styles.profile}>
@@ -203,13 +199,13 @@ const Profile = (props) => {
                     <Block style={styles.divider} />
                   </Block>
                   <Block middle>
-                    
-                  {aux.map((item) => {
-                    //console.log(item);
-                    return(
-                    <ArticleCard key={item.idProducto} idCliente={cliente} perfil={true} estadoFinal={'ganado'} imagen={im1} titulo={item.descripcion} estado={'aprobado'} tipo={'articulo'} horizontal />
-                    );
-                  })}
+                      {productos.map((item) => {
+                        //console.log(item);
+                        return(
+                        <ArticleCard key={item.idProducto} idCliente={cliente} perfil={true} estadoFinal={'ganado'} imagen={im1} titulo={item.descripcion} estado={'aprobado'} tipo={'articulo'} horizontal />
+                        );
+                      })}
+                
                     
                   </Block>
                   
