@@ -6,8 +6,9 @@ import {
   Image
 } from "react-native";
 import icon from '../assets/confirm.png'
-import { Button, Text} from "galio-framework";
+import { Button, Text } from "galio-framework";
 import argonTheme from "../constants/Theme";
+import { StackActions } from '@react-navigation/native';
 
 
 const { width } = Dimensions.get("screen");
@@ -15,6 +16,11 @@ const { width } = Dimensions.get("screen");
 const RegistroFinalizado = (props) => {
 
   const { navigation } = props;
+
+  const resetStack = () => {
+    const popAction = StackActions.pop(2);
+    navigation.dispatch(popAction);
+  }
 
   return (
     <View style={styles.container}>
@@ -25,14 +31,14 @@ const RegistroFinalizado = (props) => {
           source={icon}
         />
         <Text style={styles.message}>
-          Tu articulo fue enviado con éxito. 
+          Tu articulo fue enviado con éxito.
           Te enviamos una confirmación
           por correo electrónico
           </Text>
       </View>
       <Button
         style={styles.button}
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => resetStack()}
       >
         Volver
       </Button>
@@ -80,9 +86,9 @@ const styles = StyleSheet.create({
     marginTop: 40
   },
   button: {
-		borderRadius: 10,
-		backgroundColor: '#3483FA',
-	}
+    borderRadius: 10,
+    backgroundColor: '#3483FA',
+  }
 });
 
 
