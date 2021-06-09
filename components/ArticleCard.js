@@ -1,16 +1,26 @@
 import React from 'react';
 import { withNavigation } from '@react-navigation/compat';
 import PropTypes from 'prop-types';
-import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback, View } from 'react-native';
+import { StyleSheet, Image, TouchableWithoutFeedback, View } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
-
 import { argonTheme } from '../constants';
+const { getTrackSubasta } = require("../services/registroDeSubasta.service")
 
 
 class ArticleCard extends React.Component {
+
+  track = async (idCliente) => {
+    try {
+      const res1 = await getTrackSubasta(this.props.idCliente,7);
+      //console.log(idCliente);
+    } catch (error) {
+        console.log(error);
+    }
+  }
   render() {
-    const { navigation, item, horizontal, full, style, ctaColor, imageStyle, titulo, estado, tipo, perfil, estadoFinal} = this.props;
     
+    const { navigation, item, horizontal, full, style, ctaColor, imageStyle, titulo, estado, tipo, perfil, estadoFinal, idCliente} = this.props;
+    //this.track(idCliente);
     const imageStyles = [
       full ? styles.fullImage : styles.horizontalImage,
       imageStyle

@@ -1,15 +1,8 @@
-import React, { useState} from "react";
+import React from "react";
 import {
-  StyleSheet,
-  ImageBackground,
-  Dimensions,
-  StatusBar,
-  KeyboardAvoidingView,
-  ScrollView,
-  View
+  Dimensions
 } from "react-native";
-import { Block, Checkbox, Text, theme } from "galio-framework";
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 
 const { width, height } = Dimensions.get("screen");
 
@@ -17,27 +10,27 @@ class PickerSelect extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        opciones:this.props.list,
-        categoriaSeleccionada:''
+      opciones: this.props.list,
+      categoriaSeleccionada: ''
     }
   }
 
   render() {
-      return(
-            <Picker
-                selectedValue={this.state.categoriaSeleccionada}
-                style={{height:44, width: this.props.width, marginTop:10}}
-                onValueChange={(itemValue) =>
-                this.setState({categoriaSeleccionada: itemValue})
-                }>
-                {
-                    this.state.opciones.map(valor => {
-                        return <Picker.Item label={valor} value={valor} />
-                    })
-                }
-                
-            </Picker>
-      );
+    return (
+      <Picker
+        selectedValue={this.state.categoriaSeleccionada}
+        style={{ height: 44, width: this.props.width, marginTop: 10 }}
+        onValueChange={(itemValue) =>
+          this.setState({ categoriaSeleccionada: itemValue })
+        }>
+        {
+          this.state.opciones.map(valor => {
+            return <Picker.Item key={valor} label={valor} value={valor} />
+          })
+        }
+
+      </Picker>
+    );
   }
 
 }

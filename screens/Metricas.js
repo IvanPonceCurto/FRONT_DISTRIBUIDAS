@@ -3,14 +3,10 @@ import {
   StyleSheet,
   Dimensions
 } from "react-native";
-import { Block, Text, theme } from "galio-framework";
+import { Block, Text} from "galio-framework";
 import {
   LineChart,
   BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
 } from "react-native-chart-kit";
 import { ScrollView } from "react-native-gesture-handler";
 

@@ -1,24 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Dimensions,
   ScrollView,
-  Image,
-  ImageBackground,
-  Platform
+  Image
 } from "react-native";
-import { Block, Text, theme } from "galio-framework";
-import { Card, Icon } from '../components';
+import { Block, Text, theme} from "galio-framework";
+import { Icon } from '../components';
 import { Button } from "../components";
-import { Images, argonTheme } from "../constants";
-import { HeaderHeight } from "../constants/utils";
-import articles from '../constants/articles';
+import { argonTheme } from "../constants/index";
 import ArticleCard from '../components/ArticleCard';
 import im1 from '../assets/imgs/s20.jpg';
 import im2 from '../assets/imgs/rolex.jpg';
 import im3 from '../assets/imgs/anillo.jpg';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+const { getPersona } = require("../services/persona.service");
+const { getTrackSubasta } = require("../services/registroDeSubasta.service");
+const { getRegistrosByIdCliente } = require("../services/registroDeSubasta.service")
+const { getProducto } = require("../services/producto.service");
 
-const tevez = require("../assets/imgs/carlitos.jpg")
+const tevez = require("../assets/imgs/carlitos.jpg");
 const cliente = {
                   idCliente: 42395030,
                   categoria:'Platino'
@@ -39,8 +40,80 @@ const { width, height } = Dimensions.get("screen");
 
 const thumbMeasure = (width - 48 - 32) / 3;
 
-class Profile extends React.Component {
-  render() {
+const Profile = (props) => {
+
+  const [categoria, setCategoria] = useState();
+  const [direccion, setDireccion] = useState();
+  const [nombre, setNombre] = useState();
+  const [cliente, setCliente] = useState();
+  const [componente, setComponente] = useState();
+  const [nombreProductos, setNombreProductos] = useState([]);
+  const [subastasParticipadas, setSubastasParticipadas] = useState('');
+  const [listaTarjetas, setListaTarjetas] = useState([]);
+
+  useEffect(() => {
+    recuperar();
+    obtenerCards();
+    obtenerNombreProductos();
+  }, []);
+
+  obtenerNombreProductos = async () => {
+    try {
+        var listaProductos = [];
+        listaTarjetas.forEach(async item => {
+          var objeto = await getProducto(item.producto);
+          //console.log(objeto.producto.descripcion);
+          listaProductos.push(objeto.producto);
+          setNombreProductos(listaProductos);
+      });
+
+    } catch(error) {
+        console.log(error);
+    }
+  }
+
+  const obtenerCards = async () => {
+    try {
+      const res1 = await getRegistrosByIdCliente(cliente);
+      var listaPujas = res1.listaPujasDeCliente;
+      var listaCards = [];
+      var flag = false;
+      console.log("hola");
+      listaPujas.forEach(i => {
+          for (var j = 0; j < listaCards.length; j++){
+              if(i.producto == listaCards[j].producto){
+                flag = true;
+              }
+          }
+        if(flag == false){
+          listaCards.push(i)
+        }
+        flag = false;
+      });
+      setSubastasParticipadas(listaCards.length);
+      setListaTarjetas(listaCards);
+      
+    }catch (error) {
+        console.log(error);
+    }
+  }
+
+  const recuperar = async () => {
+    try {
+      const categoriaCliente = await AsyncStorage.getItem('categoria');
+      const idCliente = await AsyncStorage.getItem('idCliente');
+      const res = await getPersona(idCliente);
+      //console.log(res);
+      setCliente(idCliente);
+      setCategoria(categoriaCliente);
+      setNombre(res.persona.nombre);
+      setDireccion(res.persona.direccion);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+  const aux = nombreProductos;
+
     return (
       <Block flex style={styles.profile}>
         <Block flex>
@@ -83,7 +156,7 @@ class Profile extends React.Component {
                         size={18}
                         style={{ marginBottom: 4 }}
                       >
-                        10
+                        {subastasParticipadas}
                       </Text>
                       <Block>
                         <Text style={{textAlign: 'center'}} size={12} color={argonTheme.COLORS.TEXT}>Subastas</Text>
@@ -109,10 +182,10 @@ class Profile extends React.Component {
                 <Block flex>
                   <Block middle style={styles.nameInfo}>
                     <Text bold size={28} color="#32325D">
-                      {persona.nombre} {persona.apellido}
+                      {nombre} {persona.apellido}
                     </Text>
                     <Text size={18} color="#32325D" style={{ marginTop: 8 }}>
-                      {persona.dirección}
+                      {direccion}
                     </Text>
                     <Block row style={{ marginTop: 2 }}>
                       <Icon 
@@ -122,7 +195,7 @@ class Profile extends React.Component {
                         color='brown'
                       />
                       <Text size={16} color="#32325D" style={{ marginTop: 2 }}>
-                        {cliente.categoria}
+                        {categoria}
                       </Text>
                     </Block>
                   </Block>
@@ -130,19 +203,14 @@ class Profile extends React.Component {
                     <Block style={styles.divider} />
                   </Block>
                   <Block middle>
-                    <ArticleCard perfil={true} estadoFinal={'ganado'} imagen={im1} titulo={'S20'} estado={'aprobado'} tipo={'articulo'} horizontal />
-                    <ArticleCard perfil={true} estadoFinal={'perdido'} imagen={im2} titulo={'Reloj Rolex'} estado={'rechazado'} tipo={'coleccion'} horizontal />
-                    <ArticleCard perfil={true} estadoFinal={'ganado'} imagen={im3} titulo={'Anillo de oro'} estado={'revision'} tipo={'articulo'} horizontal />
-                    <Button
-                      color="transparent"
-                      textStyle={{
-                        color: "#233DD2",
-                        fontWeight: "500",
-                        fontSize: 16
-                      }}
-                    >
-                      Ver más
-                    </Button>
+                    
+                  {aux.map((item) => {
+                    //console.log(item);
+                    return(
+                    <ArticleCard key={item.idProducto} idCliente={cliente} perfil={true} estadoFinal={'ganado'} imagen={im1} titulo={item.descripcion} estado={'aprobado'} tipo={'articulo'} horizontal />
+                    );
+                  })}
+                    
                   </Block>
                   
                 </Block>
@@ -153,7 +221,7 @@ class Profile extends React.Component {
       </Block>
     );
   }
-}
+
 
 const styles = StyleSheet.create({
   profile: {

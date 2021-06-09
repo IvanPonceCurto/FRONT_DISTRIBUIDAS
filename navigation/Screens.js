@@ -1,11 +1,8 @@
 import React from "react";
-import { Easing, Animated, Dimensions } from "react-native";
-
+import { Dimensions } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-import { Block } from "galio-framework";
 
 // screens
 import Home from "../screens/Home";
@@ -13,17 +10,25 @@ import Onboarding from "../screens/Onboarding";
 import Pro from "../screens/Pro";
 import Profile from "../screens/Profile";
 import Register from "../screens/Register";
-import Elements from "../screens/Elements";
-import Articles from "../screens/Articles";
-import Articulos from "../screens/Articulos";
+import Registro from "../screens/Registro";
+import Producto from "../screens/Producto";
+import Pujar from "../screens/Pujar";
 import Metricas from "../screens/Metricas";
 import TrackSubasta from "../screens/TrackSubasta";
+import RegistroFinalizado from "../screens/RegistroFinalizado";
+import SelectUserImage from "../screens/SelectUserImage";
+import InputPM from "../components/InputPM";
+import PaymentsMethod from "../components/paymentsMethod"
+import CargaCorrecta from "../components/CargaCorrecta";
+import Articulos from "../screens/Articulos";
+import SelectArticleImage from "../screens/SelectArticleImage";
+import ArticuloEnviado from "../screens/ArticuloEnviado";
 // drawer
 import CustomDrawerContent from "./Menu";
 
 // header for screens
-import { Icon, Header } from "../components";
-import { argonTheme, tabs } from "../constants";
+import { Header } from "../components";
+
 
 const { width } = Dimensions.get("screen");
 
@@ -31,75 +36,9 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
-function ElementsStack(props) {
-  return (
-    <Stack.Navigator mode="card" headerMode="screen">
-      <Stack.Screen
-        name="Elements"
-        component={Elements}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header title="Elements" navigation={navigation} scene={scene} />
-          ),
-          cardStyle: { backgroundColor: "#F8F9FE" }
-        }}
-      />
-            <Stack.Screen
-        name="Pro"
-        component={Pro}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              title=""
-              back
-              white
-              transparent
-              navigation={navigation}
-              scene={scene}
-            />
-          ),
-          headerTransparent: true
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
 
-function ArticlesStack(props) {
-  return (
-    <Stack.Navigator mode="card" headerMode="screen">
-      <Stack.Screen
-        name="Articles"
-        component={Articles}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header title="Articles" navigation={navigation} scene={scene} />
-          ),
-          cardStyle: { backgroundColor: "#F8F9FE" }
-        }}
-      />
-            <Stack.Screen
-        name="Pro"
-        component={Pro}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              title=""
-              back
-              white
-              transparent
-              navigation={navigation}
-              scene={scene}
-            />
-          ),
-          headerTransparent: true
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
 
-function SubastarStack (props) {
+function SubastarStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
@@ -109,13 +48,13 @@ function SubastarStack (props) {
           header: ({ navigation, scene }) => (
             <Header
               transparent
-              white
+
               title="Subastar"
               subasta={true}
               bgColor={"#EEBB00"}
               navigation={navigation}
               scene={scene}
-              //back
+            //back
             />
           ),
           cardStyle: { backgroundColor: "#FFFFFF" },
@@ -125,8 +64,49 @@ function SubastarStack (props) {
       <Stack.Screen
         name="Articulos"
         component={Articulos}
-        bgColor={"#EEBB00"}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Mis Articulos"
+              bgColor={"#EEBB00"}
+              navigation={navigation}
+              scene={scene}
+              back
+            />
+          )
+        }}
       />
+      <Stack.Screen
+        name="Seleccionar Imagen Articulo"
+        component={SelectArticleImage}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title=""
+              bgColor={"#EEBB00"}
+              navigation={navigation}
+              scene={scene}
+              back
+            />
+          )
+        }}
+      />
+      <Stack.Screen
+        name="Articulo Enviado"
+        component={ArticuloEnviado}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title=""
+              bgColor={"#EEBB00"}
+              navigation={navigation}
+              scene={scene}
+              back
+            />
+          )
+        }}
+      />
+
     </Stack.Navigator>
   );
 }
@@ -136,34 +116,60 @@ function SubastarStack (props) {
 function ProfileStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
-        <Stack.Screen
-          name="Perfil"
-          component={Profile}
-          options={{
-            header: ({ navigation, scene }) => (
-              <Header
-                transparent
-                white
-                title="Subastar"
-                perfil={true}
-                bgColor={"#EEBB00"}
-                navigation={navigation}
-                scene={scene}
-              />
-            ),
-            cardStyle: { backgroundColor: "#FFFFFF" },
-            headerTransparent: true
-          }}
-        />
-        <Stack.Screen
-          name="Metricas"
-          component={Metricas}
-        />
-        <Stack.Screen
-          name="TrackSubasta"
-          component={TrackSubasta}
-        />
-      </Stack.Navigator>
+      <Stack.Screen
+        name="Perfil"
+        component={Profile}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              transparent
+              title="Subastar"
+              perfil={true}
+              bgColor={"#EEBB00"}
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#FFFFFF" },
+          headerTransparent: true
+        }}
+      />
+      <Stack.Screen
+        name="Metricas"
+        component={Metricas}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+
+              back
+              title="Metricas"
+
+              bgColor={"#EEBB00"}
+              navigation={navigation}
+              scene={scene}
+            />
+          )
+
+        }}
+      />
+      <Stack.Screen
+        name="TrackSubasta"
+        component={TrackSubasta}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+
+              back
+              title="Track Subasta"
+
+              bgColor={"#EEBB00"}
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+        }}
+      />
+    </Stack.Navigator>
   );
 }
 
@@ -177,7 +183,9 @@ function HomeStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               title="Home"
+              home={true}
               search
+              bgColor={'#EEBB00'}
               options
               navigation={navigation}
               scene={scene}
@@ -187,22 +195,61 @@ function HomeStack(props) {
         }}
       />
       <Stack.Screen
-        name="Pro"
+        name="Catalogo"
         component={Pro}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Catalogo"
+              back
+              home={true}
+              bgColor={'#EEBB00'}
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+
+          headerTransparent: true,
+          cardStyle: { backgroundColor: '#3483FA' }
+        }}
+      />
+      <Stack.Screen
+        name="Producto"
+        component={Producto}
         options={{
           header: ({ navigation, scene }) => (
             <Header
               title=""
               back
-              white
+              iconColor={'#FFFFFF'}
               transparent
               navigation={navigation}
               scene={scene}
             />
           ),
-          headerTransparent: true
+          headerTransparent: true,
+          cardStyle: { backgroundColor: '#EEBB00' }
         }}
       />
+      <Stack.Screen
+        name="Pujar"
+        component={Pujar}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title=""
+              back
+              iconColor={'#FFFFFF'}
+              transparent
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: true,
+          cardStyle: { backgroundColor: '#EEBB00' }
+        }}
+      />
+
     </Stack.Navigator>
   );
 }
@@ -218,8 +265,88 @@ export default function OnboardingStack(props) {
         }}
       />
       <Stack.Screen name="App" component={AppStack} />
+      <Stack.Screen
+        name="Registro"
+        component={Registro}
+      />
+      <Stack.Screen
+        name="Seleccionar Imagen"
+        component={SelectUserImage}
+      />
+      <Stack.Screen
+        name="Registro Finalizado"
+        component={RegistroFinalizado}
+      />
     </Stack.Navigator>
   );
+}
+
+const cardsList = [
+  {
+    cardNumber: "4517650612345678"
+  },
+  {
+    cardNumber: "4517650612345698"
+  }, {
+    cardNumber: "4517610612345699"
+  }
+];
+
+function MediosDePagoStack(props) {
+  return (
+    <Stack.Navigator mode="card" headerMode="screen">
+      <Stack.Screen
+        name="PM"
+        component={props => { return <PaymentsMethod {...props} lista={cardsList} /> }
+        }
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              back
+              title="Medios de Pago"
+              navigation={navigation}
+              scene={scene}
+              bgColor={"#EEBB00"}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" }
+        }}
+      />
+      <Stack.Screen
+        name="InputPM"
+        component={InputPM}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              back
+              title="Ingresar medio de pago"
+              navigation={navigation}
+              scene={scene}
+              bgColor={"#EEBB00"}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" }
+        }}
+      />
+      <Stack.Screen
+        name="CargaCorrecta"
+        component={CargaCorrecta}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              back
+              title="Carga correcta de medio de pago"
+              navigation={navigation}
+              scene={scene}
+              bgColor={"#EEBB00"}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" }
+        }}
+      />
+
+    </Stack.Navigator>
+  )
 }
 
 function AppStack(props) {
@@ -256,8 +383,7 @@ function AppStack(props) {
       <Drawer.Screen name="Home" component={HomeStack} />
       <Drawer.Screen name="Perfil" component={ProfileStack} />
       <Drawer.Screen name="Subasta" component={SubastarStack} />
-      <Drawer.Screen name="Elements" component={ElementsStack} />
-      <Drawer.Screen name="Articles" component={ArticlesStack} />
+      <Drawer.Screen name="PM" component={MediosDePagoStack} />
     </Drawer.Navigator>
   );
 }
