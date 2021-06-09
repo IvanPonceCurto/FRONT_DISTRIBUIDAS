@@ -47,7 +47,7 @@ class CustomModal extends React.Component{
                         {this.conditionalRender(this.state.decir)}
                         <Block flex row style={{marginTop:30}}>
                             <Button style={stylesSheet.botonSi} onPress={fetchDeleteMethod(this.state.clientNumber,this.state.cardNumber),this.changeState}>SI</Button>
-                            <Button style={stylesSheet.botonNo} onPress={this.changeState}>NO</Button>
+                            <Button style={stylesSheet.botonNo} onPress={this.state.visible=false}>NO</Button>
                     </Block>
                     </Block>
                 </Block>

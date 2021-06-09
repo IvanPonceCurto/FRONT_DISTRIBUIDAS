@@ -239,7 +239,9 @@ const styles = StyleSheet.create({
     width: '100%',
     fontSize: 16,
     fontWeight:'normal',
-    paddingLeft:theme.SIZES.BASE*8.5,
+    textAlign:'center',
+    textAlignVertical:'center',
+    paddingLeft:theme.SIZES.BASE*2.5,
   },
   navbar: {
     paddingVertical: 0,

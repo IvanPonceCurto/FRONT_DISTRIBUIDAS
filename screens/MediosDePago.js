@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Block, theme, Text } from "galio-framework";
 import React, { useEffect, useState } from "react";
-import { Dimensions, View, Image } from "react-native";
+import { Dimensions, View, Image, StyleSheet, ScrollView} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import CardPaymentMethod from "../components/CardPaymentMethod";
 
@@ -13,23 +13,20 @@ export default function MediosDePago({navigation}) {
   const [listaTarjetas, setListaTarjetas] = useState([]);
   const [numeroCliente, setNumeroCliente] = useState("");
 
-  //useEffect(()=>{fetchClientNumber(setNumeroCliente)},[numeroCliente]) 
   useEffect(()=>{fetchPaymentsMethod(5, setListaTarjetas)},[])
 
-  //useEffect(()=>{fetchClientNumber(setNumeroCliente)})
 
   console.log("Lista: " + listaTarjetas);
 
   return (
-    <View>
-      <Text h4 style={{ paddingLeft: 20, paddingTop: 10 }}>
-        Add Payment Method
-      </Text>
-      {listaTarjetas.map((e) => {
-        var cardObject = JSON.stringify(e)
-        console.log("CardObject "+cardObject)
-        return <CardPaymentMethod horizontal cardsObject={cardObject} clientNumber={5} />;
-      })}
+    <ScrollView>
+      <Block style={styles.cardsContainer}>
+          {listaTarjetas.map((e) => {
+            console.log(e)
+            var cardObject = JSON.stringify(e)
+            return <CardPaymentMethod style={styles.card} key={e.cardNumber} horizontal cardsObject={cardObject} clientNumber={5} />;
+          })}
+      </Block>
       <View
       style={{
         alignItems: "flex-end",
@@ -40,12 +37,12 @@ export default function MediosDePago({navigation}) {
     >
       <TouchableOpacity
         onPress={() => navigation.navigate("InputPM")}
-        style={{ alignItems: "flex-end" }}
+        style={styles.addBtnContainer}
       >
         <Image source={plusIcon}></Image>
       </TouchableOpacity>
     </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -75,3 +72,25 @@ const renderButton = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  addBtnContainer: {
+    alignItems: "flex-end",
+    marginTop:30,
+    marginRight:10    
+  },
+  cardsContainer: {
+    
+    marginVertical:50
+  },
+  card:{
+    marginHorizontal:10
+  },
+  title:{
+    paddingLeft: 20,
+    paddingTop: 10,
+    marginTop:20
+  }
+  
+});
+

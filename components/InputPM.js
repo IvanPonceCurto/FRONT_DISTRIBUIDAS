@@ -80,7 +80,7 @@ class InputPM extends React.Component{
           ];
         return(
             <View>
-                <Text h4 style={stylesSheet.titulo} size={20}>AÑADIR NUEVA TARJETA</Text>
+            
                 <Block style={{paddingHorizontal:theme.SIZES.BASE}}>
 
                     <Input right
@@ -134,7 +134,7 @@ class InputPM extends React.Component{
     renderLoadButton= () => {
         return(
         <View style={{alignItems:"flex-end",bottom:0,right:1,marginBottom:ancho-50}}>
-        <TouchableOpacity onPress={()=>this.sendData()} >
+        <TouchableOpacity  onPress={()=>this.sendData()} >
         <Image source={addTarjeta}></Image> 
     </TouchableOpacity>
     </View>)

@@ -294,7 +294,7 @@ function MediosDePagoStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              back
+        
               title="Medios de Pago"
               navigation={navigation}
               scene={scene}
@@ -374,8 +374,8 @@ function AppStack(props) {
     >
       <Drawer.Screen name="Home" component={HomeStack} />
       <Drawer.Screen name="Perfil" component={ProfileStack} />
-      <Drawer.Screen name="Subasta" component={SubastarStack} />
-      <Drawer.Screen name="PM" component={MediosDePagoStack} />
+      <Drawer.Screen name="Subastar" component={SubastarStack} />
+      <Drawer.Screen name="Medios de Pago" component={MediosDePagoStack} />
     </Drawer.Navigator>
   );
 }
