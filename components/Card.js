@@ -5,8 +5,6 @@ import { StyleSheet, Image, TouchableWithoutFeedback } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
 import { argonTheme } from '../constants';
 
-const {getPersonaById} = require('../services/persona.service')
-
 
 function Card(props){
 
@@ -59,7 +57,7 @@ function Card(props){
           <Block flex space="between" style={styles.cardDescription}>
             <Block>
                 <Text size={14} style={styles.cardTitle}>Subasta N°{item.idSubasta}</Text>
-                <Text size={12}>Fecha: {item.fecha}</Text>
+                <Text size={12}>Fecha de Finalización: {item.fecha}</Text>
                 <Text size={12}>Rematador: {subastador.nombre}</Text>
             </Block>
             <Block row={horizontal} space="between">

@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
-import { Image, StyleSheet, Dimensions, Platform,ScrollView,TouchableWithoutFeedback} from 'react-native';
-import { Block, Button, Text, theme } from 'galio-framework'; 
+import { StyleSheet, Dimensions, Platform,ScrollView} from 'react-native';
+import { Block, Text, theme } from 'galio-framework'; 
 import {argonTheme } from '../constants/';
 import { HeaderHeight } from "../constants/utils";
 import PrimaryProductCard from '../components/PrimaryProductCard';
@@ -15,8 +15,6 @@ const { height, width } = Dimensions.get('screen');
 export default function Pro({route,navigation}){
  
   var subasta = route.params.item
-  const[productoActual,setProductoActual] = useState(subasta.catalogo.productos[0])
-  const[selected, setSelected] = useState({});
 
   const[subastador,setSubastador] = useState({})
 
@@ -50,7 +48,7 @@ export default function Pro({route,navigation}){
                     <Block flex style={styles.catalogoCard}>
                       <Block style={styles.cardHeader}>
                         <Text size={20} style={{textAlign:'center',fontWeight:'bold',marginTop:10}}>Subasta Nro: {subasta.idSubasta}</Text>
-                        <Text style = {{marginTop:15,marginLeft:20}}>Fecha: {subasta.fecha}</Text>
+                        <Text style = {{marginTop:15,marginLeft:20}}>Fecha de Finalización: {subasta.fecha}</Text>
                         <Block row space="between">
                           <Text style = {{marginTop:10,marginLeft:20}}>Rematador: {subastador.nombre}</Text>
                           <Block  style={{backgroundColor:subasta.colorCategoria,

@@ -1,81 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView, Dimensions, Platform, ScrollView, KeyboardAvoidingView, View } from 'react-native';
+import { StyleSheet, Dimensions, Platform, ScrollView, KeyboardAvoidingView, View } from 'react-native';
 import { Block, Button, Text, theme } from 'galio-framework';
 import { HeaderHeight } from "../constants/utils";
 import { Picker } from '@react-native-picker/picker';
 import { Input } from "../components";
-import { useForm, Controller, set } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { SliderBox } from 'react-native-image-slider-box'
-import Dialog, { SlideAnimation, DialogContent } from 'react-native-popup-dialog';
-import {CustomModal} from '../components/CustomModal';
-const {getPujaActual,nuevaPuja} = require('../services/registroDeSubasta.service')
+import Modal from 'react-native-modal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const {getPujaActual,nuevaPuja} = require('../services/registroDeSubasta.service')
+const {getMetodosDePago} = require('../services/mediosDePagoService');
 const { height, width } = Dimensions.get('screen');
 
+const deviceWidth = Dimensions.get('window').width;
+
 const altura = height - height * 0.40;
-const mediosDePago = [
-  {
-    idMedio: '1234',
-    tipo: 'VISA',
-    nroTarjeta: '4534563327'
-  },
-  {
-    idMedio: '1234',
-    tipo: 'VISA',
-    nroTarjeta: '4534563395'
-  },
-  {
-    idMedio: '1234',
-    tipo: 'VISA',
-    nroTarjeta: '4534563355'
-  }
-]
-
-//picker select fijarse meterle un preventDefault()
-class RenderPicker extends React.Component {
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      mediosDePago: this.props.mediosDePagoList,
-      selectedMedioDePago: 'Medio de Pago'
-    }
-  }
-
-  render() {
-    return (
-
-      <Picker
-
-        style={styles.picker}
-        selectedValue={this.state.selectedMedioDePago}
-        onValueChange={(itemValue) => this.setState({ selectedMedioDePago: itemValue })}
-      >
-        {
-          this.state.mediosDePago.map(tarjeta => {
-
-            return <Picker.Item key={tarjeta.idMedio} label={tarjeta.tipo + ': ' + '****' + tarjeta.nroTarjeta.substring(6, 10)} value={tarjeta.idMedio} />
-          })
-        }
-      </Picker>
-
-    )
-  }
-
-}
 
 
 
 //COSAS A HACER EN PANTALLA: 
-//falta pegarle a los medios de pago, para esto necesito sacar el idCliente del localstorage una vez que se loguee, y con ese id le pego al servicio.
-//falta hacer controles sobre cuando puja
+//falta retocar estilos del modal
 
 export default function Pujar({route,navigation}) {
 
   const objeto = route.params;
 	const subasta = objeto.subasta;
 	const producto = objeto.producto;
-
+  
 	const fotos = producto.lightfotos.map(foto =>{
 		return foto.referencia_url;
 	})
@@ -83,12 +35,17 @@ export default function Pujar({route,navigation}) {
   const[oferta,setOferta] = useState();
   const[pujaActual,setPujaActual] = useState(producto.itemsCatalogo.precioBase);
   const[open,setOpen] = useState(false);
-  const[messageError,setMessageError] = useState("holaaaa");
+  const[mediosDePagos,setMediosDePago] = useState([]);
+  const[selectedValue,setSelectedValue] = useState('Elija su Medio de Pago')
   const [marginTopScrollView, setMarginTopScrollView] = useState('-20%')
   const { control, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = data => {
-    console.log(data);
-  };
+
+
+  const obtenerMediosDePago = async function(){
+    const idCliente = await AsyncStorage.getItem('idCliente');
+    await getMetodosDePago(idCliente,setMediosDePago);
+
+  }
 
 	const obtenerPuja = async function(){
 	  var requestOptions = {
@@ -107,12 +64,13 @@ export default function Pujar({route,navigation}) {
   
 	 useEffect(()=>{
 	   obtenerPuja()
+     obtenerMediosDePago()
 	 },[])
 	 
-  const pujar = function(){
-    //aca antes me falta controlar que el monto este bien
+  const pujar = async function(){
+    const idCliente = await AsyncStorage.getItem('idCliente');
     if(oferta > pujaActual && oferta >= producto.itemsCatalogo.precioBase *0.01 && oferta <= pujaActual*1.2){
-        nuevaPuja(subasta.idSubasta,producto.id_duenio,producto.idProducto,1,oferta,setPujaActual);
+        await nuevaPuja(subasta.idSubasta,producto.id_duenio,producto.idProducto,idCliente,oferta,setPujaActual);
     }else{
 
         setOpen(true)
@@ -141,7 +99,20 @@ export default function Pujar({route,navigation}) {
                 </View>
                 <View style={{ alignItems: 'center' }}>
                   <Block style={styles.pickerContainer}>
-                    <RenderPicker mediosDePagoList={mediosDePago} />
+                  <Picker
+
+                      style={styles.picker}
+                      selectedValue={selectedValue}
+                      onValueChange={(itemValue) => setSelectedValue(itemValue)}
+                      >
+                      {
+                        mediosDePagos.map(tarjeta => {
+
+                          return <Picker.Item key={tarjeta.cardNumber} label={'VISA: ' + '****' + tarjeta.cardNumber.substring(10, 16)} value={tarjeta.cardNumber} />
+                        })
+                      }
+                    </Picker>
+
                   </Block>
 
                   <Controller
@@ -169,7 +140,7 @@ export default function Pujar({route,navigation}) {
                     <Text style={styles.error}>
                       Este campo es obligatorio.
                     </Text>}
-                  
+                  <Text style={styles.linkStream}>http://stream.tv/subasta:{subasta.idSubasta}</Text>
                   <Button
                     style={styles.btnRealizarOferta}
                     
@@ -180,13 +151,17 @@ export default function Pujar({route,navigation}) {
                 </View>
               </KeyboardAvoidingView>
             </Block>
-
           </ScrollView>
         </Block>
-  
-        
-            
+        <Modal  deviceHeight={height} isVisible={open}>
+              <Block style={styles.modalContainer}>
+                <Text size={15} style={styles.modalText1}>El Monto ofertado debe ser mayor a {pujaActual+ producto.itemsCatalogo.precioBase *0.01}</Text>
+                <Text size={15} style={styles.modalText2}>El Monto ofertado debe ser menor a {pujaActual*1.2}</Text>
+                <Button style={styles.modalButton} onPress={()=>setOpen(false)}>OK</Button>
+              </Block>
+            </Modal>
     </KeyboardAvoidingView>
+    
   )
 }
 
@@ -202,6 +177,10 @@ const styles = StyleSheet.create({
     padding: 0
 
   },
+  linkStream:{
+    marginTop:10,
+    color:'#1A79B0'
+  },
   backgroundImageContainer: {
     width: width,
     height: height / 1.5
@@ -212,9 +191,24 @@ const styles = StyleSheet.create({
 
   },
   modalContainer:{
-      width:250,
+      width:350,
       height:150,
-      borderRadius:30
+      borderRadius:30,
+      alignSelf:'center',
+      backgroundColor:'#FFFFFF',
+      alignItems:'center'
+  },
+  modalText1:{
+      marginTop:20
+  },
+  modalText2:{
+    marginTop:5,
+    marginBottom:10
+  },
+  modalButton:{
+      backgroundColor:'#3483FA',
+      borderRadius:15,
+      marginTop:20
   },
   productCard: {
 

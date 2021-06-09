@@ -1,9 +1,8 @@
 import React,{useState,useEffect} from 'react';
-import { Image, StyleSheet, Dimensions, Platform, ScrollView, Modal } from 'react-native';
+import { Image, StyleSheet, Dimensions, Platform, ScrollView } from 'react-native';
 import { Block, Button, Text, theme } from 'galio-framework';
 import { HeaderHeight } from "../constants/utils";
 import { SliderBox } from 'react-native-image-slider-box'
-import { View } from 'native-base';
 const { height, width } = Dimensions.get('screen');
 
 
