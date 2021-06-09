@@ -52,12 +52,12 @@ const SelectArticleImage = ({ route, navigation }) => {
 	}
 
 	const createProductAndPhoto = async () => {
-		// const resProducto = await createProducto(data);
-		// const { nuevoProducto: { idProducto } } = resProducto;
-		// imageList.forEach(async (imagen) => {
-		// 	const resCludinary = await createFotoCloudinary(`data:image/jpeg;base64,${imagen.base64}`);
-		// 	await createFotoWithBase64(idProducto, resCludinary.url);			
-		// });
+		const resProducto = await createProducto(data);
+		const { nuevoProducto: { idProducto } } = resProducto;
+		imageList.forEach(async (imagen) => {
+			const resCludinary = await createFotoCloudinary(`data:image/jpeg;base64,${imagen.base64}`);
+			await createFotoWithBase64(idProducto, resCludinary.url);			
+		});
 		navigation.navigate("Articulo Enviado");
 	}
 
