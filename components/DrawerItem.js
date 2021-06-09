@@ -40,17 +40,17 @@ class DrawerItem extends React.Component {
       case "Perfil":
         return (
           <Icon
-            name="chart-pie-35"
-            family="ArgonExtra"
+            name="user"
+            family="Font-Awesome"
             size={14}
             color={focused ? "white" : argonTheme.COLORS.WARNING}
           />
         );
-      case "Subasta":
+      case "Subastar":
         return (
           <Icon
-            name="calendar-date"
-            family="ArgonExtra"
+            name="gavel"
+            family="Font-Awesome"
             size={14}
             color={focused ? "white" : argonTheme.COLORS.INFO}
           />

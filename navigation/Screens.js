@@ -382,7 +382,7 @@ function AppStack(props) {
     >
       <Drawer.Screen name="Home" component={HomeStack} />
       <Drawer.Screen name="Perfil" component={ProfileStack} />
-      <Drawer.Screen name="Subasta" component={SubastarStack} />
+      <Drawer.Screen name="Subastar" component={SubastarStack} />
       <Drawer.Screen name="PM" component={MediosDePagoStack} />
     </Drawer.Navigator>
   );
