@@ -153,13 +153,13 @@ export default function Pujar({route,navigation}) {
             </Block>
           </ScrollView>
         </Block>
-        <Modal  deviceHeight={height} isVisible={open}>
+        <Modal  coverScreen={false} deviceHeight={height*1.2} isVisible={open}>
               <Block style={styles.modalContainer}>
                 <Text size={15} style={styles.modalText1}>El Monto ofertado debe ser mayor a {pujaActual+ producto.itemsCatalogo.precioBase *0.01}</Text>
                 <Text size={15} style={styles.modalText2}>El Monto ofertado debe ser menor a {pujaActual*1.2}</Text>
                 <Button style={styles.modalButton} onPress={()=>setOpen(false)}>OK</Button>
               </Block>
-            </Modal>
+          </Modal>
     </KeyboardAvoidingView>
     
   )
@@ -188,7 +188,6 @@ const styles = StyleSheet.create({
   backgroundImage: {
     width: '100%',
     height: '100%'
-
   },
   modalContainer:{
       width:350,
