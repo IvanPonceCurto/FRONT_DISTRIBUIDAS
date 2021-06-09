@@ -3,19 +3,18 @@ import React from "react"
 import {View,StyleSheet} from "react-native"
 import { argonTheme } from "../constants"
 import {Modal} from "react-native"
+import {fetchDeleteMethod} from "../services/mediosDePago.service"
 
 
 class CustomModal extends React.Component{
     constructor(props){
         super(props)
-        console.log(this.props.visible+" "+this.props.decir)
         this.state={
             visible:this.props.visible,
             cardNumber:this.props.cardNumber,
-            añadirTarjeta:this.props.tarjeta
+            añadirTarjeta:this.props.tarjeta,
+            clientNumber: this.props.clientNumber
         }
-        console.log("Props acá:"+this.state.añadirTarjeta)
-        console.log("Estado"+this.state.visible)
     }
     changeState=(e)=>{
         e.preventDefault();
@@ -36,6 +35,7 @@ class CustomModal extends React.Component{
 
     render(){
         const isVisible=this.state.visible
+        console.log("visible"+this.props.visible)
         return(
             <View style={{alignItems:"center"}}>
             <Modal
@@ -46,7 +46,7 @@ class CustomModal extends React.Component{
                     <Block center style={stylesSheet.modalMostrar}>
                         {this.conditionalRender(this.state.decir)}
                         <Block flex row style={{marginTop:30}}>
-                            <Button style={stylesSheet.botonSi} onPress={this.changeState}>SI</Button>
+                            <Button style={stylesSheet.botonSi} onPress={fetchDeleteMethod(this.state.clientNumber,this.state.cardNumber),this.changeState}>SI</Button>
                             <Button style={stylesSheet.botonNo} onPress={this.changeState}>NO</Button>
                     </Block>
                     </Block>

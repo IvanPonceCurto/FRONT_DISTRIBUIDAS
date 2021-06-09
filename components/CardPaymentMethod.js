@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import {StyleSheet, Image} from 'react-native'
@@ -13,8 +13,9 @@ const Menu = require("../assets/imgs/visa.png");
 const master = require ("../assets/imgs/mastercard-logo.png")
 const borrarIcon = require("../assets/imgs/Vector.png")
 const validateIcon = require("../assets/imgs/validate.png")
+const {fetchDeleteMethod} = require("../services/mediosDePago.service")
 
-const visaDigits = "45176506"
+const visaDigits = "4"
 //Objetivo crear componente Card que nos permita 
 
 class CardPaymentMethod extends React.Component{
@@ -23,22 +24,21 @@ class CardPaymentMethod extends React.Component{
     constructor(props){
       super(props);
       this.state={
-        cardsObject:this.props.cardsObject,
+        cardsObject:JSON.parse(this.props.cardsObject),
         uniqueKey:0,
-        isVisible:false
+        isVisible:false,
+        clientNumber: this.props.clientNumber
       }
-    }
-    sumarKey=()=>{
-      this.state.uniqueKey++;
     }
 
     changeState=(e)=>{
-      //e.preventDefault();
+      //.preventDefault();
       this.setState({isVisible:true})
+      console.log("PASO POR ACA")
     }
 
     renderButtonOnValidation=(isValid)=>{
-      if(isValid){
+      if(!isValid){
         return(
           <TouchableOpacity disabled={true} style={{alignItems:"flex-end",paddingTop:0}}>
            <Image style={{alignItems:'flex-end'}}source={validateIcon}></Image>
@@ -57,7 +57,7 @@ class CardPaymentMethod extends React.Component{
 
     renderImagenCard=(cardNumber,imgStyles,imgContainer)=>{
       console.log("Numero de tarjeta"+cardNumber)
-      if(cardNumber.substring(0,8)===visaDigits){
+      if(cardNumber.substring(0,1)===visaDigits){
         return(
         <Block flex center row={"horizontal"} style={{maxHeight:50,maxWidth:100,alignContent:'center'}}> 
             <Image source={Menu} style={imgStyles,{height:50,width:100,alignItems:'center'}}></Image>
@@ -87,7 +87,7 @@ class CardPaymentMethod extends React.Component{
     
     
     return(
-          <Block row={"horizontal"} card  height={80} style={cardContainer} key={this.sumarKey()}>
+          <Block row={"horizontal"} card  height={80} style={cardContainer} key={this.state.cardsObject.cardNumber}>
             <Block row={"horizontal"} height={50} alignItems={"center"} paddingLeft={20}>
               {this.renderImagenCard(this.state.cardsObject.cardNumber,imageStyles,imgContainer)}
             </Block>
@@ -98,7 +98,7 @@ class CardPaymentMethod extends React.Component{
               {/*<Button onPress={props=>{<CustomModal {...props} visible={true}/>;console.log("e")}} style={{borderRadius:40}}>BORRAR</Button>*/}
             </Block> 
             <Block row={"horizontal"} height={10} alignItems={"center"} >
-            {this.renderButtonOnValidation(false)
+            {this.renderButtonOnValidation(this.state.cardsObject.isValidated)
             //con este bool ponemos el otro iconito o no.
             }
             
@@ -113,11 +113,11 @@ class CardPaymentMethod extends React.Component{
     
     renderCosaLoca=()=>{
       const isVisible=this.state.isVisible;
-      const cardNumber=this.state.cardNumber
+      const cardNumber=this.state.cardsObject.cardNumber
       const toDecir=true;
       if(isVisible){
         return(
-          <CustomModal visible={isVisible} cardNumber={cardNumber} decir={toDecir}>
+          <CustomModal visible={isVisible} cardNumber={cardNumber} decir={toDecir} clientNumber={this.state.clientNumber}>
           </CustomModal>
           
         )
@@ -129,7 +129,7 @@ class CardPaymentMethod extends React.Component{
       return(
         <Block>
           {this.renderCards()}
-          {this.renderCosaLoca()} 
+          {this.renderCosaLoca()}
         </Block>
         
         

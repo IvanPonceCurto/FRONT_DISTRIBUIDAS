@@ -12,7 +12,7 @@ import Profile from "../screens/Profile";
 import Register from "../screens/Register";
 import Registro from "../screens/Registro";
 import Producto from "../screens/Producto";
-import Pujar from "../screens/Pujar";
+import Pujar from "../screens/Pujar"; 
 import Metricas from "../screens/Metricas";
 import TrackSubasta from "../screens/TrackSubasta";
 import RegistroFinalizado from "../screens/RegistroFinalizado";
@@ -23,13 +23,15 @@ import CargaCorrecta from "../components/CargaCorrecta";
 import Articulos from "../screens/Articulos";
 import SelectArticleImage from "../screens/SelectArticleImage";
 import ArticuloEnviado from "../screens/ArticuloEnviado";
+import MediosDePago from "../screens/MediosDePago"
+import InputPMComponent from "../components/InputPMComponent"
 // drawer
 import CustomDrawerContent from "./Menu";
 
 // header for screens
 import { Header } from "../components";
 
-
+const {fetchPaymentsMethod} = require('../services/mediosDePago.service')
 const { width } = Dimensions.get("screen");
 
 const Stack = createStackNavigator();
@@ -281,24 +283,14 @@ export default function OnboardingStack(props) {
   );
 }
 
-const cardsList = [
-  {
-    cardNumber: "4517650612345678"
-  },
-  {
-    cardNumber: "4517650612345698"
-  }, {
-    cardNumber: "4517610612345699"
-  }
-];
+
 
 function MediosDePagoStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
         name="PM"
-        component={props => { return <PaymentsMethod {...props} lista={cardsList} /> }
-        }
+        component={MediosDePago}
         options={{
           header: ({ navigation, scene }) => (
             <Header
@@ -314,7 +306,7 @@ function MediosDePagoStack(props) {
       />
       <Stack.Screen
         name="InputPM"
-        component={InputPM}
+        component={InputPMComponent}
         options={{
           header: ({ navigation, scene }) => (
             <Header
