@@ -1,5 +1,24 @@
 const { default: AsyncStorage } = require("@react-native-async-storage/async-storage");
 
+const postPaymentsMethod=(formData)=>{
+    try{
+        const requestOptions = {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify(formData)
+        }
+        console.log("Llamando con "+JSON.stringify(formData))
+        fetch(`https://distribuidas-backend.herokuapp.com/api/mediosdepago/paymentMethod`,requestOptions)
+        .then((res)=>{return res.json()}).then(res=>console.log(res)).catch(err=>console.log("ERR"+err))
+    }catch(err){
+        console.log("error"+err);
+    }
+
+}
+
+
 const fetchPaymentsMethod = (idCliente,setListaTarjetas)=>{
 
     try{
@@ -33,5 +52,6 @@ const fetchDeleteMethod=(idCliente,cardNumber,setListaTarjetas)=>{
 
 module.exports={
     fetchPaymentsMethod,
-    fetchDeleteMethod
+    fetchDeleteMethod,
+    postPaymentsMethod
 }

@@ -1,5 +1,5 @@
 import { Block, Text, Button, theme } from "galio-framework";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions, Image, Animated } from "react-native";
 import { Input } from ".";
 import Picker from "@react-native-picker/picker";
@@ -8,25 +8,46 @@ import CustomModal from "../components/CustomModal";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useForm, Controller } from "react-hook-form";
 import CustomizedPicker from "../components/CustomizedPicker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+const { postPaymentsMethod } = require("../services/mediosDePago.service");
 const addTarjeta = require("../assets/imgs/addTarjIcon.png");
 const ancho = Dimensions.get("screen").height;
 
+const getClient = async (setNumeroCliente) => {
+  const nc = await AsyncStorage.getItem("idCliente");
+  setNumeroCliente(nc);
+};
+const fetchPM = (formData, nc) => {
+  const objeto = {
+    cardNumber: formData.cardNumber,
+    CVV: formData.CVV,
+    expiryDate: formData.expiryDate,
+    idCliente: nc,
+    country: "Argentina", //Corregir para ver como lo saco del CustomPicker
+  };
+  return objeto;
+};
 export default function InputPMComponent({ navigation }) {
-  const [postPM, setPostPM] = useState({});
-  //const [listaPaises, setListaPaises] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState("Argentina");
+  const [postPM, setPostPM] = useState();
 
-  const onSubmit=(data)=>{
-    console.log({...data},)
-    navigation.navigate("CargaCorrecta",{cardNumber:data.cardNumber})
-  }
+  useEffect(() => {
+    getClient(setPostPM);
+  }, [postPM]);
+
+  const onSubmit = (data) => {
+    console.log({ ...data });
+    const objeto = fetchPM(data, postPM);
+    const objetoCreado = postPaymentsMethod(objeto);
+    navigation.navigate("CargaCorrecta", { cardNumber: data.cardNumber });
+  };
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  console.log(postPM);
   const inputStyles = [stylesSheet.input, stylesSheet.shadow];
   const listaPaises = [
     {
@@ -123,7 +144,7 @@ export default function InputPMComponent({ navigation }) {
             name="expiryDate"
             rules={{
               required: true,
-              pattern:  /^[0-9]{4}$/,
+              pattern: /^[0-9]{4}$/,
             }}
             defaultValue=""
           />
@@ -148,7 +169,12 @@ export default function InputPMComponent({ navigation }) {
           marginBottom: ancho - 50,
         }}
       >
-        <TouchableOpacity onPress={(formData) =>console.log("formData"+formData),handleSubmit(onSubmit)}>
+        <TouchableOpacity
+          onPress={
+            ((formData) => console.log("formData" + formData),
+            handleSubmit(onSubmit))
+          }
+        >
           <Image source={addTarjeta}></Image>
         </TouchableOpacity>
       </View>
@@ -212,17 +238,15 @@ const renderModalOnUpdate = () => {
   }
 };
 
-
 const stylesSheet = StyleSheet.create({
-    error:{
-        color:'red',
-        marginBottom:10
-    }
-    ,
-    formContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: '8%'
+  error: {
+    color: "red",
+    marginBottom: 10,
+  },
+  formContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: "8%",
   },
   botonSi: {
     paddingLeft: 10,
