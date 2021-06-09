@@ -32,8 +32,37 @@ const nuevaPuja = (idSubasta,idDuenio,idProducto,idCliente,importe) =>{
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
 }
+const getTrackSubasta = async(idCliente, idSubasta) => {
+	const body = {
+        idSubasta
+	}
+	try {
+		const res = await fetch('https://distribuidas-backend.herokuapp.com/api/registrosDeSubasta/getRegistrosBySubasta/'+idSubasta, {
+			method: 'GET',
+		});
+		const dataRes = await res.json();
+		return dataRes;
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+const getRegistrosByIdCliente = async(idCliente) => {
+	
+	try {
+		const res = await fetch('https://distribuidas-backend.herokuapp.com/api/registrosDeSubasta/getRegistrosByCliente/'+idCliente, {
+			method: 'GET',
+		});
+		const dataRes = await res.json();
+		return dataRes;
+	} catch (error) {
+		console.log(error);
+	}
+}
 
 module.exports = {
     getPujaActual,
-    nuevaPuja
+    nuevaPuja,
+    getTrackSubasta,
+    getRegistrosByIdCliente
 }
