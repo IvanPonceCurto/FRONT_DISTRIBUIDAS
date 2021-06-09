@@ -3,17 +3,19 @@ import {
 	StyleSheet,
 	Dimensions,
 	View,
-	ScrollView,
-	Modal
 } from "react-native";
 import { Text, theme } from "galio-framework";
 import { Switch, Button, Icon, Input } from "../components";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import PickerSelect from '../components/PickerSelect';
 import { useForm, Controller } from "react-hook-form";
-
+import { LogBox } from 'react-native';
+const { findDueñoById, createDueño } = require("../services/duenio.service");
 
 const { width } = Dimensions.get("screen");
-
+LogBox.ignoreLogs([
+	'Non-serializable values were found in the navigation state',
+]);
 
 const ArticleForm = (props) => {
 	const navigation = props.navigation;
@@ -21,18 +23,37 @@ const ArticleForm = (props) => {
 	const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
 	const { control, handleSubmit, formState: { errors } } = useForm();
 
-	const onSubmit = data => {
-		console.log(data);
+	const checkClientIsDueñoOrCreate = async (idCliente) => {
+		const response = await findDueñoById(idCliente);
+		const { dueño } = response;
+		if (!dueño) {
+			const dueño = await createDueño(idCliente);
+			const { objetoCreaod: { identificador } } = dueño;
+			return parseInt(identificador)
+		}
+		return parseInt(idCliente);
+	}
+
+	const onSubmit = async (data) => {
+		const idCliente = await AsyncStorage.getItem('idCliente');
+		const idDuenio = await checkClientIsDueñoOrCreate(idCliente);
+		const producto = {
+			fecha: new Date(),
+			disponible: true,
+			descripcion: data.tituloArticulo,
+			descripcionLarga: `${data.observaciones}. ${data.especificaciones}.`,
+			id_duenio: idDuenio
+		}
 		navigation.navigate("Seleccionar Imagen Articulo", {
 			tipo: 'Articulo',
-			data: data
+			data: producto
 		});
 	};
 
 	return (
 		<View width={width * 0.8}>
 			<PickerSelect
-				list={['Auto', 'Obra de arte','Reloj', 'Smartphone', 'Otro']}
+				list={['Auto', 'Obra de arte', 'Reloj', 'Smartphone', 'Otro']}
 				onValueChange={value => setCategoriaSeleccionada(value)}
 			></PickerSelect>
 
