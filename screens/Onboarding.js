@@ -26,6 +26,7 @@ const Onboarding = (props) => {
       try{
         await AsyncStorage.setItem('idCliente', res.cliente.idCliente.toString());
         await AsyncStorage.setItem('mailCliente', res.cliente.mail);
+        await AsyncStorage.setItem('categoria', res.cliente.categoria);
       }catch(error){
         console.log(error);
       }
