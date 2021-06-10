@@ -17,7 +17,6 @@ const TrackSubasta = (props) => {
                                               ['#2179', 'Puja', '300'],
                                               ['#2180', 'Puja', '320'],
                                               ['#2185', 'Puja', '360'],
-                                              ['#2186', 'Puja ganadora', '360']
                                             ]);
   return (
     <Block style={styles.container}>

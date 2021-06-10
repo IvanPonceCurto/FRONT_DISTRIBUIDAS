@@ -37,7 +37,23 @@ const getProductosByCliente = async (idCliente) => {
     }
 }
 
+const getProductoById = async (idProducto) => {
+    try {
+        const res = await fetch(`https://distribuidas-backend.herokuapp.com/api/productos/${idProducto}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        const dataRes = await res.json();
+        return dataRes;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
     createProducto,
-    getProductosByCliente
+    getProductosByCliente,
+    getProductoById
 }
