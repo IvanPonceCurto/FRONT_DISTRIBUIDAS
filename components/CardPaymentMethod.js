@@ -59,12 +59,12 @@ class CardPaymentMethod extends React.Component{
       console.log("Numero de tarjeta "+cardNumber)
       if(cardNumber.substring(0,1)===visaDigits){
         return(
-        <Block flex center row={"horizontal"} style={{maxHeight:50,maxWidth:100,alignContent:'center'}}> 
+        <Block flex center row={true} style={{maxHeight:50,maxWidth:100,alignContent:'center'}}> 
             <Image source={Menu} style={imgStyles,{height:50,width:100,alignItems:'center'}}></Image>
 
         </Block>)
       }
-      return(<Block flex center row={"horizontal"} style={{maxHeight:50,maxWidth:100,alignContent:'center'}}> 
+      return(<Block flex center row={true} style={{maxHeight:50,maxWidth:100,alignContent:'center'}}> 
         <Image source={master} style={imgStyles,{height:50,width:100,alignItems:'center'}}></Image>
 
     </Block>)
@@ -87,17 +87,17 @@ class CardPaymentMethod extends React.Component{
     
     
     return(
-          <Block row={horizontal} card  height={80} style={cardContainer} key={this.state.cardsObject.cardNumber}>
-            <Block row={horizontal} height={50} alignItems={"center"} paddingLeft={20}>
+          <Block row={true} card  height={80} style={cardContainer} key={this.state.cardsObject.cardNumber}>
+            <Block row={true} height={50} alignItems={"center"} paddingLeft={20}>
               {this.renderImagenCard(this.state.cardsObject.cardNumber,imageStyles,imgContainer)}
             </Block>
             
-            <Block row={horizontal}  height={50} flex alignItems={"center"} style={styles.cardDescription,{paddingLeft:50,alignItems:"center"}}>
+            <Block row={true}  height={50} flex alignItems={"center"} style={styles.cardDescription,{paddingLeft:50,alignItems:"center"}}>
               <Text size={20} center  style={styles.cardTitle}>{this.state.cardsObject.cardNumber}</Text>
               {/*<Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold>{item.cta}</Text>*/}
               {/*<Button onPress={props=>{<CustomModal {...props} visible={true}/>;console.log("e")}} style={{borderRadius:40}}>BORRAR</Button>*/}
             </Block> 
-            <Block row={horizontal} height={10} alignItems={"center"} >
+            <Block row={true} height={10} alignItems={"center"} >
             {this.renderButtonOnValidation(this.state.cardsObject.isValidated)}
             
             </Block>

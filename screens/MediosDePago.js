@@ -30,12 +30,12 @@ export default function MediosDePago({ navigation }) {
             <CardPaymentMethod
               style={styles.card}
               key={e.cardNumber}
-              horizontal
-              cardsObject={cardObject}
+              horizontal={true}
+              cardsObject={cardObject} 
               clientNumber={numeroCliente}
             />
           );
-        })}
+        })} 
       </Block>
       <View
         style={{
