@@ -10,18 +10,7 @@ import { Icon } from '../components';
 import { Button } from "../components";
 import { argonTheme } from "../constants/index";
 import ArticleCard from '../components/ArticleCard';
-<<<<<<< HEAD
-import im1 from '../assets/imgs/s20.jpg';
-import im2 from '../assets/imgs/rolex.jpg';
-import im3 from '../assets/imgs/anillo.jpg';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-const { getPersona } = require("../services/persona.service");
-const { getTrackSubasta } = require("../services/registroDeSubasta.service");
-const { getRegistrosByIdCliente } = require("../services/registroDeSubasta.service")
-const { getProducto } = require("../services/producto.service");
-=======
-import AsyncStorage from "@react-native-async-storage/async-storage";
->>>>>>> 830a628851e16f6528824f41712ce70ba6403fa2
 
 const tevez = require("../assets/imgs/carlitos.jpg");
 const cliente = {
