@@ -5,11 +5,12 @@ import {
   ScrollView,
   Image
 } from "react-native";
-import { Block, Text, theme} from "galio-framework";
+import { Block, Text, theme } from "galio-framework";
 import { Icon } from '../components';
 import { Button } from "../components";
 import { argonTheme } from "../constants/index";
 import ArticleCard from '../components/ArticleCard';
+<<<<<<< HEAD
 import im1 from '../assets/imgs/s20.jpg';
 import im2 from '../assets/imgs/rolex.jpg';
 import im3 from '../assets/imgs/anillo.jpg';
@@ -18,82 +19,52 @@ const { getPersona } = require("../services/persona.service");
 const { getTrackSubasta } = require("../services/registroDeSubasta.service");
 const { getRegistrosByIdCliente } = require("../services/registroDeSubasta.service")
 const { getProducto } = require("../services/producto.service");
+=======
+import AsyncStorage from "@react-native-async-storage/async-storage";
+>>>>>>> 830a628851e16f6528824f41712ce70ba6403fa2
 
 const tevez = require("../assets/imgs/carlitos.jpg");
 const cliente = {
-                  idCliente: 42395030,
-                  categoria:'Platino'
-                }//SACAR TODO DE PERSONA //dejar solo los campos de la tabla cliente
+  idCliente: 42395030,
+  categoria: 'Platino'
+}//SACAR TODO DE PERSONA //dejar solo los campos de la tabla cliente
 const persona = {
-                  idPersona: 42395030,
-                  nombre: 'Carlos',
-                  apellido: 'Tevez',
-                  password: '1234',
-                  mail: 'carlitos@gmail.com',
-                  dirección: 'Fuerte Apache 124',
-                  estado: 'Aprobado',
-                  documento: 37456214,
-                  foto: tevez 
-              }
-  //registros de subastas con el id del cliente y de registro de subasta saco infod el producto
+  idPersona: 42395030,
+  nombre: 'Carlos',
+  apellido: 'Tevez',
+  password: '1234',
+  mail: 'carlitos@gmail.com',
+  dirección: 'Fuerte Apache 124',
+  estado: 'Aprobado',
+  documento: 37456214,
+  foto: tevez
+}
+//registros de subastas con el id del cliente y de registro de subasta saco infod el producto
 const { width, height } = Dimensions.get("screen");
+const { getRegistrosByCliente } = require("../services/registroDeSubasta.service");
+const { getFotosByProducto } = require("../services/foto.service");
+const { getProductoById } = require("../services/producto.service");
+const { getProductosByCliente } = require("../services/producto.service");
+const { getPersona } = require("../services/persona.service");
+
 
 const thumbMeasure = (width - 48 - 32) / 3;
 
+const Profile = () => {
 
-const Profile = (props) => {
-
+  const [misArticulos, setMisArticulos] = useState([]);
   const [categoria, setCategoria] = useState();
   const [direccion, setDireccion] = useState();
   const [nombre, setNombre] = useState();
   const [cliente, setCliente] = useState();
-  const [productos, setProductos] = useState([]);
-  const [subastasParticipadas, setSubastasParticipadas] = useState('');
-  const [listaTarjetas, setListaTarjetas] = useState([]);
- 
-  useEffect(() => { 
+  const [subastasParticipadas, setSubastasParticipadas] = useState(0);
+  const [articulosSubastados, setArticulosSubastados] = useState(0);
+
+  useEffect(() => {
     recuperar();
-    obtenerCards();
-    
-  }, []);
-
- 
-  function getCalculatedList(listaTarjetas) {
-    return Promise.all(
-      listaTarjetas.map(async (item) => {
-        var objeto = await getProducto(item.producto) 
-        console.log(objeto)
-        return objeto; 
-      })
-    );
-  }
-
-  const obtenerCards = async () => {
-    try {
-      
-      const res1 = await getRegistrosByIdCliente(cliente);
-      var listaPujas = res1.listaPujasDeCliente;
-      var listaCards = [];
-      var flag = false;
-      listaPujas.forEach(i => {
-          for (var j = 0; j < listaCards.length; j++){
-              if(i.producto == listaCards[j].producto){
-                flag = true;
-              }
-          }
-        if(flag == false){
-          listaCards.push(i)
-        }
-        flag = false;
-      });
-      setSubastasParticipadas(listaCards.length);
-      setListaTarjetas(listaCards);
-
-     
-    }catch (error) {
-        console.log(error);
-    }
-  }
+    getRegistrosCliente();
+    lenProductosSubastados();
+  }, [])
 
   const recuperar = async () => {
     try {
@@ -110,114 +81,152 @@ const Profile = (props) => {
     }
   }
 
-    return (
-      <Block flex style={styles.profile}>
-        <Block flex>
-          <Block
-            //zsource={Images.ProfileBackground}
-            style={styles.profileContainer, {backgroundColor:'#EEBB00'}}
-            imageStyle={styles.profileBackground}
-          >
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              style={{ width, marginTop: '22%' }}
-            >
-              <Block flex style={styles.profileCard}>
-                <Block middle style={styles.avatarContainer}>
-                  <Image
-                    source={persona.foto}
-                    style={styles.avatar}
-                  />
-                </Block>
-                <Block style={styles.info}>
-                  <Block style={{marginTop:15}} row space="evenly">
-                    <Block middle>
-                      <Text
-                        bold
-                        size={18}
-                        color="#525F7F"
-                        style={{ marginBottom: 4 }}
-                      >
-                        2K
-                      </Text>
-                      <Block>
-                        <Text style={{textAlign: 'center'}} size={12} color={argonTheme.COLORS.TEXT}>Subastas</Text>
-                        <Text style={{textAlign: 'center'}} size={12} color={argonTheme.COLORS.TEXT}>ganadas</Text>
-                      </Block>
-                    </Block>
-                    <Block middle>
-                      <Text
-                        bold
-                        color="#525F7F"
-                        size={18}
-                        style={{ marginBottom: 4 }}
-                      >
-                        {subastasParticipadas}
-                      </Text>
-                      <Block>
-                        <Text style={{textAlign: 'center'}} size={12} color={argonTheme.COLORS.TEXT}>Subastas</Text>
-                        <Text style={{textAlign: 'center'}} size={12} color={argonTheme.COLORS.TEXT}>participadas</Text>
-                      </Block>
-                    </Block>
-                    <Block middle>
-                      <Text
-                        bold
-                        color="#525F7F"
-                        size={18}
-                        style={{ marginBottom: 4 }}
-                      >
-                        89
-                      </Text>
-                      <Block>
-                        <Text style={{textAlign: 'center'}} size={12} color={argonTheme.COLORS.TEXT}>Artículos</Text>
-                        <Text style={{textAlign: 'center'}} size={12} color={argonTheme.COLORS.TEXT}>subastados</Text>
-                      </Block>
-                    </Block>
-                  </Block>
-                </Block>
-                <Block flex>
-                  <Block middle style={styles.nameInfo}>
-                    <Text bold size={28} color="#32325D">
-                      {nombre} {persona.apellido}
-                    </Text>
-                    <Text size={18} color="#32325D" style={{ marginTop: 8 }}>
-                      {direccion}
-                    </Text>
-                    <Block row style={{ marginTop: 2 }}>
-                      <Icon 
-                        name={"Trophy"} family="AntDesign" 
-                        size={16}
-                        style={{ marginTop: 5, marginHorizontal: 3 }}
-                        color='brown'
-                      />
-                      <Text size={16} color="#32325D" style={{ marginTop: 2 }}>
-                        {categoria}
-                      </Text>
-                    </Block>
-                  </Block>
-                  <Block middle style={{ marginTop: 20, marginBottom: 16 }}>
-                    <Block style={styles.divider} />
-                  </Block>
-                  <Block middle>
-                      {productos.map((item) => {
-                        //console.log(item);
-                        return(
-                        <ArticleCard key={item.idProducto} idCliente={cliente} perfil={true} estadoFinal={'ganado'} imagen={im1} titulo={item.descripcion} estado={'aprobado'} tipo={'articulo'} horizontal />
-                        );
-                      })}
-                
-                    
-                  </Block>
-                  
-                </Block>
-              </Block>
-            </ScrollView>
-          </Block>
-        </Block>
-      </Block>
-    );
+  const lenProductosSubastados = async () => {
+    const idCliente = await AsyncStorage.getItem('idCliente');
+    const { productos } = await getProductosByCliente(idCliente);
+    setArticulosSubastados(productos.length)
   }
 
+  const getRegistrosCliente = async () => {
+    const idCliente = await AsyncStorage.getItem('idCliente');
+    const idProductos = [];
+    const { listaPujasDeCliente } = await getRegistrosByCliente(idCliente);
+    for (const registro in listaPujasDeCliente) {
+      if (!idProductos.includes(listaPujasDeCliente[registro].producto)) {
+        idProductos.push(listaPujasDeCliente[registro].producto)
+      };
+    }
+    const prodPromiseArr = [];
+    idProductos.forEach(async idProducto => {
+      prodPromiseArr.push(getProductoById(idProducto));
+    });
+    const products = await Promise.all(prodPromiseArr);
+    const fotoPromiseArr = [];
+    products.forEach(producto => {
+      fotoPromiseArr.push(getFotosByProducto(producto.producto.idProducto));
+    });
+    const fotos = await Promise.all(fotoPromiseArr);
+    const productArray = [];
+    fotos.forEach(foto => {
+      const res = products.filter(product => product.producto.idProducto === foto.fotos[0].idProducto);
+      res[0].producto.foto = foto.fotos[0].referencia_url;
+      productArray.push(res[0]);
+    });
+    setMisArticulos(productArray);
+    setSubastasParticipadas(productArray.length);
+  }
+
+  return (
+    <Block flex style={styles.profile}>
+      <Block flex>
+        <Block
+          //zsource={Images.ProfileBackground}
+          style={styles.profileContainer, { backgroundColor: '#EEBB00' }}
+          imageStyle={styles.profileBackground}
+        >
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{ width, marginTop: '22%' }}
+          >
+            <Block flex style={styles.profileCard}>
+              <Block middle style={styles.avatarContainer}>
+                <Image
+                  source={persona.foto}
+                  style={styles.avatar}
+                />
+              </Block>
+              <Block style={styles.info}>
+                <Block style={{ marginTop: 15 }} row space="evenly">
+                  <Block middle>
+                    <Text
+                      bold
+                      size={18}
+                      color="#525F7F"
+                      style={{ marginBottom: 4 }}
+                    >
+                      -
+                      </Text>
+                    <Block>
+                      <Text style={{ textAlign: 'center' }} size={12} color={argonTheme.COLORS.TEXT}>Subastas</Text>
+                      <Text style={{ textAlign: 'center' }} size={12} color={argonTheme.COLORS.TEXT}>ganadas</Text>
+                    </Block>
+                  </Block>
+                  <Block middle>
+                    <Text
+                      bold
+                      color="#525F7F"
+                      size={18}
+                      style={{ marginBottom: 4 }}
+                    >
+                      {subastasParticipadas}
+                      </Text>
+                    <Block>
+                      <Text style={{ textAlign: 'center' }} size={12} color={argonTheme.COLORS.TEXT}>Subastas</Text>
+                      <Text style={{ textAlign: 'center' }} size={12} color={argonTheme.COLORS.TEXT}>participadas</Text>
+                    </Block>
+                  </Block>
+                  <Block middle>
+                    <Text
+                      bold
+                      color="#525F7F"
+                      size={18}
+                      style={{ marginBottom: 4 }}
+                    >
+                      {articulosSubastados}
+                      </Text>
+                    <Block>
+                      <Text style={{ textAlign: 'center' }} size={12} color={argonTheme.COLORS.TEXT}>Artículos</Text>
+                      <Text style={{ textAlign: 'center' }} size={12} color={argonTheme.COLORS.TEXT}>subastados</Text>
+                    </Block>
+                  </Block>
+                </Block>
+              </Block>
+              <Block flex>
+                <Block middle style={styles.nameInfo}>
+                  <Text bold size={28} color="#32325D">
+                    {nombre}
+                  </Text>
+                  <Text size={18} color="#32325D" style={{ marginTop: 8 }}>
+                    {direccion}
+                  </Text>
+                  <Block row style={{ marginTop: 2 }}>
+                    <Icon
+                      name={"Trophy"} family="AntDesign"
+                      size={16}
+                      style={{ marginTop: 5, marginHorizontal: 3 }}
+                      color='brown'
+                    />
+                    <Text size={16} color="#32325D" style={{ marginTop: 2 }}>
+                      {categoria}
+                    </Text>
+                  </Block>
+                </Block>
+                <Block middle style={{ marginTop: 20, marginBottom: 16 }}>
+                  <Block style={styles.divider} />
+                </Block>
+                <Block middle>
+                  {misArticulos.map((articulo, index) => {
+                    return <ArticleCard key={index} perfil={true} estadoFinal={'sdsd'} imagen={{ uri: articulo.producto.foto }} titulo={articulo.producto.descripcion} estado={'aprobado'} horizontal />
+                  })}
+                  <Button
+                    color="transparent"
+                    textStyle={{
+                      color: "#233DD2",
+                      fontWeight: "500",
+                      fontSize: 16
+                    }}
+                  >
+                    </Button>
+                </Block>
+
+              </Block>
+            </Block>
+          </ScrollView>
+        </Block>
+      </Block>
+    </Block>
+  );
+}
 
 const styles = StyleSheet.create({
   profile: {
