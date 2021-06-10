@@ -1,4 +1,5 @@
 const { default: AsyncStorage } = require("@react-native-async-storage/async-storage");
+const { useState } = require("react");
 
 const postPaymentsMethod=(formData)=>{
     try{
@@ -19,7 +20,6 @@ const postPaymentsMethod=(formData)=>{
 }
 
 const fetchPaymentsMethod = (idCliente,setListaTarjetas)=>{
-
     try{
         const requestOptions={
             method:'GET',
@@ -43,15 +43,33 @@ const fetchDeleteMethod=(idCliente,cardNumber,setListaTarjetas)=>{
     try{
         fetch(`https://distribuidas-backend.herokuapp.com/api/mediosdepago/paymentMethod/${idCliente}/${cardNumber}`,{
             method:'DELETE'
-        }).then(result=>{return result.json()}).then(res=>{setListaTarjetas(res.cardsList)}).catch(err=>console.log(err))
+        }).then(result=>{return result.json()}).then(console.log("Borró la tarjeta"))    
     }catch(err){
         console.log(err)
     }
 }
-
+const bringLength = (idCliente,setCantTarj)=>{
+    try{
+        const requestOptions={
+            method:'GET',
+            headers:{
+                'Content-Type':'application/json'
+            }
+        }
+        console.log("Yendo a buscar con: "+idCliente)
+        fetch(`https://distribuidas-backend.herokuapp.com/api/mediosdepago/paymentMethod/${idCliente}`,requestOptions)
+        .then(resultado=>{return resultado.json()}).then(res=>{setCantTarj(res.result.length)})
+        .catch(err=>console.log(err))
+    }catch(err){
+        console.log(err)
+        //setListaTarjetas([])
+        throw new Error("Error al traer las tarjetas del cliente");
+    }
+}
 
 module.exports={
     fetchPaymentsMethod,
     fetchDeleteMethod,
-    postPaymentsMethod
+    postPaymentsMethod,
+    bringLength
 }

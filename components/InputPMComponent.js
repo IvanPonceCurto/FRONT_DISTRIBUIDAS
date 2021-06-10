@@ -24,6 +24,7 @@ const fetchPM = (formData, nc) => {
     CVV: formData.CVV,
     expiryDate: formData.expiryDate,
     idCliente: nc,
+    isValidated:1,
     country: "Argentina", //Corregir para ver como lo saco del CustomPicker
   };
   return objeto;
@@ -31,15 +32,17 @@ const fetchPM = (formData, nc) => {
 export default function InputPMComponent({ navigation }) {
   const [postPM, setPostPM] = useState();
   const [isVisible,setEstadoVisible] = useState(false);
+  //const [forceUpdate,setForceUpdate] = useState(false)
 
   useEffect(() => {
     getClient(setPostPM);
   }, [postPM]);
 
   const onSubmit = (data) => {
-    console.log({ ...data });
+    //console.log({ ...data });
     const objeto = fetchPM(data, postPM);
     const objetoCreado = postPaymentsMethod(objeto);
+    //setForceUpdate(!forceUpdate);
     navigation.navigate("CargaCorrecta", { cardNumber: data.cardNumber });
   };
   const {
@@ -145,7 +148,7 @@ export default function InputPMComponent({ navigation }) {
             name="expiryDate"
             rules={{
               required: true,
-              pattern: /^[0-9]{4}$/,
+              pattern: /^\d{2}[./]\d{2}$/,
             }}
             defaultValue=""
           />

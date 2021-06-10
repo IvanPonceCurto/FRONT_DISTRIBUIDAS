@@ -17,7 +17,7 @@ class CargaCorrecta extends React.Component{
         }
     }
     isVisaOrMaster=(cardType,numeroTarjeta)=>{
-        if(numeroTarjeta.substring(0,8)==="45176506"){
+        if(numeroTarjeta.substring(0,1)==="4"){
             return(
                 <View alignItems={"center"}>
                     <Image source={visa} style={{alignItems:'center',height:100,width:150}}></Image>

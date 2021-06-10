@@ -18,7 +18,7 @@ import TrackSubasta from "../screens/TrackSubasta";
 import RegistroFinalizado from "../screens/RegistroFinalizado";
 import SelectUserImage from "../screens/SelectUserImage";
 import InputPM from "../components/InputPM";
-import PaymentsMethod from "../components/paymentsMethod"
+import MediosDePago from "../screens/MediosDePago"
 import CargaCorrecta from "../components/CargaCorrecta";
 import Articulos from "../screens/Articulos";
 import SelectArticleImage from "../screens/SelectArticleImage";
@@ -27,6 +27,7 @@ import MediosDePago from "../screens/MediosDePago"
 import InputPMComponent from "../components/InputPMComponent"
 // drawer
 import CustomDrawerContent from "./Menu";
+import InputPMComponent from "../components/InputPMComponent"
 
 // header for screens
 import { Header } from "../components";
@@ -284,7 +285,6 @@ export default function OnboardingStack(props) {
 }
 
 
-
 function MediosDePagoStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
@@ -326,7 +326,6 @@ function MediosDePagoStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              back
               title="Carga correcta de medio de pago"
               navigation={navigation}
               scene={scene}
