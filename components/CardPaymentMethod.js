@@ -31,8 +31,8 @@ class CardPaymentMethod extends React.Component{
       }
     }
 
-    changeState=(e)=>{
-      //.preventDefault();
+    changeState= e =>{
+      e.preventDefault();
       this.setState({isVisible:true})
       console.log("PASO POR ACA")
     }
@@ -46,7 +46,7 @@ class CardPaymentMethod extends React.Component{
          )
       }
       return(
-        <TouchableOpacity onPress={this.changeState} style={{alignItems:'flex-end',paddingBottom:20}}>
+        <TouchableOpacity onPress={console.log("Toco el de borrar")} style={{alignItems:'flex-end',paddingBottom:20}}>
                 <Image style={{alignItems:'flex-end'}} source={borrarIcon}></Image>
       </TouchableOpacity>
       )
@@ -56,7 +56,7 @@ class CardPaymentMethod extends React.Component{
   }
 
     renderImagenCard=(cardNumber,imgStyles,imgContainer)=>{
-      console.log("Numero de tarjeta"+cardNumber)
+      console.log("Numero de tarjeta "+cardNumber)
       if(cardNumber.substring(0,1)===visaDigits){
         return(
         <Block flex center row={"horizontal"} style={{maxHeight:50,maxWidth:100,alignContent:'center'}}> 
@@ -98,9 +98,7 @@ class CardPaymentMethod extends React.Component{
               {/*<Button onPress={props=>{<CustomModal {...props} visible={true}/>;console.log("e")}} style={{borderRadius:40}}>BORRAR</Button>*/}
             </Block> 
             <Block row={horizontal} height={10} alignItems={"center"} >
-            {this.renderButtonOnValidation(this.state.cardsObject.isValidated)
-            //con este bool ponemos el otro iconito o no.
-            }
+            {this.renderButtonOnValidation(this.state.cardsObject.isValidated)}
             
             </Block>
             
@@ -122,9 +120,7 @@ class CardPaymentMethod extends React.Component{
           
         )
       }
-      
-
-    }
+}
     render(){ 
       return(
         <Block>

@@ -14,9 +14,9 @@ export default function MediosDePago({ navigation }) {
   const [numeroCliente, setNumeroCliente] = useState("");
 
   useEffect(() => {
-    fetchPaymentsMethod(5, setListaTarjetas);
+    traerTj(5,setListaTarjetas)
   }, [setListaTarjetas]),
-    console.log("Lista: " + listaTarjetas);
+  console.log("Lista: " + listaTarjetas);
 
   return (
     <ScrollView>
@@ -54,11 +54,22 @@ export default function MediosDePago({ navigation }) {
   );
 }
 
-const fetchClientNumber = async (setNumeroCliente) => {
-  const nc = await AsyncStorage.getItem("idCliente");
-  console.log("El numero de cliente es: " + nc);
+const fetchClientNumber = async (setNumeroCliente,setListaTarjetas) => {
+  const nc =  await AsyncStorage.getItem("idCliente");
+  console.log("El numero de cliente es: " + JSON.stringify(nc));
   setNumeroCliente(nc);
-  return nc;
+};
+
+const traerTj = (numeroCliente, setListaTarjetas) => {
+  fetch(
+    `https://distribuidas-backend.herokuapp.com/api/mediosdepago/paymentMethod/`+5,
+    { method: "GET", headers: { "Content-Type": "application/json" } }
+  )
+    .then((resultado) => {
+      return resultado.json();
+    })
+    .then((res) => setListaTarjetas(res.result))
+    .catch((err) => setListaTarjetas([]));
 };
 
 const renderButton = () => {

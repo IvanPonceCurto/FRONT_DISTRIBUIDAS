@@ -15,7 +15,7 @@ function CustomDrawerContent({ drawerPosition, navigation, profile, focused, sta
     "Home", 
     "Perfil",
     "Subastar",
-    "PM"
+    "Medios de Pago"
   ];
 
   return (

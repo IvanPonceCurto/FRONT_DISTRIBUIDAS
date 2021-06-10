@@ -146,7 +146,7 @@ export default function InputPMComponent({ navigation }) {
             name="expiryDate"
             rules={{
               required: true,
-              pattern: /^[0-9]{4}$/,
+              pattern: /^\d{2}[./]\d{2}$/,
             }}
             defaultValue=""
           />

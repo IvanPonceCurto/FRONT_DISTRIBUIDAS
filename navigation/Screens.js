@@ -282,16 +282,6 @@ export default function OnboardingStack(props) {
   );
 }
 
-const cardsList = [
-  {
-    cardNumber: "4517650612345678"
-  },
-  {
-    cardNumber: "4517650612345698"
-  }, {
-    cardNumber: "4517610612345699"
-  }
-];
 
 function MediosDePagoStack(props) {
   return (
@@ -335,7 +325,6 @@ function MediosDePagoStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              back
               title="Carga correcta de medio de pago"
               navigation={navigation}
               scene={scene}
@@ -384,7 +373,7 @@ function AppStack(props) {
       <Drawer.Screen name="Home" component={HomeStack} />
       <Drawer.Screen name="Perfil" component={ProfileStack} />
       <Drawer.Screen name="Subastar" component={SubastarStack} />
-      <Drawer.Screen name="PM" component={MediosDePagoStack} />
+      <Drawer.Screen name="Medios de Pago" component={MediosDePagoStack} />
     </Drawer.Navigator>
   );
 }
