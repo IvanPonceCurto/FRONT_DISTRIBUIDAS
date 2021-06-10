@@ -92,7 +92,7 @@ class ArticleCard extends React.Component {
               <Block flex style={imgContainer}>
                 <Image source={this.props.imagen} style={imageStyles}/>
               </Block>
-            <TouchableWithoutFeedback onPress={() => navigation.navigate('TrackSubasta')}>
+            <TouchableWithoutFeedback onPress={() => navigation.navigate('TrackSubasta',{producto:item})}>
               <Block flex space="between" style={styles.cardDescription}>
                 <Text size={18} style={styles.cardTitle} bold>{titulo}</Text>
                 {tipoItem}

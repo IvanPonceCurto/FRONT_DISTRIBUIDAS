@@ -15,7 +15,10 @@ const { width, height } = Dimensions.get("screen");
 const { getRegistrosByClienteBySubasta } = require("../services/registroDeSubasta.service");
 const { getProductoById } = require("../services/producto.service");
 
-const TrackSubasta = (props) => {
+const TrackSubasta = ({route,navigation}) => {
+  const producto = route.params.producto;
+  console.log(producto)
+  console.log(producto)
   const [nombreProducto, setNombreProducto] = useState();
   const [nroSubasta, setNroSubasta] = useState();
   const [tableHead, setTableHead] = useState(['ID', 'DESCRIPCION', 'VALOR']);
@@ -32,15 +35,15 @@ const TrackSubasta = (props) => {
     try {
       var lista = [];
       const idCliente = await AsyncStorage.getItem('idCliente');
-      const resProducto = await getProductoById(1); //aca va el idProducto
-      const res = await getRegistrosByClienteBySubasta(7,idCliente,1); //aca va el idSubasta, el idCliente y el idProducto
+      const resProducto = await getProductoById(producto.idProducto); //aca va el idProducto
+      const res = await getRegistrosByClienteBySubasta(producto.idSubasta,idCliente,producto.idProducto); //aca va el idSubasta, el idCliente y el idProducto
       const dataRes = await res.json();
       dataRes.listaPujasDeSubasta.forEach(item => {
         lista.push([item.idRegistro,"Puja",item.importe]);
       });
       //console.log(resProducto);
       setNombreProducto(resProducto.producto.descripcion.toUpperCase());
-      setNroSubasta(7);
+      setNroSubasta(producto.idSubasta);
       setTableData(lista);
     } catch (error) {
         console.log(error);

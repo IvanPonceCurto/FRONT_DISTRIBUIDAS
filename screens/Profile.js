@@ -35,14 +35,14 @@ const Profile = () => {
   const [cliente, setCliente] = useState();
   const [subastasParticipadas, setSubastasParticipadas] = useState(0);
   const [articulosSubastados, setArticulosSubastados] = useState(0);
-
+  const [objetos,setObjetos] = useState();
   useEffect(() => {
     recuperar();
-    getRegistrosCliente();
+    getRegistrosCliente(); 
     lenProductosSubastados();
   }, [])
 
-  const recuperar = async () => {
+  const recuperar = async () => { 
     try {
       const categoriaCliente = await AsyncStorage.getItem('categoria');
       const idCliente = await AsyncStorage.getItem('idCliente');
@@ -66,14 +66,19 @@ const Profile = () => {
   const getRegistrosCliente = async () => {
     const idCliente = await AsyncStorage.getItem('idCliente');
     const idProductos = [];
+    const idObjetos = [];
     const { listaPujasDeCliente } = await getRegistrosByCliente(idCliente);
     for (const registro in listaPujasDeCliente) {
       if (!idProductos.includes(listaPujasDeCliente[registro].producto)) {
         idProductos.push(listaPujasDeCliente[registro].producto)
+        idObjetos.push({idProducto:listaPujasDeCliente[registro].producto,idSubasta:listaPujasDeCliente[registro].subasta})
       };
     }
+    setObjetos(idObjetos)
     const prodPromiseArr = [];
+    console.log(idProductos)
     idProductos.forEach(async idProducto => {
+      
       prodPromiseArr.push(getProductoById(idProducto));
     });
     const products = await Promise.all(prodPromiseArr);
@@ -181,9 +186,11 @@ const Profile = () => {
                   <Block style={styles.divider} />
                 </Block>
                 <Block middle>
-                  {misArticulos.map((articulo, index) => {
+                  {misArticulos.map((articulo,index) => {
+                    
                     return (
-                        <ArticleCard key={index} perfil={true} estadoFinal={'sdsd'} imagen={{ uri: articulo.producto.foto }} titulo={articulo.producto.descripcion} estado={'aprobado'} horizontal />
+                       
+                        <ArticleCard key={articulo.producto.idProducto} item={objetos[index]} perfil={true} estadoFinal={'sdsd'} imagen={{ uri: articulo.producto.foto }} titulo={articulo.producto.descripcion} estado={'aprobado'} horizontal />
                       
 
                     );
