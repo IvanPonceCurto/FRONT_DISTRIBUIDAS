@@ -1,6 +1,6 @@
 import React from 'react';
 import { withNavigation } from '@react-navigation/compat';
-import { TouchableOpacity, StyleSheet, Platform, Dimensions } from 'react-native';
+import { TouchableOpacity, StyleSheet, Platform, Dimensions,StatusBar } from 'react-native';
 import {Block, NavBar, theme } from 'galio-framework';
 
 import Icon from './Icon';
@@ -71,6 +71,7 @@ class Header extends React.Component {
       if(home == true){
         return (
           <Block style={headerStyles}>
+            <StatusBar hidden/>
             <NavBar
               back={false}
               title={'BetFast'}
@@ -104,6 +105,7 @@ class Header extends React.Component {
 
           return (
             <Block style={headerStyles}>
+            <StatusBar hidden/>
               <NavBar
                 back={false}
                 title={'BetFast'}
@@ -146,6 +148,7 @@ class Header extends React.Component {
           if(perfil==true){
             return (
               <Block style={headerStyles}>
+              <StatusBar hidden/>
                 <NavBar
                   back={false}
                   title={'BetFast'}
@@ -189,6 +192,7 @@ class Header extends React.Component {
           }else{
           return (
             <Block style={headerStyles}>
+            <StatusBar hidden/>
               <NavBar
                 back={false}
                 title={title}
@@ -247,6 +251,7 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     paddingBottom: theme.SIZES.BASE * 1.5,
     paddingTop: iPhoneX ? theme.SIZES.BASE * 4 : theme.SIZES.BASE,
+    marginTop:-20,
     zIndex: 5
   },
   shadow: {

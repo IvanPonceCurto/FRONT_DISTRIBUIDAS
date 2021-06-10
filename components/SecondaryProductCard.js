@@ -6,7 +6,7 @@ export default function SecondaryProductCard(props){
     const { navigation,producto,subasta } = props;
     return(
         <Block key={producto.idProducto} row style={styles.imageContainerProximos} >
-        <TouchableWithoutFeedback onPress={()=>navigation.navigate('Producto',{subasta,producto})}>
+        <TouchableWithoutFeedback onPress={()=>navigation.navigate('Producto',{subasta,producto,valor:true})}>
           
             <Image
                 onPress={()=>{navegar(navigation,subasta,producto)}}

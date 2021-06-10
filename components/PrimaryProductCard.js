@@ -16,7 +16,7 @@ export default function PrimaryProductCard(props){
         <Text normal size={14} style={{textAlign:'center',marginTop:10}}>{producto.nombreProducto}</Text>
 
         <Button style={styles.btnVerProducto}>
-          <Text size={16} style={{color:'#FFFFFF'}} bold onPress={()=>navigation.navigate('Producto',{subasta,producto})}>Ver Producto</Text>
+          <Text size={16} style={{color:'#FFFFFF'}} bold onPress={()=>navigation.navigate('Producto',{subasta,producto,valor:false})}>Ver Producto</Text>
         </Button>
         <Text bold size={16} style={styles.textoArticulosProximos} >Próximos a Subastar:</Text>
     </Block>

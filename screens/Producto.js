@@ -4,7 +4,7 @@ import { Block, Button, Text, theme } from 'galio-framework';
 import { HeaderHeight } from "../constants/utils";
 import { SliderBox } from 'react-native-image-slider-box'
 const { height, width } = Dimensions.get('screen');
-
+const fotoPerfil = require('../assets/imgs/perfil.jpg')
 
 const altura = height - height*0.20
 
@@ -19,6 +19,7 @@ export default function Producto({route,navigation}){
 	const fotos = producto.lightfotos.map(foto =>{
 		return foto.referencia_url;
 	})
+	const valor = objeto.valor;
 	
 	const[duenio,setDuenio] = useState({})
 
@@ -65,7 +66,7 @@ export default function Producto({route,navigation}){
 								<Text size={20} style={styles.duenioText}>Dueño: {duenio.nombre}</Text>
 								<Block  style={styles.avatarContainer}>
 									<Image
-										source={{uri:fotos[0]}/*producto.duenio.foto*/}
+										source={fotoPerfil}/*producto.duenio.foto*/
 										style={styles.avatar}
 									/>
 								</Block>
@@ -75,7 +76,7 @@ export default function Producto({route,navigation}){
 							<Text size={15} style={styles.descripcionLargaTitulo}>{producto.descripcion}</Text>
 							<Text style={styles.descripcionLarga}>{producto.descripcionLarga}</Text>
 						</Block>
-						<Button style={styles.btnRealizarOferta} onPress={()=>navigation.navigate('Pujar',{producto,subasta})}>
+						<Button disabled={valor} style={styles.btnRealizarOferta} onPress={()=>navigation.navigate('Pujar',{producto,subasta})}>
 							<Text size={16} style={{color:'#FFFFFF'}} bold>Realiza tu Oferta!</Text>
 						</Button>
 					</Block>

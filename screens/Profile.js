@@ -12,23 +12,8 @@ import { argonTheme } from "../constants/index";
 import ArticleCard from '../components/ArticleCard';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const tevez = require("../assets/imgs/carlitos.jpg");
-const cliente = {
-  idCliente: 42395030,
-  categoria: 'Platino'
-}//SACAR TODO DE PERSONA //dejar solo los campos de la tabla cliente
-const persona = {
-  idPersona: 42395030,
-  nombre: 'Carlos',
-  apellido: 'Tevez',
-  password: '1234',
-  mail: 'carlitos@gmail.com',
-  dirección: 'Fuerte Apache 124',
-  estado: 'Aprobado',
-  documento: 37456214,
-  foto: tevez
-}
-//registros de subastas con el id del cliente y de registro de subasta saco infod el producto
+const perfil = require("../assets/imgs/fotoPerfil.jpg");
+
 const { width, height } = Dimensions.get("screen");
 const { getRegistrosByCliente } = require("../services/registroDeSubasta.service");
 const { getFotosByProducto } = require("../services/foto.service");
@@ -120,7 +105,7 @@ const Profile = () => {
             <Block flex style={styles.profileCard}>
               <Block middle style={styles.avatarContainer}>
                 <Image
-                  source={persona.foto}
+                  source={perfil}
                   style={styles.avatar}
                 />
               </Block>
@@ -197,15 +182,7 @@ const Profile = () => {
                   {misArticulos.map((articulo, index) => {
                     return <ArticleCard key={index} perfil={true} estadoFinal={'sdsd'} imagen={{ uri: articulo.producto.foto }} titulo={articulo.producto.descripcion} estado={'aprobado'} horizontal />
                   })}
-                  <Button
-                    color="transparent"
-                    textStyle={{
-                      color: "#233DD2",
-                      fontWeight: "500",
-                      fontSize: 16
-                    }}
-                  >
-                    </Button>
+                
                 </Block>
 
               </Block>
