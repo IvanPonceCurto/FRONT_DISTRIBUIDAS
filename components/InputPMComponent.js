@@ -32,7 +32,7 @@ const fetchPM = (formData, nc) => {
 export default function InputPMComponent({ navigation }) {
   const [postPM, setPostPM] = useState();
   const [isVisible,setEstadoVisible] = useState(false);
-  const [forceUpdate,setForceUpdate] = useState(false)
+  //const [forceUpdate,setForceUpdate] = useState(false)
 
   useEffect(() => {
     getClient(setPostPM);

@@ -8,30 +8,31 @@ import CardPaymentMethod from "../components/CardPaymentMethod";
 const { width } = Dimensions.get("screen");
 const { bringLength} = require("../services/mediosDePago.service");
 const plusIcon = require("../assets/imgs/iconChico.png");
-//const nodeSchedule = require("node-schedule")
 
 export default function MediosDePago({ navigation }) {
   const [listaTarjetas, setListaTarjetas] = useState([]);
   const [numeroCliente, setNumeroCliente] = useState("");
-  const [forceUpdate,setForceUpdate] = useState(false)
+  const [cantTarj,setCantTarj] = useState()
 
   useEffect(() => {
-    traerTj(5,setListaTarjetas);
-  }, []),
+    //traerTj(5,setListaTarjetas);
+    fetchClientNumber(setNumeroCliente,setListaTarjetas,setCantTarj)
+  }, [setCantTarj]),
   console.log("Lista: " + listaTarjetas);
-
+  console.log("cant: "+cantTarj)
   return (
     <ScrollView>
       <Block style={styles.cardsContainer}>
         {listaTarjetas.map((e) => {
           var cardObject = JSON.stringify(e);
+          
           return (
             <CardPaymentMethod
               style={styles.card}
               key={e.cardNumber}
               horizontal
               cardsObject={cardObject}
-              clientNumber={5}
+              clientNumber={numeroCliente}
             />
           );
         })}
@@ -45,7 +46,7 @@ export default function MediosDePago({ navigation }) {
         }}
       >
         <TouchableOpacity
-          onPress={() => {navigation.navigate("InputPM"),setForceUpdate(!forceUpdate)}}
+          onPress={() => {navigation.navigate("InputPM")}}
           style={styles.addBtnContainer}
         >
           <Image source={plusIcon}></Image>
@@ -55,15 +56,17 @@ export default function MediosDePago({ navigation }) {
   );
 }
 
-const fetchClientNumber = async (setNumeroCliente,setListaTarjetas) => {
+const fetchClientNumber = async (setNumeroCliente,setListaTarjetas,setCantTarj) => {
   const nc =  await AsyncStorage.getItem("idCliente");
   console.log("El numero de cliente es: " + JSON.stringify(nc));
+  traerTj(nc,setListaTarjetas)
+  bringLength(nc,setCantTarj)
   setNumeroCliente(nc);
 };
 
 const traerTj = (numeroCliente, setListaTarjetas) => {
   fetch(
-    `https://distribuidas-backend.herokuapp.com/api/mediosdepago/paymentMethod/`+5,
+    `https://distribuidas-backend.herokuapp.com/api/mediosdepago/paymentMethod/`+numeroCliente,
     { method: "GET", headers: { "Content-Type": "application/json" } }
   )
     .then((resultado) => {

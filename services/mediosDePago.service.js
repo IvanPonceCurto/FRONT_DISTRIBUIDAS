@@ -48,7 +48,7 @@ const fetchDeleteMethod=(idCliente,cardNumber,setListaTarjetas)=>{
         console.log(err)
     }
 }
-const bringLength = (idCliente)=>{
+const bringLength = (idCliente,setCantTarj)=>{
     try{
         const requestOptions={
             method:'GET',
@@ -58,7 +58,7 @@ const bringLength = (idCliente)=>{
         }
         console.log("Yendo a buscar con: "+idCliente)
         fetch(`https://distribuidas-backend.herokuapp.com/api/mediosdepago/paymentMethod/${idCliente}`,requestOptions)
-        .then(resultado=>{return resultado.json()}).then(res=>{return res.result.length})
+        .then(resultado=>{return resultado.json()}).then(res=>{setCantTarj(res.result.length)})
         .catch(err=>console.log(err))
     }catch(err){
         console.log(err)
