@@ -26,7 +26,6 @@ import ArticuloEnviado from "../screens/ArticuloEnviado";
 import InputPMComponent from "../components/InputPMComponent"
 // drawer
 import CustomDrawerContent from "./Menu";
-import InputPMComponent from "../components/InputPMComponent"
 
 // header for screens
 import { Header } from "../components";
