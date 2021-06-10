@@ -3,7 +3,8 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
-  Image
+  Image,
+  TouchableOpacity
 } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 import { Icon } from '../components';
@@ -11,6 +12,7 @@ import { Button } from "../components";
 import { argonTheme } from "../constants/index";
 import ArticleCard from '../components/ArticleCard';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+//import { TouchableOpacity } from "react-native-gesture-handler";
 
 const perfil = require("../assets/imgs/fotoPerfil.jpg");
 
@@ -180,7 +182,11 @@ const Profile = () => {
                 </Block>
                 <Block middle>
                   {misArticulos.map((articulo, index) => {
-                    return <ArticleCard key={index} perfil={true} estadoFinal={'sdsd'} imagen={{ uri: articulo.producto.foto }} titulo={articulo.producto.descripcion} estado={'aprobado'} horizontal />
+                    return (
+                        <ArticleCard key={index} perfil={true} estadoFinal={'sdsd'} imagen={{ uri: articulo.producto.foto }} titulo={articulo.producto.descripcion} estado={'aprobado'} horizontal />
+                      
+
+                    );
                   })}
                 
                 </Block>
