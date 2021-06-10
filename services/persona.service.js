@@ -58,10 +58,6 @@ const createPersona = async (persona) => {
 
 module.exports = {
     getPersonaById,
-<<<<<<< HEAD
     getPersona,
     createPersona
-=======
-    getPersona
->>>>>>> d9904f08ac89e18f7d80f684bfa85a88c57d6a2e
 }

@@ -23,7 +23,6 @@ import CargaCorrecta from "../components/CargaCorrecta";
 import Articulos from "../screens/Articulos";
 import SelectArticleImage from "../screens/SelectArticleImage";
 import ArticuloEnviado from "../screens/ArticuloEnviado";
-import MediosDePago from "../screens/MediosDePago"
 import InputPMComponent from "../components/InputPMComponent"
 // drawer
 import CustomDrawerContent from "./Menu";
