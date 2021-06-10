@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Dimensions,
@@ -6,25 +6,53 @@ import {
 } from "react-native";
 import { Block, Text} from "galio-framework";
 import { Table, Row, Rows} from 'react-native-table-component';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const { width, height } = Dimensions.get("screen");
+const { getRegistrosByClienteBySubasta } = require("../services/registroDeSubasta.service");
+const { getProductoById } = require("../services/producto.service");
 
 const TrackSubasta = (props) => {
-
+  const [nombreProducto, setNombreProducto] = useState();
+  const [nroSubasta, setNroSubasta] = useState();
   const [tableHead, setTableHead] = useState(['ID', 'DESCRIPCION', 'VALOR']);
   const [tableData, setTableData] = useState([
-                                              ['#2178', 'Puja', '250'],
-                                              ['#2179', 'Puja', '300'],
-                                              ['#2180', 'Puja', '320'],
-                                              ['#2185', 'Puja', '360'],
+                                              [],
+                                              []
                                             ]);
+
+  useEffect(() => {
+    track();
+  }, []);  
+
+  const track = async () => {
+    try {
+      var lista = [];
+      const idCliente = await AsyncStorage.getItem('idCliente');
+      const resProducto = await getProductoById(1); //aca va el idProducto
+      const res = await getRegistrosByClienteBySubasta(7,idCliente,1); //aca va el idSubasta, el idCliente y el idProducto
+      const dataRes = await res.json();
+      dataRes.listaPujasDeSubasta.forEach(item => {
+        lista.push([item.idRegistro,"Puja",item.importe]);
+      });
+      //console.log(resProducto);
+      setNombreProducto(resProducto.producto.descripcion.toUpperCase());
+      setNroSubasta(7);
+      setTableData(lista);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
+  
   return (
     <Block style={styles.container}>
       <Text style={{marginTop:'7%'}} center color="#3483FA" size={22}>
-        Subasta #456
+        Subasta #{nroSubasta}
       </Text>
       <Text center color="#3483FA" bold size={22}>
-        SUBASTA DE RELOJ ROLEX
+        {nombreProducto}
       </Text>
       <View style={styles.container2}>
         <Table borderStyle={{borderWidth: 2, borderColor: 'transparent'}}>

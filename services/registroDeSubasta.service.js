@@ -48,8 +48,25 @@ const getRegistrosByCliente = async (idCliente) => {
     }
 }
 
+const getRegistrosByClienteBySubasta = async (idSubasta, idCliente, idProducto) => {
+    try {
+        const res = await fetch(`https://distribuidas-backend.herokuapp.com/api/registrosDeSubasta/getRegistrosBySubasta/${idSubasta}/${idCliente}/${idProducto}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        //console.log(res);
+        //const dataRes = await res.json();
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
     getPujaActual,
     nuevaPuja,
-    getRegistrosByCliente
+    getRegistrosByCliente,
+    getRegistrosByClienteBySubasta
 }
