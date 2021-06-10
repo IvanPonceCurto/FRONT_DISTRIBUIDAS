@@ -30,7 +30,6 @@ class CustomModal extends React.Component{
 
     render(){
         const isVisible=this.state.visible
-        console.log("visible"+this.props.visible)
         return(
             <View style={{alignItems:"center"}}>
             <Modal
@@ -41,8 +40,8 @@ class CustomModal extends React.Component{
                     <Block center style={stylesSheet.modalMostrar}>
                     <Text style={{marginTop:30,fontSize:15,textAlign:'center'}}>¿Estás seguro de que querés borrar la tarjeta {this.state.cardNumber}?</Text>
                         <Block flex row style={{marginTop:30}}>
-                            <Button style={stylesSheet.botonSi} onPress={this.llamarDelete}>SI</Button>
-                            <Button style={stylesSheet.botonNo} onPress={this.changeState}>NO</Button>
+                            <Button style={stylesSheet.botonSi} onPress={e=>this.llamarDelete(e)}>SI</Button>
+                            <Button style={stylesSheet.botonNo} onPress={e=>this.changeState(e)}>NO</Button>
                     </Block>
                     </Block>
                 </Block>

@@ -27,16 +27,16 @@ class CardPaymentMethod extends React.Component{
         cardsObject:JSON.parse(this.props.cardsObject),
         uniqueKey:0,
         isVisible:false,
-        clientNumber: this.props.clientNumber
+        clientNumber: this.props.clientNumber,
+        update:false
       }
     }
 
     changeState= e =>{
-      e.preventDefault();
+      //e.preventDefault();
       this.setState({isVisible:true})
       console.log("PASO POR ACA")
     }
-
     renderButtonOnValidation=(isValid)=>{
       if(!isValid){
         return(
@@ -46,7 +46,7 @@ class CardPaymentMethod extends React.Component{
          )
       }
       return(
-        <TouchableOpacity onPress={console.log("Toco el de borrar")} style={{alignItems:'flex-end',paddingBottom:20}}>
+        <TouchableOpacity onPress={this.changeState} style={{alignItems:'flex-end',paddingBottom:20}}>
                 <Image style={{alignItems:'flex-end'}} source={borrarIcon}></Image>
       </TouchableOpacity>
       )

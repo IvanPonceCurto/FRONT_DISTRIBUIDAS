@@ -32,15 +32,17 @@ const fetchPM = (formData, nc) => {
 export default function InputPMComponent({ navigation }) {
   const [postPM, setPostPM] = useState();
   const [isVisible,setEstadoVisible] = useState(false);
+  const [forceUpdate,setForceUpdate] = useState(false)
 
   useEffect(() => {
     getClient(setPostPM);
   }, [postPM]);
 
   const onSubmit = (data) => {
-    console.log({ ...data });
+    //console.log({ ...data });
     const objeto = fetchPM(data, postPM);
     const objetoCreado = postPaymentsMethod(objeto);
+    //setForceUpdate(!forceUpdate);
     navigation.navigate("CargaCorrecta", { cardNumber: data.cardNumber });
   };
   const {

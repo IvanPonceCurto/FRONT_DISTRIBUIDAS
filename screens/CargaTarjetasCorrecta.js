@@ -8,12 +8,16 @@ const imagenVisa = require("../assets/imgs/visa.png")
 class CargaTarjetasCorrecta extends React.Component{
     //Renderizar el cargado correcto de la tarjeta.
 
-    state = {
-        cardNumber: "",
-        cardIssuer: ""
+    constructor(props){
+        super(props);
+        this.state={
+            forceUpdate:true
+        }
     }
 
-
+    changeState=()=>{
+        this.state.forceUpdate=!this.state.forceUpdate
+    }
 
     renderImage = () => {
         return(
@@ -38,11 +42,19 @@ class CargaTarjetasCorrecta extends React.Component{
 
     }
     render(){
+        const {navigation} = this.props;
         return(
             <Block flex center>
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    {this.renderImage()}
-                    {this.renderText()}
+                <Block flex>
+                    <Image source={imagenVisa}/>
+                        <Text>TARJETA DEBITO TERMINADA EN {this.state.cardNumber}</Text>
+                </Block>
+                <Block flex>
+                    <Text bold={true} h2 color={argonTheme.COLORS.BLUE} center>¡Su tarjeta ha sido vinculada con éxito!</Text>
+                    <Text center color={argonTheme.COLORS.BLACK}>En breve, luego de que la empresa la avale, la podrás utilizar como medio de pago</Text>
+                    <TouchableOpacity onPress={navigation.navigate("PM")}>VOLVER</TouchableOpacity>
+                </Block>
                 </ScrollView>
             </Block>
         )

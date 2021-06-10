@@ -6,23 +6,24 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import CardPaymentMethod from "../components/CardPaymentMethod";
 
 const { width } = Dimensions.get("screen");
-const { fetchPaymentsMethod } = require("../services/mediosDePago.service");
+const { bringLength} = require("../services/mediosDePago.service");
 const plusIcon = require("../assets/imgs/iconChico.png");
+//const nodeSchedule = require("node-schedule")
 
 export default function MediosDePago({ navigation }) {
   const [listaTarjetas, setListaTarjetas] = useState([]);
   const [numeroCliente, setNumeroCliente] = useState("");
+  const [forceUpdate,setForceUpdate] = useState(false)
 
   useEffect(() => {
-    traerTj(5,setListaTarjetas)
-  }, [setListaTarjetas]),
+    traerTj(5,setListaTarjetas);
+  }, []),
   console.log("Lista: " + listaTarjetas);
 
   return (
     <ScrollView>
       <Block style={styles.cardsContainer}>
         {listaTarjetas.map((e) => {
-          console.log(e);
           var cardObject = JSON.stringify(e);
           return (
             <CardPaymentMethod
@@ -44,7 +45,7 @@ export default function MediosDePago({ navigation }) {
         }}
       >
         <TouchableOpacity
-          onPress={() => navigation.navigate("InputPM")}
+          onPress={() => {navigation.navigate("InputPM"),setForceUpdate(!forceUpdate)}}
           style={styles.addBtnContainer}
         >
           <Image source={plusIcon}></Image>
@@ -72,25 +73,6 @@ const traerTj = (numeroCliente, setListaTarjetas) => {
     .catch((err) => setListaTarjetas([]));
 };
 
-const renderButton = () => {
-  return (
-    <View
-      style={{
-        alignItems: "flex-end",
-        position: "relative",
-        bottom: 0,
-        right: 0,
-      }}
-    >
-      <TouchableOpacity
-        onPress={() => this.props.navigation.navigate("InputPM")}
-        style={{ alignItems: "flex-end" }}
-      >
-        <Image source={plusIcon}></Image>
-      </TouchableOpacity>
-    </View>
-  );
-};
 
 const styles = StyleSheet.create({
   addBtnContainer: {
