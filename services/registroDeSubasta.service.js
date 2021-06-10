@@ -62,9 +62,23 @@ const getRegistrosByIdCliente = async(idCliente) => {
 	}
 }
 
+const getRegistrosByCliente = async (idCliente) => {
+    try {
+        const res = await fetch(`https://distribuidas-backend.herokuapp.com/api/registrosDeSubasta/getRegistrosByCliente/${idCliente}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        const dataRes = await res.json();
+        return dataRes;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
     getPujaActual,
     nuevaPuja,
-    getTrackSubasta,
-    getRegistrosByIdCliente
+    getRegistrosByCliente
 }

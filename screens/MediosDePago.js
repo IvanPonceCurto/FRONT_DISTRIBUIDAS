@@ -15,7 +15,7 @@ export default function MediosDePago({ navigation }) {
 
   useEffect(() => {
     fetchPaymentsMethod(5, setListaTarjetas);
-  }, []),
+  }, [setListaTarjetas]),
     console.log("Lista: " + listaTarjetas);
 
   return (

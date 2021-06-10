@@ -83,7 +83,7 @@ class ArticleCard extends React.Component {
         );
       }else{
         colorEstadoFinal = (
-          <Text size={19} color='red' >Perdido</Text>
+          <Text size={19} color='red' ></Text>
         );
       }
       estadoFinalItem = (

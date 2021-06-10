@@ -40,10 +40,15 @@ const createFotoWithBase64 = async (idProducto, url) => {
 }
 
 const getFotosByProducto = async (id) => {
-  const res = await fetch(`https://distribuidas-backend.herokuapp.com/api/fotos/getFotosByProducto/${id}`, {
-    method: 'GET',
-  });
-  const data = await res.json();
+  try {
+    const res = await fetch(`https://distribuidas-backend.herokuapp.com/api/fotos/getFotosByProducto/${id}`, {
+      method: 'GET',
+    });
+    const dataRes = await res.json();
+    return dataRes;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 module.exports = {

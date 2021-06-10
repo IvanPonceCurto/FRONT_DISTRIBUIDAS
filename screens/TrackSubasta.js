@@ -17,43 +17,12 @@ const TrackSubasta = (props) => {
 
   const [listaSubastas, setListaSubastas] = useState();
   const [tableHead, setTableHead] = useState(['ID', 'DESCRIPCION', 'VALOR']);
-  const [tableData, setTableData] = useState([],[]);
-  const [idSubasta, setIdSubasta] = useState();
-  const [nombreProducto, setNombreProducto] = useState();
-
-  const track = async () => {
-    try {
-      var lista = [];
-      var listaFiltro = [];
-      const idCliente = await AsyncStorage.getItem('idCliente');
-      const resProducto = await getProducto(2);
-      const res = await getTrackSubasta(idCliente,6);
-      res.listaPujasDeSubasta.forEach(i => {
-        if(idCliente == i.cliente && 2 == i.producto){
-            listaFiltro.push(i);
-        }
-      });
-      setListaSubastas(listaFiltro);
-      const filas = listaSubastas.map((item) => {
-        lista.push([item.idRegistro,"Puja",item.importe]);
-      });
-      setIdSubasta(res.listaPujasDeSubasta[0].subasta);
-      setTableData(lista);
-      setNombreProducto(resProducto.producto.descripcion.toUpperCase());
-    } catch (error) {
-        console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    track();
-  }, []);  
-
-  
-  
- 
-  //console.log(lista);
-  
+  const [tableData, setTableData] = useState([
+                                              ['#2178', 'Puja', '250'],
+                                              ['#2179', 'Puja', '300'],
+                                              ['#2180', 'Puja', '320'],
+                                              ['#2185', 'Puja', '360'],
+                                            ]);
   return (
     
     <Block style={styles.container}>

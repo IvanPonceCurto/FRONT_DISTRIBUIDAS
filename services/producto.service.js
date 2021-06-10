@@ -22,21 +22,38 @@ const createProducto = async (producto) => {
     }
 }
 
-const getProducto = async(idProducto) => {
-	
-	try {
-		const res = await fetch('https://distribuidas-backend.herokuapp.com/api/productos/'+idProducto, {
-			method: 'GET',
-		
-		});
-		const dataRes = await res.json();
-		return dataRes;
-	} catch (error) {
-		console.log(error);
-	}
+const getProductosByCliente = async (idCliente) => {
+    try {
+        const res = await fetch(`https://distribuidas-backend.herokuapp.com/api/productos/getProductosByDuenio/${idCliente}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        const dataRes = await res.json();
+        return dataRes;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const getProductoById = async (idProducto) => {
+    try {
+        const res = await fetch(`https://distribuidas-backend.herokuapp.com/api/productos/${idProducto}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        const dataRes = await res.json();
+        return dataRes;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 module.exports = {
-	getProducto,
-    createProducto
+    createProducto,
+    getProductosByCliente,
+    getProductoById
 }
