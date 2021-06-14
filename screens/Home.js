@@ -20,7 +20,7 @@ export default function Home() {
       
         <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.articles}>
+        contentContainerStyle={styles.articles}>  
         <Block>
         
     

@@ -62,8 +62,8 @@ const fetchClientNumber = async (setNumeroCliente,setListaTarjetas,setCantTarj) 
   traerTj(nc,setListaTarjetas)
   bringLength(nc,setCantTarj)
   setNumeroCliente(nc);
-};
-
+}; 
+ 
 const traerTj = (numeroCliente, setListaTarjetas) => {
   fetch(
     `https://distribuidas-backend.herokuapp.com/api/mediosdepago/paymentMethod/`+numeroCliente,

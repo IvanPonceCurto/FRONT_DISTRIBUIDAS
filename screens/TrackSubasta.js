@@ -8,6 +8,7 @@ import {
 import { Block, Text} from "galio-framework";
 import { Table, Row, Rows} from 'react-native-table-component';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ActivityIndicator } from 'react-native';
 
 const { getTrackSubasta } = require("../services/registroDeSubasta.service");
 const { getProducto } = require("../services/producto.service");
@@ -16,9 +17,8 @@ const { getRegistrosByClienteBySubasta } = require("../services/registroDeSubast
 const { getProductoById } = require("../services/producto.service");
 
 const TrackSubasta = ({route,navigation}) => {
+  const [showLoader, setShowLoader] = useState(true);
   const producto = route.params.producto;
-  console.log(producto)
-  console.log(producto)
   const [nombreProducto, setNombreProducto] = useState();
   const [nroSubasta, setNroSubasta] = useState();
   const [tableHead, setTableHead] = useState(['ID', 'DESCRIPCION', 'VALOR']);
@@ -44,6 +44,7 @@ const TrackSubasta = ({route,navigation}) => {
       //console.log(resProducto);
       setNombreProducto(resProducto.producto.descripcion.toUpperCase());
       setNroSubasta(producto.idSubasta);
+      setShowLoader(false);
       setTableData(lista);
     } catch (error) {
         console.log(error);
@@ -52,8 +53,13 @@ const TrackSubasta = ({route,navigation}) => {
 
   
   return (
-    
     <Block style={styles.container}>
+    {showLoader ?
+      <View style={{ marginTop: '20%' }}>
+        <ActivityIndicator size="large" color="#3483FA" />
+      </View>
+      :
+      <Block >
       <Text style={{marginTop:'7%'}} center color="#3483FA" size={22}>
         Subasta #{nroSubasta}
       </Text>
@@ -68,6 +74,9 @@ const TrackSubasta = ({route,navigation}) => {
           </Table>
         </View>
       </ScrollView>
+      </Block>
+    }
+      
       </Block>
      
   );
