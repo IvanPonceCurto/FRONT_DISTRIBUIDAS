@@ -26,8 +26,8 @@ const { getPersona } = require("../services/persona.service");
 
 const thumbMeasure = (width - 48 - 32) / 3;
 
-const Profile = () => {
-
+const Profile = (props) => {
+  const { navigation } = props;
   const [misArticulos, setMisArticulos] = useState([]);
   const [categoria, setCategoria] = useState();
   const [direccion, setDireccion] = useState();
@@ -61,6 +61,7 @@ const Profile = () => {
     const idCliente = await AsyncStorage.getItem('idCliente');
     const { productos } = await getProductosByCliente(idCliente);
     setArticulosSubastados(productos.length)
+    
   }
 
   const getRegistrosCliente = async () => {
@@ -76,7 +77,7 @@ const Profile = () => {
     }
     setObjetos(idObjetos)
     const prodPromiseArr = [];
-    console.log(idProductos)
+    //console.log(idProductos)
     idProductos.forEach(async idProducto => {
       
       prodPromiseArr.push(getProductoById(idProducto));
@@ -180,18 +181,25 @@ const Profile = () => {
                     <Text size={16} color="#32325D" style={{ marginTop: 2 }}>
                       {categoria}
                     </Text>
-                  </Block>
+                    </Block>
                 </Block>
                 <Block middle style={{ marginTop: 20, marginBottom: 16 }}>
                   <Block style={styles.divider} />
                 </Block>
+                
+                <Button
+                  style={styles.btnVerProducto}
+                  onPress={() => navigation.navigate('Metricas', {info:objetos})}
+                  size= 'small'
+                >
+                  Mis estadísticas
+                </Button>
+                  
                 <Block middle>
                   {misArticulos.map((articulo,index) => {
                     
                     return (
-                       
                         <ArticleCard key={articulo.producto.idProducto} item={objetos[index]} perfil={true} estadoFinal={'sdsd'} imagen={{ uri: articulo.producto.foto }} titulo={articulo.producto.descripcion} estado={'aprobado'} horizontal />
-                      
 
                     );
                   })}
@@ -265,7 +273,13 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: thumbMeasure,
     height: thumbMeasure
-  }
+  },
+  btnVerProducto: {
+		flex: 1,
+		borderRadius: 10,
+		backgroundColor: '#3483FA',
+		alignSelf: 'center',
+	}
 });
 
 export default Profile;

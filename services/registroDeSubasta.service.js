@@ -86,8 +86,8 @@ const getRegistrosByClienteBySubasta = async (idSubasta, idCliente, idProducto) 
             },
         });
         //console.log(res);
-        //const dataRes = await res.json();
-        return res;
+        const dataRes = await res.json();
+        return dataRes;
     } catch (error) {
         console.log(error);
     }
