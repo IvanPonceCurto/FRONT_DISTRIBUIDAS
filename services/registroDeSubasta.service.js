@@ -61,7 +61,34 @@ const getRegistrosByIdCliente = async(idCliente) => {
 		console.log(error);
 	}
 }
-
+const getUltimaPujaCliente = async (idCliente, idSubasta, idProducto) => {
+    try {
+        const res = await fetch(`https://distribuidas-backend.herokuapp.com/api/registrosDeSubasta/getUltimaPujaCliente/${idCliente}/${idSubasta}/${idProducto}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        const dataRes = await res.json();
+        return dataRes;
+    } catch (error) {
+        console.log(error);
+    }
+}
+const getImporteMaximo = async (idSubasta, idProducto) => {
+    try {
+        const res = await fetch(`https://distribuidas-backend.herokuapp.com/api/registrosDeSubasta/getImporteMaximo/${idSubasta}/${idProducto}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        const dataRes = await res.json();
+        return dataRes;
+    } catch (error) {
+        console.log(error);
+    }
+}
 const getRegistrosByCliente = async (idCliente) => {
     try {
         const res = await fetch(`https://distribuidas-backend.herokuapp.com/api/registrosDeSubasta/getRegistrosByCliente/${idCliente}`, {
@@ -97,5 +124,7 @@ module.exports = {
     getPujaActual,
     nuevaPuja,
     getRegistrosByCliente,
-    getRegistrosByClienteBySubasta
+    getRegistrosByClienteBySubasta,
+    getUltimaPujaCliente,
+    getImporteMaximo
 }

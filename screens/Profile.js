@@ -22,6 +22,7 @@ const { getFotosByProducto } = require("../services/foto.service");
 const { getProductoById } = require("../services/producto.service");
 const { getProductosByCliente } = require("../services/producto.service");
 const { getPersona } = require("../services/persona.service");
+const { getUltimaPujaCliente, getImporteMaximo } = require("../services/registroDeSubasta.service");
 
 
 const thumbMeasure = (width - 48 - 32) / 3;
@@ -36,6 +37,7 @@ const Profile = (props) => {
   const [subastasParticipadas, setSubastasParticipadas] = useState(0);
   const [articulosSubastados, setArticulosSubastados] = useState(0);
   const [objetos,setObjetos] = useState();
+  const [subastasGanadas, setSubastasGanadas] = useState(0);
   useEffect(() => {
     recuperar();
     getRegistrosCliente(); 
@@ -72,12 +74,21 @@ const Profile = (props) => {
     for (const registro in listaPujasDeCliente) {
       if (!idProductos.includes(listaPujasDeCliente[registro].producto)) {
         idProductos.push(listaPujasDeCliente[registro].producto)
-        idObjetos.push({idProducto:listaPujasDeCliente[registro].producto,idSubasta:listaPujasDeCliente[registro].subasta})
+        idObjetos.push({idProducto:listaPujasDeCliente[registro].producto,idSubasta:listaPujasDeCliente[registro].subasta, estado:"", idCliente:idCliente})
       };
     }
-    setObjetos(idObjetos)
+    idObjetos.forEach ( async i => {
+    const resMaxCliente = await getImporteMaximo(i.idSubasta,i.idProducto);
+    const resMaximo = await getUltimaPujaCliente(i.idCliente, i.idSubasta, i.idProducto);
+    if(resMaxCliente.ultimaPuja === resMaximo.ultimaPuja && resMaximo.ultimaPuja!=0){
+      i.estado="ganado";
+      setSubastasGanadas(subastasGanadas+1);
+    }else{
+      i.estado="perdido";
+    }
+   });
+    setObjetos(idObjetos);
     const prodPromiseArr = [];
-    //console.log(idProductos)
     idProductos.forEach(async idProducto => {
       
       prodPromiseArr.push(getProductoById(idProducto));
@@ -126,7 +137,7 @@ const Profile = (props) => {
                       color="#525F7F"
                       style={{ marginBottom: 4 }}
                     >
-                      -
+                      {subastasGanadas}
                       </Text>
                     <Block>
                       <Text style={{ textAlign: 'center' }} size={12} color={argonTheme.COLORS.TEXT}>Subastas</Text>
@@ -197,9 +208,8 @@ const Profile = (props) => {
                   
                 <Block middle>
                   {misArticulos.map((articulo,index) => {
-                    
                     return (
-                        <ArticleCard key={articulo.producto.idProducto} item={objetos[index]} perfil={true} estadoFinal={'sdsd'} imagen={{ uri: articulo.producto.foto }} titulo={articulo.producto.descripcion} estado={'aprobado'} horizontal />
+                        <ArticleCard key={articulo.producto.idProducto} item={objetos[index]} perfil={true} estadoFinal={objetos[index].estado} imagen={{ uri: articulo.producto.foto }} titulo={articulo.producto.descripcion} estado={'aprobado'} horizontal />
 
                     );
                   })}

@@ -194,7 +194,7 @@ const Metricas = ({route}) => {
           chartConfig={chartConfig}
         />
         <Text style={{margin:20}} center color="#3483FA" size={22}>
-            Pujas por subasta
+            Pujas por producto por subasta
         </Text>
         <BarChart
           style={styles.graphStyle}
