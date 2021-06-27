@@ -13,7 +13,7 @@ export default function PrimaryProductCard(props){
                 source={{uri:producto.lightfotos[0].referencia_url}}
               />
         </Block>
-        <Text normal size={14} style={{textAlign:'center',marginTop:10}}>{producto.nombreProducto}</Text>
+        <Text normal size={14} style={{textAlign:'center'}}>{producto.nombreProducto}</Text>
 
         <Button style={styles.btnVerProducto}>
           <Text size={16} style={{color:'#FFFFFF'}} bold onPress={()=>navigation.navigate('Producto',{subasta,producto,valor:false})}>Ver Producto</Text>

@@ -82,7 +82,7 @@ class Header extends React.Component {
               rightStyle={{ alignItems: 'center' }}
               left={
                 <Icon 
-                  name={back ? 'chevron-left' : "menu"} family="entypo" 
+                  name={back ? 'nav-left' : "menu-8"} family="ArgonExtra" 
                   size={20} onPress={this.handleLeftPress} 
                   color={iconColor || (white ? argonTheme.COLORS.WHITE : argonTheme.COLORS.ICON)}
                   style={{ marginTop: 2 }}
@@ -115,7 +115,7 @@ class Header extends React.Component {
                 right={
                   <TouchableOpacity onPress={this.handleRightPress}>
                     <Icon 
-                      name={'back-in-time'} family="entypo" 
+                      name={'nav-left'} family="ArgonExtra" 
                       size={20} 
                       color={'black'}
                       style={{ marginTop: 2 }}
@@ -125,7 +125,7 @@ class Header extends React.Component {
                 rightStyle={{ alignItems: 'center' }}
                 left={
                   <Icon 
-                    name={back ? 'chevron-left' : "menu"} family="entypo" 
+                    name={back ? 'nav-left' : "menu-8"} family="ArgonExtra" 
                     size={20} onPress={this.handleLeftPress} 
                     color={iconColor || (white ? argonTheme.COLORS.WHITE : argonTheme.COLORS.ICON)}
                     style={{ marginTop: 2 }}
@@ -170,7 +170,7 @@ class Header extends React.Component {
                   }
                   left={
                     <Icon 
-                      name={back ? 'chevron-left' : "menu"} family="entypo" 
+                      name={back ? 'nav-left' : "menu-8"} family="ArgonExtra" 
                       size={20} onPress={this.handleLeftPress} 
                       color={iconColor || (white ? argonTheme.COLORS.WHITE : argonTheme.COLORS.ICON)}
                       style={{ marginTop: 2 }}
@@ -202,7 +202,7 @@ class Header extends React.Component {
                 rightStyle={{ alignItems: 'center' }}
                 left={
                   <Icon 
-                    name={back ? 'chevron-left' : "menu"} family="entypo" 
+                    name={back ? 'nav-left' : "menu"} family="ArgonExtra" 
                     size={20} onPress={this.handleLeftPress} 
                     color={iconColor || (white ? argonTheme.COLORS.WHITE : argonTheme.COLORS.ICON)}
                     style={{ marginTop: 2 }}
