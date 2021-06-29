@@ -24,6 +24,7 @@ import Articulos from "../screens/Articulos";
 import SelectArticleImage from "../screens/SelectArticleImage";
 import ArticuloEnviado from "../screens/ArticuloEnviado";
 import InputPMComponent from "../components/InputPMComponent"
+import CambiarContraseña from "../screens/CambiarContraseña";
 // drawer
 import CustomDrawerContent from "./Menu";
 
@@ -278,6 +279,12 @@ export default function OnboardingStack(props) {
         name="Registro Finalizado"
         component={RegistroFinalizado}
       />
+      <Stack.Screen
+      name="Cambiar Contraseña"
+      component={CambiarContraseña}
+      >
+
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }
