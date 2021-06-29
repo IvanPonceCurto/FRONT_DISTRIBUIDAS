@@ -197,7 +197,7 @@ export default function Pujar({ route, navigation }) {
       </Modal>
       <Modal coverScreen={false} deviceHeight={height * 1.2} isVisible={openModalSubastaTerminada}>
         <Block style={styles.modalContainer}>
-          <Text size={15} style={styles.modalText1}>¡El producto ha sido subastado!</Text>
+          <Text size={15} style={styles.modalText1}>¡La subasta de este producto ha finalizado!</Text>
           <Button style={styles.modalButton} onPress={() => cerrarProducto()}>OK</Button>
         </Block>
       </Modal>
