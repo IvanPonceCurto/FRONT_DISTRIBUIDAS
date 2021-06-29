@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { getPujaActual, nuevaPuja } = require('../services/registroDeSubasta.service')
 const { getMetodosDePago } = require('../services/mediosDePagoService');
+const { updateEstadoSubasta } = require('../services/subasta.service');
 const { height, width } = Dimensions.get('screen');
 
 const deviceWidth = Dimensions.get('window').width;
@@ -36,11 +37,12 @@ export default function Pujar({ route, navigation }) {
   const [oferta, setOferta] = useState();
   const [pujaActual, setPujaActual] = useState(producto.itemsCatalogo.precioBase);
   const [open, setOpen] = useState(false);
+  const [openModalSubastaTerminada, setOpenModalSubastaTerminada] = useState(false);
   const [mediosDePagos, setMediosDePago] = useState([]);
   const [selectedValue, setSelectedValue] = useState('Elija su Medio de Pago')
   const [marginTopScrollView, setMarginTopScrollView] = useState('-20%')
   const { control, handleSubmit, formState: { errors } } = useForm();
-  const [counter, setCounter] = useState(60 * 5);
+  const [counter, setCounter] = useState(1 * 5);
   const [countId, setCountId] = useState('1');
 
   const resetCounter = () => {
@@ -51,7 +53,14 @@ export default function Pujar({ route, navigation }) {
   const obtenerMediosDePago = async function () {
     const idCliente = await AsyncStorage.getItem('idCliente');
     await getMetodosDePago(idCliente, setMediosDePago);
+  }
 
+  const cerrarSubasta = () => {
+    updateEstadoSubasta(subasta.idSubasta);
+    navigation.navigate("Home", {
+      tipo: 'Articulo',
+      data: producto
+    });
   }
 
   const obtenerPuja = async function () {
@@ -106,10 +115,7 @@ export default function Pujar({ route, navigation }) {
                     id={countId}
                     until={counter}
                     size={18}
-                    onFinish={() => navigation.navigate("Home", {
-                      tipo: 'Articulo',
-                      data: producto
-                    })}
+                    onFinish={() => setOpenModalSubastaTerminada(true)}
                     digitTxtStyle={{ color: '#3483FA' }}
                     digitStyle={{backgroundColor: '#FFF'}}
                     separatorStyle={{color: '#3483FA'}}
@@ -183,6 +189,12 @@ export default function Pujar({ route, navigation }) {
           <Text size={15} style={styles.modalText1}>El Monto ofertado debe ser mayor a {pujaActual + producto.itemsCatalogo.precioBase * 0.01}</Text>
           <Text size={15} style={styles.modalText2}>El Monto ofertado debe ser menor a {pujaActual * 1.2}</Text>
           <Button style={styles.modalButton} onPress={() => setOpen(false)}>OK</Button>
+        </Block>
+      </Modal>
+      <Modal coverScreen={false} deviceHeight={height * 1.2} isVisible={openModalSubastaTerminada}>
+        <Block style={styles.modalContainer}>
+          <Text size={15} style={styles.modalText1}>La subasta ha finalizado.</Text>
+          <Button style={styles.modalButton} onPress={() => cerrarSubasta()}>OK</Button>
         </Block>
       </Modal>
     </KeyboardAvoidingView>
