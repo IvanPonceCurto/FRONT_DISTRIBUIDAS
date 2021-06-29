@@ -42,7 +42,7 @@ export default function Pujar({ route, navigation }) {
   const [selectedValue, setSelectedValue] = useState('Elija su Medio de Pago')
   const [marginTopScrollView, setMarginTopScrollView] = useState('-20%')
   const { control, handleSubmit, formState: { errors } } = useForm();
-  const [counter, setCounter] = useState(1 * 5);
+  const [counter, setCounter] = useState(60 * 5);
   const [countId, setCountId] = useState('1');
 
   const resetCounter = () => {
