@@ -5,6 +5,7 @@ import {argonTheme } from '../constants/';
 import { HeaderHeight } from "../constants/utils";
 import PrimaryProductCard from '../components/PrimaryProductCard';
 import SecondaryProductCard from '../components/SecondaryProductCard';
+import { useIsFocused } from "@react-navigation/native";
 const { height, width } = Dimensions.get('screen');
 
 
@@ -15,8 +16,12 @@ const { height, width } = Dimensions.get('screen');
 export default function Pro({route,navigation}){
  
   var subasta = route.params.item
+  const productosFiltrados = subasta.catalogo.productos.filter(producto => producto.disponible != false);
+  subasta.catalogo.productos = productosFiltrados;
 
   const[subastador,setSubastador] = useState({})
+  const isFocused = useIsFocused();
+
 
   const obtenerPersona = async function(){
     var requestOptions = {
@@ -33,7 +38,8 @@ export default function Pro({route,navigation}){
 
    useEffect(()=>{
      obtenerPersona()
-   },[setSubastador])
+     console.log(subasta.catalogo)
+   },[setSubastador, isFocused]);
    
        
     return (

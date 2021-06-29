@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { getPujaActual, nuevaPuja } = require('../services/registroDeSubasta.service')
 const { getMetodosDePago } = require('../services/mediosDePagoService');
+const { updateEstadoProducto } = require('../services/producto.service');
 const { updateEstadoSubasta } = require('../services/subasta.service');
 const { height, width } = Dimensions.get('screen');
 
@@ -42,7 +43,7 @@ export default function Pujar({ route, navigation }) {
   const [selectedValue, setSelectedValue] = useState('Elija su Medio de Pago')
   const [marginTopScrollView, setMarginTopScrollView] = useState('-20%')
   const { control, handleSubmit, formState: { errors } } = useForm();
-  const [counter, setCounter] = useState(60 * 5);
+  const [counter, setCounter] = useState(1 * 5);
   const [countId, setCountId] = useState('1');
 
   const resetCounter = () => {
@@ -55,12 +56,15 @@ export default function Pujar({ route, navigation }) {
     await getMetodosDePago(idCliente, setMediosDePago);
   }
 
-  const cerrarSubasta = () => {
-    updateEstadoSubasta(subasta.idSubasta);
+  const cerrarProducto = () => {
+    updateEstadoProducto(producto.idProducto);
     navigation.navigate("Home", {
       tipo: 'Articulo',
       data: producto
     });
+    if (subasta.catalogo.productos.length == 1) {
+      updateEstadoSubasta(subasta.idSubasta);
+    }
   }
 
   const obtenerPuja = async function () {
@@ -193,8 +197,8 @@ export default function Pujar({ route, navigation }) {
       </Modal>
       <Modal coverScreen={false} deviceHeight={height * 1.2} isVisible={openModalSubastaTerminada}>
         <Block style={styles.modalContainer}>
-          <Text size={15} style={styles.modalText1}>La subasta ha finalizado.</Text>
-          <Button style={styles.modalButton} onPress={() => cerrarSubasta()}>OK</Button>
+          <Text size={15} style={styles.modalText1}>¡El producto ha sido subastado!</Text>
+          <Button style={styles.modalButton} onPress={() => cerrarProducto()}>OK</Button>
         </Block>
       </Modal>
     </KeyboardAvoidingView>
