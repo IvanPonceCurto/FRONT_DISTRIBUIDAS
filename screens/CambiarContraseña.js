@@ -11,57 +11,31 @@ import { Input, Icon } from "../components";
 import { Button, Text, theme } from "galio-framework";
 import argonTheme from "../constants/Theme";
 import { useForm, Controller } from "react-hook-form";
-const { login } = require("../services/cliente.service");
+const { contraseña } = require("../services/cliente.service");
 
 const { width } = Dimensions.get("screen");
-const Onboarding = (props) => {
+const CambiarContraseña = (props) => {
   const [leyenda, setLeyenda] = useState();
   const { navigation } = props;
-  const { control, handleSubmit, formState: { errors } } = useForm();
-
-  const onSubmitWithoutRegister = async ()=>{
-    try{
-        await AsyncStorage.setItem('state', '0');
-    }catch(error){
-      console.error(error)
-    }
-    navigation.navigate('App');
-    console.log("0")
-  } 
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    const res = await login(data.email, data.password);
-    console.log("Acá"+ JSON.stringify(res));
-    if (res.ok === true && !res.isOtp) {
-      try {
-        await AsyncStorage.setItem(
-          "idCliente",
-          res.cliente.idCliente.toString()
-        );
-        await AsyncStorage.setItem("mailCliente", res.cliente.mail);
-        await AsyncStorage.setItem("categoria", res.cliente.categoria);
-        await AsyncStorage.setItem('state', '1');
-      } catch (error) {
-        console.log(error);
-      }
+    let mailUser = await AsyncStorage.getItem("mailCliente")
+    //Como ya viene directo del coso porque el otp es true, le mando a setear directo.,
+    console.log("El mail al que le manda es: "+mailUser + " nueva contraseña "+data.Contraseña +  " la otra" +data.contraseñaRepetida) //data.contraseñaRepetida
+    if(data.Contraseña == data.contraseñaRepetida){
       setLeyenda();
+      const res = await contraseña(mailUser, data.Contraseña);
+      console.log(res);
+      await AsyncStorage.setItem("state","1");
       navigation.navigate("App");
-    } else if (res.isOtp) {
-      await AsyncStorage.setItem(
-        "idCliente",
-        res.cliente.idCliente.toString()
-      );
-      await AsyncStorage.setItem("mailCliente", res.cliente.mail);
-      await AsyncStorage.setItem("categoria", res.cliente.categoria);
-      navigation.navigate("Cambiar Contraseña")
-    } else {
+    }else {
       setLeyenda(
         <Text style={{ color: "red", fontSize: 15 }}>
-          Email y/o contraseña incorrecto/s
+          Las contraseñas ingresadas no coinciden entre si.
         </Text>
       );
     }
@@ -82,8 +56,9 @@ const Onboarding = (props) => {
                 onBlur={onBlur}
                 onChangeText={(value) => onChange(value)}
                 value={value}
-                error={!!errors.email}
-                placeholder="Email"
+                error={!!errors.password}
+                secureTextEntry={true}
+                placeholder="Nueva contraseña"
                 iconContent={
                   <Icon
                     size={16}
@@ -95,7 +70,7 @@ const Onboarding = (props) => {
                 }
               />
             )}
-            name="email"
+            name="Contraseña"
             rules={{ required: true }}
             defaultValue=""
           />
@@ -110,7 +85,7 @@ const Onboarding = (props) => {
                 value={value}
                 error={!!errors.password}
                 secureTextEntry={true}
-                placeholder="Clave"
+                placeholder="Repetir contraseña"
                 iconContent={
                   <Icon
                     size={16}
@@ -122,7 +97,7 @@ const Onboarding = (props) => {
                 }
               />
             )}
-            name="password"
+            name="contraseñaRepetida"
             rules={{ required: true }}
             defaultValue=""
           />
@@ -133,14 +108,8 @@ const Onboarding = (props) => {
             onPress={handleSubmit(onSubmit)}
             textStyle={{ color: argonTheme.COLORS.WHITE }}
           >
-            Iniciar sesión
+            Actualizar contraseña
           </Button>
-          <TouchableOpacity onPress={() => navigation.navigate("Registro")}>
-            <Text style={styles.subtitle}>Solicitar cuenta</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={()=>{onSubmitWithoutRegister()}}>
-            <Text style={styles.subtitle}>Ingresar como invitado</Text>
-          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </View>
@@ -193,4 +162,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Onboarding;
+export default CambiarContraseña;

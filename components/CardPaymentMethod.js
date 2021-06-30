@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState,useContext} from 'react'
 import PropTypes from 'prop-types'
 
 import {StyleSheet, Image} from 'react-native'
 import {Block, Text, theme} from 'galio-framework'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-
+import CardsContext from './CardsReducer'
 
 
 import CustomModal from "../components/CustomModal"
@@ -15,13 +15,14 @@ const borrarIcon = require("../assets/imgs/Vector.png")
 const validateIcon = require("../assets/imgs/validate.png")
 const {fetchDeleteMethod} = require("../services/mediosDePago.service")
 
+
 const visaDigits = "4"
 //Objetivo crear componente Card que nos permita 
 
 class CardPaymentMethod extends React.Component{
 
-
     constructor(props){
+      //const {cardsList,idUser} = useContext(CardsContext);
       super(props);
       this.state={
         cardsObject:JSON.parse(this.props.cardsObject),
@@ -88,7 +89,7 @@ class CardPaymentMethod extends React.Component{
     
     return(
           <Block row={true} card  height={80} style={cardContainer} key={this.state.cardsObject.cardNumber}>
-            <Block row={true} height={50} alignItems={"center"} paddingLeft={20}>
+            <Block row={true} height={50} alignItems={"center"} paddingLeft={20}> 
               {this.renderImagenCard(this.state.cardsObject.cardNumber,imageStyles,imgContainer)}
             </Block>
             

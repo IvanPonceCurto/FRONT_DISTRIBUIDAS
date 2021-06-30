@@ -24,7 +24,7 @@ export default function MediosDePago({ navigation }) {
   return (
     <ScrollView>
       <Block style={styles.cardsContainer}>
-        {listaTarjetas.map((e) => { 
+        {listaTarjetas.map((e) => {
           var cardObject = JSON.stringify(e);
           
           return (
