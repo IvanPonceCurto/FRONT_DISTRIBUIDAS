@@ -6,10 +6,13 @@ import { HeaderHeight } from "../constants/utils";
 import PrimaryProductCard from '../components/PrimaryProductCard';
 import SecondaryProductCard from '../components/SecondaryProductCard';
 import { useIsFocused } from "@react-navigation/native";
+import { LogBox } from 'react-native';
 const { height, width } = Dimensions.get('screen');
 
 
-
+LogBox.ignoreLogs([
+  "Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.",
+]);
 //COSAS A HACER EN LA PANTALLA:
 //falta un poquito de mejora en lo visual
 

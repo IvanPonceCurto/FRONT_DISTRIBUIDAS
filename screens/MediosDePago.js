@@ -1,10 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Block, theme, Text } from "galio-framework";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import { Dimensions, View, Image, StyleSheet, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import CardPaymentMethod from "../components/CardPaymentMethod";
-
+import { useIsFocused } from "@react-navigation/native";
 const { width } = Dimensions.get("screen");
 const { bringLength} = require("../services/mediosDePago.service");
 const plusIcon = require("../assets/imgs/iconChico.png");
@@ -13,17 +13,18 @@ export default function MediosDePago({ navigation }) {
   const [listaTarjetas, setListaTarjetas] = useState([]);
   const [numeroCliente, setNumeroCliente] = useState("");
   const [cantTarj,setCantTarj] = useState()
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     //traerTj(5,setListaTarjetas);
     fetchClientNumber(setNumeroCliente,setListaTarjetas,setCantTarj)
-  }, [setCantTarj]),
+  }, [setCantTarj,isFocused]),
   console.log("Lista: " + listaTarjetas);
   console.log("cant: "+cantTarj)
   return (
     <ScrollView>
       <Block style={styles.cardsContainer}>
-        {listaTarjetas.map((e) => {
+        {listaTarjetas.map((e) => { 
           var cardObject = JSON.stringify(e);
           
           return (
