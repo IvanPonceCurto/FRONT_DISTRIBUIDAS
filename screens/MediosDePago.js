@@ -3,8 +3,7 @@ import { Block, theme, Text } from "galio-framework";
 import React, { useEffect, useState } from "react";
 import { Dimensions, View, Image, StyleSheet, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-//import CardPaymentMethod from "../components/CardPaymentMethod";
-import CardPaymentMethod from "../components/paymentsMethodFn";
+import CardPaymentMethod from "../components/CardPaymentMethod";
 
 const { width } = Dimensions.get("screen");
 const { bringLength } = require("../services/mediosDePago.service");

@@ -5,7 +5,6 @@ import { useFonts } from '@use-expo/font';
 import { Asset } from "expo-asset";
 import { Block, GalioProvider } from "galio-framework";
 import { NavigationContainer } from "@react-navigation/native";
-import CreateCardContext from "./components/CardsState";
 // Before rendering any navigation stack
 import { enableScreens } from "react-native-screens";
 enableScreens();
@@ -44,7 +43,6 @@ export default props => {
     );
   } else if(fontsLoaded) {
     return (
-      <CreateCardContext>
       <NavigationContainer>
         <GalioProvider theme={argonTheme}>
           <Block flex>
@@ -52,7 +50,6 @@ export default props => {
           </Block>
         </GalioProvider>
       </NavigationContainer>
-      </CreateCardContext>
     );
   } else {
     return null
