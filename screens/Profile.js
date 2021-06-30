@@ -12,6 +12,7 @@ import { Button } from "../components";
 import { argonTheme } from "../constants/index";
 import ArticleCard from '../components/ArticleCard';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
 //import { TouchableOpacity } from "react-native-gesture-handler";
 
 const perfil = require("../assets/imgs/fotoPerfil.jpg");
@@ -22,7 +23,7 @@ const { getFotosByProducto } = require("../services/foto.service");
 const { getProductoById } = require("../services/producto.service");
 const { getProductosByCliente } = require("../services/producto.service");
 const { getPersona } = require("../services/persona.service");
-const { getUltimaPujaCliente, getImporteMaximo } = require("../services/registroDeSubasta.service");
+const { getUltimaPujaCliente, getImporteMaximo, construirResultados } = require("../services/registroDeSubasta.service");
 
 
 const thumbMeasure = (width - 48 - 32) / 3;
@@ -36,15 +37,17 @@ const Profile = (props) => {
   const [cliente, setCliente] = useState();
   const [subastasParticipadas, setSubastasParticipadas] = useState(0);
   const [articulosSubastados, setArticulosSubastados] = useState(0);
-  const [objetos,setObjetos] = useState();
+  const [objetos, setObjetos] = useState();
   const [subastasGanadas, setSubastasGanadas] = useState(0);
+  const isFocused = useIsFocused();
+
   useEffect(() => {
     recuperar();
-    getRegistrosCliente(); 
+    getRegistrosCliente();
     lenProductosSubastados();
-  }, [])
+  }, [isFocused])
 
-  const recuperar = async () => { 
+  const recuperar = async () => {
     try {
       const categoriaCliente = await AsyncStorage.getItem('categoria');
       const idCliente = await AsyncStorage.getItem('idCliente');
@@ -55,15 +58,14 @@ const Profile = (props) => {
       setNombre(res.persona.nombre);
       setDireccion(res.persona.direccion);
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
   }
 
   const lenProductosSubastados = async () => {
     const idCliente = await AsyncStorage.getItem('idCliente');
     const { productos } = await getProductosByCliente(idCliente);
-    setArticulosSubastados(productos.length)
-    
+    setArticulosSubastados(productos.length);
   }
 
   const getRegistrosCliente = async () => {
@@ -74,23 +76,15 @@ const Profile = (props) => {
     for (const registro in listaPujasDeCliente) {
       if (!idProductos.includes(listaPujasDeCliente[registro].producto)) {
         idProductos.push(listaPujasDeCliente[registro].producto)
-        idObjetos.push({idProducto:listaPujasDeCliente[registro].producto,idSubasta:listaPujasDeCliente[registro].subasta, estado:"", idCliente:idCliente})
+        idObjetos.push({ idProducto: listaPujasDeCliente[registro].producto, idSubasta: listaPujasDeCliente[registro].subasta, idCliente: idCliente })
       };
     }
-    idObjetos.forEach ( async i => {
-    const resMaxCliente = await getImporteMaximo(i.idSubasta,i.idProducto);
-    const resMaximo = await getUltimaPujaCliente(i.idCliente, i.idSubasta, i.idProducto);
-    if(resMaxCliente.ultimaPuja === resMaximo.ultimaPuja && resMaximo.ultimaPuja!=0){
-      i.estado="ganado";
-      setSubastasGanadas(subastasGanadas+1);
-    }else{
-      i.estado="perdido";
-    }
-   });
-    setObjetos(idObjetos);
+    const resultados = await construirResultados(idObjetos);
+    const productosGanados = resultados.filter(productos => productos.estado == "ganado").length;
+    setObjetos(resultados);
+    setSubastasGanadas(productosGanados);
     const prodPromiseArr = [];
     idProductos.forEach(async idProducto => {
-      
       prodPromiseArr.push(getProductoById(idProducto));
     });
     const products = await Promise.all(prodPromiseArr);
@@ -138,7 +132,7 @@ const Profile = (props) => {
                       style={{ marginBottom: 4 }}
                     >
                       {subastasGanadas}
-                      </Text>
+                    </Text>
                     <Block>
                       <Text style={{ textAlign: 'center' }} size={12} color={argonTheme.COLORS.TEXT}>Subastas</Text>
                       <Text style={{ textAlign: 'center' }} size={12} color={argonTheme.COLORS.TEXT}>ganadas</Text>
@@ -152,7 +146,7 @@ const Profile = (props) => {
                       style={{ marginBottom: 4 }}
                     >
                       {subastasParticipadas}
-                      </Text>
+                    </Text>
                     <Block>
                       <Text style={{ textAlign: 'center' }} size={12} color={argonTheme.COLORS.TEXT}>Subastas</Text>
                       <Text style={{ textAlign: 'center' }} size={12} color={argonTheme.COLORS.TEXT}>participadas</Text>
@@ -166,7 +160,7 @@ const Profile = (props) => {
                       style={{ marginBottom: 4 }}
                     >
                       {articulosSubastados}
-                      </Text>
+                    </Text>
                     <Block>
                       <Text style={{ textAlign: 'center' }} size={12} color={argonTheme.COLORS.TEXT}>Artículos</Text>
                       <Text style={{ textAlign: 'center' }} size={12} color={argonTheme.COLORS.TEXT}>subastados</Text>
@@ -192,28 +186,28 @@ const Profile = (props) => {
                     <Text size={16} color="#32325D" style={{ marginTop: 2 }}>
                       {categoria}
                     </Text>
-                    </Block>
+                  </Block>
                 </Block>
                 <Block middle style={{ marginTop: 20, marginBottom: 16 }}>
                   <Block style={styles.divider} />
                 </Block>
-                
+
                 <Button
                   style={styles.btnVerProducto}
-                  onPress={() => navigation.navigate('Metricas', {info:objetos})}
-                  size= 'small'
+                  onPress={() => navigation.navigate('Metricas', { info: objetos })}
+                  size='small'
                 >
                   Mis estadísticas
                 </Button>
-                  
+
                 <Block middle>
-                  {misArticulos.map((articulo,index) => {
+                  {misArticulos.map((articulo, index) => {
                     return (
-                        <ArticleCard key={articulo.producto.idProducto} item={objetos[index]} perfil={true} estadoFinal={objetos[index].estado} imagen={{ uri: articulo.producto.foto }} titulo={articulo.producto.descripcion} estado={'aprobado'} horizontal />
+                      <ArticleCard key={articulo.producto.idProducto} item={objetos[index]} perfil={true} estadoFinal={objetos[index].estado} imagen={{ uri: articulo.producto.foto }} titulo={articulo.producto.descripcion} estado={'aprobado'} horizontal />
 
                     );
                   })}
-                
+
                 </Block>
 
               </Block>
@@ -285,11 +279,11 @@ const styles = StyleSheet.create({
     height: thumbMeasure
   },
   btnVerProducto: {
-		flex: 1,
-		borderRadius: 10,
-		backgroundColor: '#3483FA',
-		alignSelf: 'center',
-	}
+    flex: 1,
+    borderRadius: 10,
+    backgroundColor: '#3483FA',
+    alignSelf: 'center',
+  }
 });
 
 export default Profile;
