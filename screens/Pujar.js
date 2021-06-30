@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Dimensions, Platform, ScrollView, KeyboardAvoidingView, View } from 'react-native';
 import { Block, Button, Text, theme } from 'galio-framework';
 import { HeaderHeight } from "../constants/utils";
@@ -9,7 +9,6 @@ import { useForm, Controller } from "react-hook-form";
 import { SliderBox } from 'react-native-image-slider-box'
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TimerContext } from "../components/TimerProvider";
 
 const { getPujaActual, nuevaPuja } = require('../services/registroDeSubasta.service')
 const { getMetodosDePago } = require('../services/mediosDePagoService');
@@ -31,7 +30,7 @@ export default function Pujar({ route, navigation }) {
   const objeto = route.params;
   const subasta = objeto.subasta;
   const producto = objeto.producto;
-  const timer = useContext(TimerContext);
+
   const fotos = producto.lightfotos.map(foto => {
     return foto.referencia_url;
   })
@@ -44,16 +43,19 @@ export default function Pujar({ route, navigation }) {
   const [selectedValue, setSelectedValue] = useState('Elija su Medio de Pago')
   const [marginTopScrollView, setMarginTopScrollView] = useState('-20%')
   const { control, handleSubmit, formState: { errors } } = useForm();
+  const [counter, setCounter] = useState(30);
+  const [countId, setCountId] = useState('1');
 
-  //states del timer
-  const [counter, setCounter] = useState(30*5);
-  const[countId,setCountId] = useState('1')
-
-  //reset del timer
   const resetCounter = () => {
     setCountId(countId + '1')
-    setCounter(60 * 5);
+    setCounter(30);
   }
+
+  const obtenerMediosDePago = async function () {
+    const idCliente = await AsyncStorage.getItem('idCliente');
+    await getMetodosDePago(idCliente, setMediosDePago);
+  }
+
   const cerrarProducto = () => {
     updateEstadoProducto(producto.idProducto);
     navigation.navigate("Home", {
@@ -63,11 +65,6 @@ export default function Pujar({ route, navigation }) {
     if (subasta.catalogo.productos.length == 1) {
       updateEstadoSubasta(subasta.idSubasta);
     }
-  }
-  const obtenerMediosDePago = async function () {
-    const idCliente = await AsyncStorage.getItem('idCliente');
-    await getMetodosDePago(idCliente, setMediosDePago);
-
   }
 
   const obtenerPuja = async function () {
@@ -83,24 +80,7 @@ export default function Pujar({ route, navigation }) {
       setPujaActual(data.pujaActual);
     }
   }
-/*
-<CountDown
-                    id={subasta.idSubasta}
-                    until={counter}
-                    size={18}
-                    onFinish={() =>{ 
-                      navigation.navigate("Home", {
-                      tipo: 'Articulo',
-                      data: producto
-                    })}}
-                    digitTxtStyle={{ color: '#3483FA' }}
-                    digitStyle={{backgroundColor: '#FFF'}}
-                    separatorStyle={{color: '#3483FA'}}
-                    timeToShow={['M', 'S']}
-                    timeLabels={{ m: null, s: null }}
-                    showSeparator
-                  />
-                  */
+
 
   useEffect(() => {
     obtenerPuja()
@@ -111,7 +91,6 @@ export default function Pujar({ route, navigation }) {
     const idCliente = await AsyncStorage.getItem('idCliente');
     if (oferta > pujaActual && oferta >= producto.itemsCatalogo.precioBase * 0.01 && oferta <= pujaActual * 1.2) {
       await nuevaPuja(subasta.idSubasta, producto.id_duenio, producto.idProducto, idCliente, oferta, setPujaActual);
-      //instancia el reset del timer
       resetCounter();
     } else {
 
@@ -136,15 +115,11 @@ export default function Pujar({ route, navigation }) {
             <KeyboardAvoidingView style={{ flex: 1 }}>
               <View>
                 <View style={styles.countDownContainer}>
-                <CountDown
-                    id={subasta.idSubasta}
+                  <CountDown
+                    id={countId}
                     until={counter}
                     size={18}
-                    onFinish={() =>{ 
-                      navigation.navigate("Home", {
-                      tipo: 'Articulo',
-                      data: producto
-                    })}}
+                    onFinish={() => setOpenModalSubastaTerminada(true)}
                     digitTxtStyle={{ color: '#3483FA' }}
                     digitStyle={{backgroundColor: '#FFF'}}
                     separatorStyle={{color: '#3483FA'}}
@@ -218,6 +193,12 @@ export default function Pujar({ route, navigation }) {
           <Text size={15} style={styles.modalText1}>El Monto ofertado debe ser mayor a {pujaActual + producto.itemsCatalogo.precioBase * 0.01}</Text>
           <Text size={15} style={styles.modalText2}>El Monto ofertado debe ser menor a {pujaActual * 1.2}</Text>
           <Button style={styles.modalButton} onPress={() => setOpen(false)}>OK</Button>
+        </Block>
+      </Modal>
+      <Modal coverScreen={false} deviceHeight={height * 1.2} isVisible={openModalSubastaTerminada}>
+        <Block style={styles.modalContainer}>
+          <Text size={15} style={styles.modalText1}>Â¡La subasta de este producto ha finalizado!</Text>
+          <Button style={styles.modalButton} onPress={() => cerrarProducto()}>OK</Button>
         </Block>
       </Modal>
     </KeyboardAvoidingView>
