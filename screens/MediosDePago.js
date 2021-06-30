@@ -3,8 +3,8 @@ import { Block, theme, Text } from "galio-framework";
 import React, { useEffect, useState } from "react";
 import { Dimensions, View, Image, StyleSheet, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import CardPaymentMethod from "../components/CardPaymentMethod";
-import CreateCardContext from "../components/CardsState";
+//import CardPaymentMethod from "../components/CardPaymentMethod";
+import CardPaymentMethod from "../components/paymentsMethodFn";
 
 const { width } = Dimensions.get("screen");
 const { bringLength } = require("../services/mediosDePago.service");
@@ -15,29 +15,16 @@ export default function MediosDePago({ navigation }) {
   const [numeroCliente, setNumeroCliente] = useState("");
   const [cantTarj, setCantTarj] = useState();
 
-  useEffect(() => {
+  /*useEffect(() => {
     //traerTj(5,setListaTarjetas);
     fetchClientNumber(setNumeroCliente, setListaTarjetas, setCantTarj);
   }, [setCantTarj]),
     console.log("Lista: " + listaTarjetas);
-  console.log("cant: " + cantTarj);
+  console.log("cant: " + cantTarj);*/
   return (
-    <CreateCardContext>
       <ScrollView>
         <Block style={styles.cardsContainer}>
-          {listaTarjetas.map((e) => {
-            var cardObject = JSON.stringify(e);
-
-            return (
-              <CardPaymentMethod
-                style={styles.card}
-                key={e.cardNumber}
-                horizontal={true}
-                cardsObject={cardObject}
-                clientNumber={numeroCliente}
-              />
-            );
-          })}
+          <CardPaymentMethod style={styles.card} horizontal={true}/>
         </Block> 
         <View
           style={{
@@ -57,7 +44,6 @@ export default function MediosDePago({ navigation }) {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </CreateCardContext>
   );
 }
 

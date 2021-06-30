@@ -12,23 +12,27 @@ const borrarIcon = require("../assets/imgs/Vector.png");
 const validateIcon = require("../assets/imgs/validate.png");
 const visaDigit = "4";
 
-export default function CardPaymentMethod({ props }) {
-  const {getCards} = useContext(CardsContext)
-  useEffect(()=>{getCards()},[])
-  return <Block>{
-      renderCardComponent
-
-    }</Block>;
+export default function CardPaymentMethod({ full , horizontal, style }) {
+  console.log("props "+ full + " " +horizontal)
+  const {cardsList,getCards} = useContext(CardsContext)
+  useEffect(()=>{getCards(11)},[])
+  //Como llama a getCards, y getCards actualiza el estado, lo puedo empezar a usar.
+  //Con esa listaTarjetas que tengo, ya puedo acceder a ella.
+  return (<Block>{
+     cardsList.map((e)=>{console.log(e);return (renderCardComponent(e,full,horizontal,style))})
+    }</Block>);
 }
 //Yo lo que tendría que hacer es tirar el 
 
-const renderCardComponent = () => {
-  const { navigation, horizontal, full, style, imageStyle } = this.props;
+//El return tendría que ir por cada 
 
+const renderCardComponent = (e,full,horizontal,style) => {
+  //const { navigation, horizontal, full, style, imageStyle } = this.props;
+  //console.log(props)
   const imageStyles = [
     styles.centrado,
     full ? styles.fullImage : styles.horizontalImage,
-    imageStyle,
+    //imageStyle,
   ];
   const cardContainer = [styles.card, styles.shadow, styles.group, style];
   const imgContainer = [
@@ -44,14 +48,13 @@ const renderCardComponent = () => {
       card
       height={80}
       style={cardContainer}
-      key={this.state.cardsObject.cardNumber}
+      key={e.cardNumber}
     >
       <Block row={true} height={50} alignItems={"center"} paddingLeft={20}>
         {renderCardImagen(
-          this.state.cardsObject.cardNumber,
-          imageStyles,
-          imgContainer
-        )}
+          e.cardNumber,
+          imageStyles
+        )} 
       </Block>
 
       <Block
@@ -64,13 +67,13 @@ const renderCardComponent = () => {
         }
       >
         <Text size={20} center style={styles.cardTitle}>
-          {this.state.cardsObject.cardNumber}
+          {e.cardNumber}
         </Text>
         {/*<Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold>{item.cta}</Text>*/}
         {/*<Button onPress={props=>{<CustomModal {...props} visible={true}/>;console.log("e")}} style={{borderRadius:40}}>BORRAR</Button>*/}
       </Block>
       <Block row={true} height={10} alignItems={"center"}>
-        {renderValidatedIcon(this.state.cardsObject.isValidated)}
+        {renderValidatedIcon(e.isValidated)}
       </Block>
     </Block>
   );
@@ -86,9 +89,9 @@ const renderCustomModal = () => {
     ></CustomModal>
   );
 };
-const renderCardImagen = (cardNumber) => {
+const renderCardImagen = (cardNumber,imgStyles) => {
   console.log("CardNumber: " + cardNumber);
-  if (cardNumber.substring(0, 1) === visaDigits) {
+  if (cardNumber.substring(0, 1) == 4) { 
     return (
       <Block
         flex
