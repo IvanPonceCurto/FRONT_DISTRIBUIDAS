@@ -19,10 +19,6 @@ class Header extends React.Component {
     navigation.navigate("Articulos");
     //return (back ? navigation.goBack() : navigation.navigate("Articulos"));
   }
-  handleMetricas = () => {
-    const { back, navigation } = this.props;
-    navigation.navigate("Metricas");
-  }
   
   
   renderTabs = () => {
@@ -157,17 +153,6 @@ class Header extends React.Component {
                   
                   /*aca aceptamos cambios*/
                   rightStyle={{ alignItems: 'center' }}
-                  right={
-                    <TouchableOpacity onPress={this.handleMetricas} >
-                      <Icon 
-                      name={'linechart'} family="AntDesign" 
-                      size={20} 
-                      color={'black'}
-                      style={{ marginTop: 2 }}
-                    />
-                    </TouchableOpacity>
-                      
-                  }
                   left={
                     <Icon 
                       name={back ? 'nav-left' : "menu-8"} family="ArgonExtra" 

@@ -37,8 +37,8 @@ const TrackSubasta = ({route,navigation}) => {
       const idCliente = await AsyncStorage.getItem('idCliente');
       const resProducto = await getProductoById(producto.idProducto); //aca va el idProducto
       const res = await getRegistrosByClienteBySubasta(producto.idSubasta,idCliente,producto.idProducto); //aca va el idSubasta, el idCliente y el idProducto
-      const dataRes = await res.json();
-      dataRes.listaPujasDeSubasta.forEach(item => {
+      //const dataRes = await res.json();
+      res.listaPujasDeSubasta.forEach(item => {
         lista.push([item.idRegistro,"Puja",item.importe]);
       });
       //console.log(resProducto);
