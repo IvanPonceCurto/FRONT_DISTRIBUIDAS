@@ -1,17 +1,16 @@
-import React from 'react';
-import { Image, StyleSheet, Dimensions, Platform, ScrollView, Modal } from 'react-native';
+import React,{useState,useEffect} from 'react';
+import { Image, StyleSheet, Dimensions, Platform, ScrollView } from 'react-native';
 import { Block, Button, Text, theme } from 'galio-framework';
 import { HeaderHeight } from "../constants/utils";
 import { SliderBox } from 'react-native-image-slider-box'
-import { View } from 'native-base';
 const { height, width } = Dimensions.get('screen');
-
+const fotoPerfil = require('../assets/imgs/perfil.jpg')
 
 const altura = height - height*0.20
 
 //COSAS A HACER EN LA PANTALLA:
-//hay que poner en la bdd una descripcion larga del producto
-//hay que hacer el join de nuestro objeto producto con personas
+//falta foto de la persona, creo que lo estaba haciendo lauti eso
+
 export default function Producto({route,navigation}){
 
 	const objeto = route.params;
@@ -20,6 +19,27 @@ export default function Producto({route,navigation}){
 	const fotos = producto.lightfotos.map(foto =>{
 		return foto.referencia_url;
 	})
+	const valor = objeto.valor;
+	
+	const[duenio,setDuenio] = useState({})
+
+	const obtenerPersona = async function(){
+	  var requestOptions = {
+		method: 'GET'
+	  
+		};
+		
+		let response = await fetch(`https://distribuidas-backend.herokuapp.com/api/personas/getPersonaById/${producto.id_duenio}`, requestOptions)
+		
+		let data = await response.json();   
+		setDuenio(data.persona)
+	}
+  
+  
+	 useEffect(()=>{
+	   obtenerPersona()
+	 },[setDuenio])
+	 
 
 	return(
             <Block>
@@ -37,26 +57,26 @@ export default function Producto({route,navigation}){
 					<Block flex style={styles.productCard}>
 						<Block row space="between" style={styles.cardHeader}>
 							<Text size={25} style={styles.productNameText}>{producto.descripcion}</Text>
-							<Text size={30} style={styles.productPrizeText}>{producto.itemsCatalogo.precioBase}</Text>
+							<Text size={30} style={styles.productPrizeText}>${producto.itemsCatalogo.precioBase}</Text>
 						</Block>
 						<Block middle style={{ marginTop: 30}}>
 							<Block style={styles.divider} />
 						</Block>
 						<Block row>
-								<Text size={20} style={styles.duenioText}>Dueño: {producto.duenio/*producto.duenio.nombre*/}</Text>
+								<Text size={20} style={styles.duenioText}>Dueño: {duenio.nombre}</Text>
 								<Block  style={styles.avatarContainer}>
 									<Image
-										source={{uri:fotos[0]}/*producto.duenio.foto*/}
+										source={fotoPerfil}/*producto.duenio.foto*/
 										style={styles.avatar}
 									/>
 								</Block>
 						</Block>
 						<Block style={styles.descripcionContainer}>
 							<Text size={20} bold style={styles.tituloDescripcion}>Descripcion</Text>
-							<Text style={styles.descripcionLarga}>{producto.descripcion}</Text>
-							<Text style={styles.descripcionLarga}>fmsfmsfosmfsofmsfosmfosfmsofsmfosfmsofmsfosmfsofmsfosfmsofmsfosmfsofmsfosfmsofmsfsfmosfmsfosmfosfmsfosmfsofmsfosmfsofmsfosfmsfomfmsofmsfomsfo</Text>
+							<Text size={15} style={styles.descripcionLargaTitulo}>{producto.descripcion}</Text>
+							<Text style={styles.descripcionLarga}>{producto.descripcionLarga}</Text>
 						</Block>
-						<Button style={styles.btnRealizarOferta} onPress={()=>navigation.navigate('Pujar',{producto,subasta})}>
+						<Button disabled={valor} style={styles.btnRealizarOferta} onPress={()=>navigation.navigate('Pujar',{producto,subasta})}>
 							<Text size={16} style={{color:'#FFFFFF'}} bold>Realiza tu Oferta!</Text>
 						</Button>
 					</Block>
@@ -138,10 +158,18 @@ const styles = StyleSheet.create({
 		paddingVertical: '5%'
 	},
 	tituloDescripcion: {
-		color: '#707070'
+		color: '#707070',
+		marginTop:10
+	
 	},
 	descripcionLarga: {
 		marginTop: 20,
+		color: '#707070',
+		marginHorizontal:20
+	},
+	descripcionLargaTitulo: {
+		marginTop: 30,
+		alignSelf:'center',
 		color: '#707070'
 	},
 	btnRealizarOferta: {

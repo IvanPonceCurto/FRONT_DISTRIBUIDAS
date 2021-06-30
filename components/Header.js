@@ -1,6 +1,6 @@
 import React from 'react';
 import { withNavigation } from '@react-navigation/compat';
-import { TouchableOpacity, StyleSheet, Platform, Dimensions } from 'react-native';
+import { TouchableOpacity, StyleSheet, Platform, Dimensions,StatusBar } from 'react-native';
 import {Block, NavBar, theme } from 'galio-framework';
 
 import Icon from './Icon';
@@ -18,10 +18,6 @@ class Header extends React.Component {
     const { back, navigation } = this.props;
     navigation.navigate("Articulos");
     //return (back ? navigation.goBack() : navigation.navigate("Articulos"));
-  }
-  handleMetricas = () => {
-    const { back, navigation } = this.props;
-    navigation.navigate("Metricas");
   }
   
   
@@ -71,6 +67,7 @@ class Header extends React.Component {
       if(home == true){
         return (
           <Block style={headerStyles}>
+            <StatusBar hidden/>
             <NavBar
               back={false}
               title={'BetFast'}
@@ -104,6 +101,7 @@ class Header extends React.Component {
 
           return (
             <Block style={headerStyles}>
+            <StatusBar hidden/>
               <NavBar
                 back={false}
                 title={'BetFast'}
@@ -146,6 +144,7 @@ class Header extends React.Component {
           if(perfil==true){
             return (
               <Block style={headerStyles}>
+              <StatusBar hidden/>
                 <NavBar
                   back={false}
                   title={'BetFast'}
@@ -154,17 +153,6 @@ class Header extends React.Component {
                   
                   /*aca aceptamos cambios*/
                   rightStyle={{ alignItems: 'center' }}
-                  right={
-                    <TouchableOpacity onPress={this.handleMetricas} >
-                      <Icon 
-                      name={'linechart'} family="AntDesign" 
-                      size={20} 
-                      color={'black'}
-                      style={{ marginTop: 2 }}
-                    />
-                    </TouchableOpacity>
-                      
-                  }
                   left={
                     <Icon 
                       name={back ? 'chevron-left' : "menu"} family="entypo" 
@@ -189,6 +177,7 @@ class Header extends React.Component {
           }else{
           return (
             <Block style={headerStyles}>
+            <StatusBar hidden/>
               <NavBar
                 back={false}
                 title={title}
@@ -239,12 +228,15 @@ const styles = StyleSheet.create({
     width: '100%',
     fontSize: 16,
     fontWeight:'normal',
-    paddingLeft:theme.SIZES.BASE*8.5,
+    textAlign:'center',
+    textAlignVertical:'center',
+    paddingLeft:theme.SIZES.BASE*2.5,
   },
   navbar: {
     paddingVertical: 0,
     paddingBottom: theme.SIZES.BASE * 1.5,
     paddingTop: iPhoneX ? theme.SIZES.BASE * 4 : theme.SIZES.BASE,
+    marginTop:-20,
     zIndex: 5
   },
   shadow: {

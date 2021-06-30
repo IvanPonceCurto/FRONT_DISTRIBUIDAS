@@ -14,12 +14,16 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 
 
+const {createPersona} = require('../services/persona.service');
+const { createFotoWithBase64, createFotoCloudinary } = require("../services/foto.service");
 
 const { width } = Dimensions.get("screen");
 
 const SelectUserImage = (props) => {
-
+	const {route, navigation } = props;
 	const [pickedImage, setPickedImage] = useState()
+	const persona = route.params.persona;
+
 	const verifyPermissions = async () => {
 		const results = await Permissions.askAsync(Permissions.CAMERA, Permissions.MEDIA_LIBRARY);
 		if (results.status !== 'granted') {
@@ -43,7 +47,20 @@ const SelectUserImage = (props) => {
 		setPickedImage(image.uri)
 	}
 
-	const { navigation } = props;
+	const uploadPhoto = async (identificador) =>{
+		const resCludinary = await createFotoCloudinary(`data:image/jpeg;base64,${pickedImage.base64}`);
+		await createFotoWithBase64(identificador, resCludinary.url);		
+	}
+
+	const createPersonaAndPhoto = async () => {
+		const resPersona = await createPersona(persona);
+		const { nuevaPersona: { identificador } } = resPersona;
+		//uploadPhoto(identificador);
+
+		navigation.navigate("Registro Finalizado");
+	}
+
+
 
 
 	return (
@@ -71,7 +88,7 @@ const SelectUserImage = (props) => {
 				{pickedImage && <Button
 					style={styles.button}
 					color={argonTheme.COLORS.BLUE}
-					onPress={() => navigation.navigate("Registro Finalizado")}
+					onPress={() => createPersonaAndPhoto()}
 					textStyle={{ color: argonTheme.COLORS.WHITE }}
 				>
 					Solicitar

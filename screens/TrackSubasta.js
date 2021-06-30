@@ -8,60 +8,63 @@ import {
 import { Block, Text} from "galio-framework";
 import { Table, Row, Rows} from 'react-native-table-component';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ActivityIndicator } from 'react-native';
 
 const { getTrackSubasta } = require("../services/registroDeSubasta.service");
 const { getProducto } = require("../services/producto.service");
 const { width, height } = Dimensions.get("screen");
+const { getRegistrosByClienteBySubasta } = require("../services/registroDeSubasta.service");
+const { getProductoById } = require("../services/producto.service");
 
-const TrackSubasta = (props) => {
-
-  const [listaSubastas, setListaSubastas] = useState();
-  const [tableHead, setTableHead] = useState(['ID', 'DESCRIPCION', 'VALOR']);
-  const [tableData, setTableData] = useState([],[]);
-  const [idSubasta, setIdSubasta] = useState();
+const TrackSubasta = ({route,navigation}) => {
+  const [showLoader, setShowLoader] = useState(true);
+  const producto = route.params.producto;
   const [nombreProducto, setNombreProducto] = useState();
-
-  const track = async () => {
-    try {
-      var lista = [];
-      var listaFiltro = [];
-      const idCliente = await AsyncStorage.getItem('idCliente');
-      const resProducto = await getProducto(2);
-      const res = await getTrackSubasta(idCliente,6);
-      res.listaPujasDeSubasta.forEach(i => {
-        if(idCliente == i.cliente && 2 == i.producto){
-            listaFiltro.push(i);
-        }
-      });
-      setListaSubastas(listaFiltro);
-      const filas = listaSubastas.map((item) => {
-        lista.push([item.idRegistro,"Puja",item.importe]);
-      });
-      setIdSubasta(res.listaPujasDeSubasta[0].subasta);
-      setTableData(lista);
-      setNombreProducto(resProducto.producto.descripcion.toUpperCase());
-    } catch (error) {
-        console.log(error);
-    }
-  }
+  const [nroSubasta, setNroSubasta] = useState();
+  const [tableHead, setTableHead] = useState(['ID', 'DESCRIPCION', 'VALOR']);
+  const [tableData, setTableData] = useState([
+                                              [],
+                                              []
+                                            ]);
 
   useEffect(() => {
     track();
   }, []);  
 
-  
-  
- 
-  //console.log(lista);
+  const track = async () => {
+    try {
+      var lista = [];
+      const idCliente = await AsyncStorage.getItem('idCliente');
+      const resProducto = await getProductoById(producto.idProducto); //aca va el idProducto
+      const res = await getRegistrosByClienteBySubasta(producto.idSubasta,idCliente,producto.idProducto); //aca va el idSubasta, el idCliente y el idProducto
+      //const dataRes = await res.json();
+      res.listaPujasDeSubasta.forEach(item => {
+        lista.push([item.idRegistro,"Puja",item.importe]);
+      });
+      //console.log(resProducto);
+      setNombreProducto(resProducto.producto.descripcion.toUpperCase());
+      setNroSubasta(producto.idSubasta);
+      setShowLoader(false);
+      setTableData(lista);
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   
   return (
-    
     <Block style={styles.container}>
+    {showLoader ?
+      <View style={{ marginTop: '20%' }}>
+        <ActivityIndicator size="large" color="#3483FA" />
+      </View>
+      :
+      <Block >
       <Text style={{marginTop:'7%'}} center color="#3483FA" size={22}>
-        Subasta #{idSubasta}
+        Subasta #{nroSubasta}
       </Text>
       <Text center color="#3483FA" bold size={22}>
-        SUBASTA DE {nombreProducto}
+        {nombreProducto}
       </Text>
       <ScrollView>
         <View style={styles.container2}>
@@ -71,6 +74,9 @@ const TrackSubasta = (props) => {
           </Table>
         </View>
       </ScrollView>
+      </Block>
+    }
+      
       </Block>
      
   );

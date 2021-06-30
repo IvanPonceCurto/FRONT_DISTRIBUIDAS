@@ -20,9 +20,11 @@ const Registro = (props) => {
 
   const { control, handleSubmit, formState: { errors } } = useForm();
   const [gender, setGenero] = useState('M');
+
+
   const onSubmit = data => {
-    console.log({ ...data, gender: gender });
-    navigation.navigate("Seleccionar Imagen");
+ 
+    navigation.navigate("Seleccionar Imagen",{persona:{ ...data, gender: gender }});
   };
 
   const { navigation } = props;

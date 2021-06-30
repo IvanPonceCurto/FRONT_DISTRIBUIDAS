@@ -9,7 +9,8 @@ import { TouchableOpacity } from "react-native-gesture-handler"
 
 const addTarjeta=require("../assets/imgs/addTarjIcon.png")
 
-const ancho= Dimensions.get("screen")
+const ancho= Dimensions.get("screen").height
+
 const listaPaises=[
     {
         pais:"Argentina",
@@ -72,20 +73,6 @@ class InputPM extends React.Component{
     }
 
 
-    renderCustomModal=({isVisible,hasChild})=>{
-        const [visibleModal,setVisibleModal]=useState(false);
-        setVisibleModal=()=>{
-            this.setState({visibleModal:isVisible})
-        }
-        return(
-            <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
-                <CustomModal visible={isVisible}>
-                    
-                </CustomModal>
-            </View>
-        )
-    }
-
     renderInput=()=>{
         const inputStyles = [
             stylesSheet.input,stylesSheet.shadow,
@@ -93,7 +80,7 @@ class InputPM extends React.Component{
           ];
         return(
             <View>
-                <Text h4 style={stylesSheet.titulo} size={20}>AÑADIR NUEVA TARJETA</Text>
+            
                 <Block style={{paddingHorizontal:theme.SIZES.BASE}}>
 
                     <Input right
@@ -145,9 +132,12 @@ class InputPM extends React.Component{
     }
     
     renderLoadButton= () => {
-        return(<TouchableOpacity onPress={()=>this.sendData()} style={{alignItems:"flex-end",paddingTop:245}}>
+        return(
+        <View style={{alignItems:"flex-end",bottom:0,right:1,marginBottom:ancho-50}}>
+        <TouchableOpacity  onPress={()=>this.sendData()} >
         <Image source={addTarjeta}></Image> 
-    </TouchableOpacity>)
+    </TouchableOpacity>
+    </View>)
         
         
     }
@@ -190,6 +180,7 @@ class InputPM extends React.Component{
         )
     }
 }
+
 const stylesSheet= StyleSheet.create({
     botonSi:{
         paddingLeft:10
@@ -320,3 +311,6 @@ const stylesSheet= StyleSheet.create({
       }
 })
 export default InputPM;
+
+//Pasar todo a functionComponent y validar los inputs contra el regex que se hace facilongo.
+

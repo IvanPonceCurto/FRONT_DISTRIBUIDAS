@@ -3,36 +3,30 @@ import React from "react"
 import {View,StyleSheet} from "react-native"
 import { argonTheme } from "../constants"
 import {Modal} from "react-native"
+import {fetchDeleteMethod} from "../services/mediosDePago.service"
 
 
 class CustomModal extends React.Component{
     constructor(props){
         super(props)
-        console.log(this.props.visible+" "+this.props.decir)
         this.state={
             visible:this.props.visible,
             cardNumber:this.props.cardNumber,
-            añadirTarjeta:this.props.tarjeta
+            añadirTarjeta:this.props.tarjeta,
+            clientNumber: this.props.clientNumber
         }
-        console.log("Props acá:"+this.state.añadirTarjeta)
-        console.log("Estado"+this.state.visible)
     }
     changeState=(e)=>{
         e.preventDefault();
         this.setState({visible:false})
     }
-
-    conditionalRender=(param)=>{
-        console.log("El parametro es:"+param)
-        if(param){
-            return(
-                <Text style={{marginTop:30,fontSize:15,textAlign:'center'}}>¿Estás seguro de que querés añadir la tarjeta {this.state.cardNumber}?</Text>
-            )
-        }
-        return(
-            <Text style={{marginTop:30,fontSize:15,textAlign:'center'}}>¿Estás seguro de que querés borrar la tarjeta {this.state.cardNumber}?</Text>
-        )
+    llamarDelete=(e)=>{
+        e.preventDefault();
+        fetchDeleteMethod(this.state.clientNumber,this.state.cardNumber)
+        this.setState({visible:false})
     }
+
+    
 
     render(){
         const isVisible=this.state.visible
@@ -44,10 +38,10 @@ class CustomModal extends React.Component{
             >
                 <Block flex style={stylesSheet.modalFondo}>
                     <Block center style={stylesSheet.modalMostrar}>
-                        {this.conditionalRender(this.state.decir)}
+                    <Text style={{marginTop:30,fontSize:15,textAlign:'center'}}>¿Estás seguro de que querés borrar la tarjeta {this.state.cardNumber}?</Text>
                         <Block flex row style={{marginTop:30}}>
-                            <Button style={stylesSheet.botonSi} onPress={this.changeState}>SI</Button>
-                            <Button style={stylesSheet.botonNo} onPress={this.changeState}>NO</Button>
+                            <Button style={stylesSheet.botonSi} onPress={e=>this.llamarDelete(e)}>SI</Button>
+                            <Button style={stylesSheet.botonNo} onPress={e=>this.changeState(e)}>NO</Button>
                     </Block>
                     </Block>
                 </Block>

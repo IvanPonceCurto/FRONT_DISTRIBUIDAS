@@ -1,76 +1,39 @@
-import React,{useState} from 'react';
-import { Image, StyleSheet, Dimensions, Platform,ScrollView,TouchableWithoutFeedback} from 'react-native';
-import { Block, Button, Text, theme } from 'galio-framework'; 
+import React,{useState,useEffect} from 'react';
+import { StyleSheet, Dimensions, Platform,ScrollView} from 'react-native';
+import { Block, Text, theme } from 'galio-framework'; 
 import {argonTheme } from '../constants/';
 import { HeaderHeight } from "../constants/utils";
 import PrimaryProductCard from '../components/PrimaryProductCard';
 import SecondaryProductCard from '../components/SecondaryProductCard';
 const { height, width } = Dimensions.get('screen');
-const zapas = require("../assets/imgs/zapas.jpg")
-const auto = require("../assets/imgs/ferrari.jpg")
-const reloj = require("../assets/imgs/reloj.jpg")
-const reloj2 = require("../assets/imgs/reloj2.jpg")
-const reloj3 = require("../assets/imgs/reloj3.jpg")
-const wanchope = require("../assets/imgs/wanchope.jpg")
-
-const subasta = {
-                    idSubasta:1234,
-                    fecha: '2021-12-23 04:00:45',
-                    rematador:'Ivan Ponce',
-                    categoriaSubasta:'Platino',
-                    colorCategoria:'#15E18E',
-                    productos:[
-                                {
-                                  idProducto:123,
-                                  nombreProducto:'Zapatillas Nike',
-                                  fotos: [zapas,auto,reloj],
-                                  precioBase:'$10000',
-                                  duenio:{
-                                    nombre:'Wanchope Avila',
-                                    foto: wanchope
-                                  },
-                                  descripcion:'aifnsidmdcicdmsrmsvrsiormvismreisnvrsirnsmrisrnmsirvsnmrsirmsnrisvmnsirmnsndinvufiwime'
-                                },
-                                {
-                                  idProducto:12,
-                                  nombreProducto:'Ferrari',
-                                  fotos: [auto,zapas,reloj],
-                                  precioBase:'$10000',
-                                  duenio:{
-                                    nombre:'Wanchope Avila',
-                                    foto: wanchope
-                                  },
-                                  descripcion:'aifnsidmdcicdmsrmsvrsiormvismreisnvrsirnsmrisrnmsirvsnmrsirmsnrisvmnsirmnsndinvufiwime'
-                                },
-                                {
-                                  idProducto:2,
-                                  nombreProducto:"Reloj Rolex",
-                                  fotos: [reloj,reloj2,reloj3],
-                                  precioBase:'$10000',
-                                  duenio:{
-                                    nombre:'Wanchope Avila',
-                                    foto: wanchope
-                                  },
-                                  descripcion:'aifnsidmdcicdmsrmsvrsiormvismreisnvrsirnsmrisrnmsirvsnmrsirmsnrisvmnsirmnsndinvufiwime'
-                                }
-
-                              ]
-                  }
-
 
 
 
 //COSAS A HACER EN LA PANTALLA:
-//falta hacer join de la subasta con personas 
 //falta un poquito de mejora en lo visual
 
 export default function Pro({route,navigation}){
  
   var subasta = route.params.item
-  const[productoActual,setProductoActual] = useState(subasta.catalogo.productos[0])
-  const[selected, setSelected] = useState({});
 
-  
+  const[subastador,setSubastador] = useState({})
+
+  const obtenerPersona = async function(){
+    var requestOptions = {
+      method: 'GET'
+    
+      };
+      
+      let response = await fetch(`https://distribuidas-backend.herokuapp.com/api/personas/getPersonaById/${subasta.id_subastador}`, requestOptions)
+      
+      let data = await response.json();   
+      setSubastador(data.persona)
+  }
+
+
+   useEffect(()=>{
+     obtenerPersona()
+   },[setSubastador])
    
        
     return (
@@ -85,10 +48,17 @@ export default function Pro({route,navigation}){
                     <Block flex style={styles.catalogoCard}>
                       <Block style={styles.cardHeader}>
                         <Text size={20} style={{textAlign:'center',fontWeight:'bold',marginTop:10}}>Subasta Nro: {subasta.idSubasta}</Text>
-                        <Text style = {{marginTop:15,marginLeft:20}}>Fecha: {subasta.fecha}</Text>
+                        <Text style = {{marginTop:15,marginLeft:20}}>Fecha de Finalización: {subasta.fecha}</Text>
                         <Block row space="between">
-                          <Text style = {{marginTop:10,marginLeft:20}}>Rematador: {subasta.id_subastador}</Text>
-                          <Block style={styles.rectanguloCategoria}>
+                          <Text style = {{marginTop:10,marginLeft:20}}>Rematador: {subastador.nombre}</Text>
+                          <Block  style={{backgroundColor:subasta.colorCategoria,
+                                            width:60,
+                                            alignItems:'center',
+                                            borderRadius:50,
+                                            marginRight:30,
+                                            height:20,
+                                            marginTop:10
+                          }}>
                             <Text size={12} color={argonTheme.COLORS.WHITE} bold>{subasta.categoria}</Text>
                           </Block>
 
@@ -102,12 +72,16 @@ export default function Pro({route,navigation}){
                           {subasta.catalogo.productos.map(producto =>{
                             if(producto.idProducto === subasta.catalogo.productos[0].idProducto){
                               return(
+                                <Block key={producto.idProducto}>
                                 <PrimaryProductCard navigation={navigation} producto={producto} subasta={subasta}/>
+                                </Block>
                               )
                             }
                             else{
                               return(
+                                  <Block key={producto.idProducto}>
                                     <SecondaryProductCard navigation={navigation} producto={producto} subasta={subasta}/>
+                                  </Block>
                               )}
                           })}
                     </Block>
@@ -174,7 +148,7 @@ const styles = StyleSheet.create({
 
   },
   rectanguloCategoria:{
-    backgroundColor:'#000000',
+   
     width:60,
     alignItems:'center',
     borderRadius:50,

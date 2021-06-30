@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, Linking } from "react-native";
+import { StyleSheet, TouchableOpacity, Linking,Image } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 
 import Icon from "./Icon";
 import argonTheme from "../constants/Theme";
-
+const martilloIcon = require('../assets/imgs/icons/gavel_24px.png');
 class DrawerItem extends React.Component {
   renderIcon = () => {
     const { title, focused } = this.props;
@@ -22,7 +22,7 @@ class DrawerItem extends React.Component {
       case "Medios de Pago":
         return (
           <Icon
-            name="map-big"
+            name="bag-17"
             family="ArgonExtra"
             size={14}
             color={focused ? "white" : argonTheme.COLORS.ERROR}
@@ -31,7 +31,7 @@ class DrawerItem extends React.Component {
       case "Ayuda":
         return (
           <Icon
-            name="spaceship"
+            name="g-check"
             family="ArgonExtra"
             size={14}
             color={focused ? "white" : argonTheme.COLORS.PRIMARY}
@@ -40,16 +40,16 @@ class DrawerItem extends React.Component {
       case "Perfil":
         return (
           <Icon
-            name="chart-pie-35"
+            name="ungroup"
             family="ArgonExtra"
             size={14}
             color={focused ? "white" : argonTheme.COLORS.WARNING}
           />
         );
-      case "Subasta":
+      case "Subastar":
         return (
           <Icon
-            name="calendar-date"
+            name="diamond"
             family="ArgonExtra"
             size={14}
             color={focused ? "white" : argonTheme.COLORS.INFO}
