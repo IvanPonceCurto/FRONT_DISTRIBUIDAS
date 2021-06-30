@@ -3,6 +3,7 @@ import { Image, StyleSheet, Dimensions, Platform, ScrollView } from 'react-nativ
 import { Block, Button, Text, theme } from 'galio-framework';
 import { HeaderHeight } from "../constants/utils";
 import { SliderBox } from 'react-native-image-slider-box'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const { height, width } = Dimensions.get('screen');
 const fotoPerfil = require('../assets/imgs/perfil.jpg')
 
@@ -11,6 +12,106 @@ const altura = height - height*0.20
 //COSAS A HACER EN LA PANTALLA:
 //falta foto de la persona, creo que lo estaba haciendo lauti eso
 
+
+const renderPage = (subasta,producto,fotos,valor,duenio,state,navigation) =>{
+	if(state==='1'){
+		return(
+			<Block>
+			<Block flex style={styles.producto}>
+			<Block flex>
+			<Block style={styles.container}>
+				<Block style={styles.backgroundImageContainer}>
+				
+				<SliderBox images={fotos} dotStyle={{marginBottom:90}} style={styles.backgroundImage} ></SliderBox>
+				</Block>
+				<ScrollView
+				showsVerticalScrollIndicator={false}
+				style={{ width, marginTop: '-20%',marginBottom:'-15%' }}
+				>
+				<Block flex style={styles.productCard}>
+					<Block row space="between" style={styles.cardHeader}>
+						<Text size={25} style={styles.productNameText}>{producto.descripcion}</Text>
+						<Text size={30} style={styles.productPrizeText}>${producto.itemsCatalogo.precioBase}</Text>
+					</Block>
+					<Block middle style={{ marginTop: 30}}>
+						<Block style={styles.divider} />
+					</Block>
+					<Block row>
+							<Text size={20} style={styles.duenioText}>Dueño: {duenio.nombre}</Text>
+							<Block  style={styles.avatarContainer}>
+								<Image
+									source={fotoPerfil}/*producto.duenio.foto*/
+									style={styles.avatar}
+								/>
+							</Block>
+					</Block>
+					<Block style={styles.descripcionContainer}>
+						<Text size={20} bold style={styles.tituloDescripcion}>Descripcion</Text>
+						<Text size={15} style={styles.descripcionLargaTitulo}>{producto.descripcion}</Text>
+						<Text style={styles.descripcionLarga}>{producto.descripcionLarga}</Text>
+					</Block>
+					<Button disabled={valor} style={styles.btnRealizarOferta} onPress={()=>navigation.navigate('Pujar',{producto,subasta})}>
+						<Text size={16} style={{color:'#FFFFFF'}} bold>Realiza tu Oferta!</Text>
+					</Button>
+				</Block>
+				</ScrollView>
+			</Block>
+			</Block>
+			</Block>
+
+		</Block>
+		)
+	}
+	
+	else{
+		return(
+			<Block>
+			<Block flex style={styles.producto}>
+			<Block flex>
+			<Block style={styles.container}>
+				<Block style={styles.backgroundImageContainer}>
+				
+				<SliderBox images={fotos} dotStyle={{marginBottom:90}} style={styles.backgroundImage} ></SliderBox>
+				</Block>
+				<ScrollView
+				showsVerticalScrollIndicator={false}
+				style={{ width, marginTop: '-20%',marginBottom:'-15%' }}
+				>
+				<Block flex style={styles.productCard}>
+					<Block row space="between" style={styles.cardHeader}>
+						<Text size={25} style={styles.productNameText}>{producto.descripcion}</Text>
+						
+					</Block>
+					<Block middle style={{ marginTop: 30}}>
+						<Block style={styles.divider} />
+					</Block>
+					<Block row>
+							<Text size={20} style={styles.duenioText}>Dueño: {duenio.nombre}</Text>
+							<Block  style={styles.avatarContainer}>
+								<Image
+									source={fotoPerfil}/*producto.duenio.foto*/
+									style={styles.avatar}
+								/>
+							</Block>
+					</Block>
+					<Block style={styles.descripcionContainer}>
+						<Text size={20} bold style={styles.tituloDescripcion}>Descripcion</Text>
+						<Text size={15} style={styles.descripcionLargaTitulo}>{producto.descripcion}</Text>
+						<Text style={styles.descripcionLarga}>{producto.descripcionLarga}</Text>
+					</Block>
+					<Button disabled={true} style={styles.btnRealizarOferta} onPress={()=>navigation.navigate('Pujar',{producto,subasta})}>
+						<Text size={16} style={{color:'#FFFFFF'}} bold>Realiza tu Oferta!</Text>
+					</Button>
+				</Block>
+				</ScrollView>
+			</Block>
+			</Block>
+			</Block>
+
+		</Block>
+		)
+	}
+}
 export default function Producto({route,navigation}){
 
 	const objeto = route.params;
@@ -22,7 +123,7 @@ export default function Producto({route,navigation}){
 	const valor = objeto.valor;
 	
 	const[duenio,setDuenio] = useState({})
-
+	const[state,setState] = useState("");
 	const obtenerPersona = async function(){
 	  var requestOptions = {
 		method: 'GET'
@@ -34,58 +135,25 @@ export default function Producto({route,navigation}){
 		let data = await response.json();   
 		setDuenio(data.persona)
 	}
+
+	const controlarLog = async function(){
+		const estado = await AsyncStorage.getItem('state');
+		setState(estado);
+	}
   
   
 	 useEffect(()=>{
 	   obtenerPersona()
+	   controlarLog();
 	 },[setDuenio])
 	 
 
 	return(
-            <Block>
-                <Block flex style={styles.producto}>
-				<Block flex>
-				<Block style={styles.container}>
-					<Block style={styles.backgroundImageContainer}>
-					
-					<SliderBox images={fotos} dotStyle={{marginBottom:90}} style={styles.backgroundImage} ></SliderBox>
-					</Block>
-					<ScrollView
-					showsVerticalScrollIndicator={false}
-					style={{ width, marginTop: '-20%',marginBottom:'-15%' }}
-					>
-					<Block flex style={styles.productCard}>
-						<Block row space="between" style={styles.cardHeader}>
-							<Text size={25} style={styles.productNameText}>{producto.descripcion}</Text>
-							<Text size={30} style={styles.productPrizeText}>${producto.itemsCatalogo.precioBase}</Text>
-						</Block>
-						<Block middle style={{ marginTop: 30}}>
-							<Block style={styles.divider} />
-						</Block>
-						<Block row>
-								<Text size={20} style={styles.duenioText}>Dueño: {duenio.nombre}</Text>
-								<Block  style={styles.avatarContainer}>
-									<Image
-										source={fotoPerfil}/*producto.duenio.foto*/
-										style={styles.avatar}
-									/>
-								</Block>
-						</Block>
-						<Block style={styles.descripcionContainer}>
-							<Text size={20} bold style={styles.tituloDescripcion}>Descripcion</Text>
-							<Text size={15} style={styles.descripcionLargaTitulo}>{producto.descripcion}</Text>
-							<Text style={styles.descripcionLarga}>{producto.descripcionLarga}</Text>
-						</Block>
-						<Button disabled={valor} style={styles.btnRealizarOferta} onPress={()=>navigation.navigate('Pujar',{producto,subasta})}>
-							<Text size={16} style={{color:'#FFFFFF'}} bold>Realiza tu Oferta!</Text>
-						</Button>
-					</Block>
-					</ScrollView>
-				</Block>
-				</Block>
-				</Block>
-   
-            </Block>
+			<Block>
+				{renderPage(subasta,producto,fotos,valor,duenio,state,navigation)}
+			</Block>
+	
+
         )
 }
 

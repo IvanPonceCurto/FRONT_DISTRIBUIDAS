@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, Dimensions, Platform, ScrollView, KeyboardAvoidingView, View } from 'react-native';
 import { Block, Button, Text, theme } from 'galio-framework';
 import { HeaderHeight } from "../constants/utils";
@@ -9,6 +9,7 @@ import { useForm, Controller } from "react-hook-form";
 import { SliderBox } from 'react-native-image-slider-box'
 import Modal from 'react-native-modal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TimerContext } from "../components/TimerProvider";
 
 const { getPujaActual, nuevaPuja } = require('../services/registroDeSubasta.service')
 const { getMetodosDePago } = require('../services/mediosDePagoService');
@@ -28,7 +29,7 @@ export default function Pujar({ route, navigation }) {
   const objeto = route.params;
   const subasta = objeto.subasta;
   const producto = objeto.producto;
-
+  const timer = useContext(TimerContext);
   const fotos = producto.lightfotos.map(foto => {
     return foto.referencia_url;
   })
@@ -40,9 +41,12 @@ export default function Pujar({ route, navigation }) {
   const [selectedValue, setSelectedValue] = useState('Elija su Medio de Pago')
   const [marginTopScrollView, setMarginTopScrollView] = useState('-20%')
   const { control, handleSubmit, formState: { errors } } = useForm();
-  const [counter, setCounter] = useState(60 * 5);
-  const [countId, setCountId] = useState('1');
 
+  //states del timer
+  const [countDown, setCountDown] = useState(false);
+
+
+  //reset del timer
   const resetCounter = () => {
     setCountId(countId + '1')
     setCounter(60 * 5);
@@ -67,17 +71,47 @@ export default function Pujar({ route, navigation }) {
       setPujaActual(data.pujaActual);
     }
   }
-
+/*
+<CountDown
+                    id={subasta.idSubasta}
+                    until={counter}
+                    size={18}
+                    onFinish={() =>{ 
+                      navigation.navigate("Home", {
+                      tipo: 'Articulo',
+                      data: producto
+                    })}}
+                    digitTxtStyle={{ color: '#3483FA' }}
+                    digitStyle={{backgroundColor: '#FFF'}}
+                    separatorStyle={{color: '#3483FA'}}
+                    timeToShow={['M', 'S']}
+                    timeLabels={{ m: null, s: null }}
+                    showSeparator
+                  />
+                  */
 
   useEffect(() => {
     obtenerPuja()
     obtenerMediosDePago()
-  }, [])
+    switch(subasta.idSubasta){
+      case subasta.idSubasta ===7:
+          setCountDown(timer.countDown1)
+      case subasta.idSubasta ===8:
+          setCountDown(timer.countDown2)
+      case subasta.idSubasta ===9:
+          setCountDown(timer.countDown3)
+      case subasta.idSubasta ===10:
+          setCountDown(timer.countDown4)
+
+  }
+  console.log(countDown)
+  }, [timer.countDown1])
 
   const pujar = async function () {
     const idCliente = await AsyncStorage.getItem('idCliente');
     if (oferta > pujaActual && oferta >= producto.itemsCatalogo.precioBase * 0.01 && oferta <= pujaActual * 1.2) {
       await nuevaPuja(subasta.idSubasta, producto.id_duenio, producto.idProducto, idCliente, oferta, setPujaActual);
+      //instancia el reset del timer
       resetCounter();
     } else {
 
@@ -102,21 +136,7 @@ export default function Pujar({ route, navigation }) {
             <KeyboardAvoidingView style={{ flex: 1 }}>
               <View>
                 <View style={styles.countDownContainer}>
-                  <CountDown
-                    id={countId}
-                    until={counter}
-                    size={18}
-                    onFinish={() => navigation.navigate("Home", {
-                      tipo: 'Articulo',
-                      data: producto
-                    })}
-                    digitTxtStyle={{ color: '#3483FA' }}
-                    digitStyle={{backgroundColor: '#FFF'}}
-                    separatorStyle={{color: '#3483FA'}}
-                    timeToShow={['M', 'S']}
-                    timeLabels={{ m: null, s: null }}
-                    showSeparator
-                  />
+                  <Text>{countDown}</Text>
                 </View>
                 <Block row space="between" style={styles.cardHeader}>
                   <Text size={30} style={styles.productPrizeText}>${pujaActual}</Text>

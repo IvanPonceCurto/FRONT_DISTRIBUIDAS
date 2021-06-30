@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { Dimensions } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -30,12 +30,15 @@ import CustomDrawerContent from "./Menu";
 // header for screens
 import { Header } from "../components";
 
+
 const {fetchPaymentsMethod} = require('../services/mediosDePago.service')
 const { width } = Dimensions.get("screen");
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
+
+
 
 
 
@@ -255,6 +258,13 @@ function HomeStack(props) {
   );
 }
 
+function LogOutStack(props) {
+  return(
+    OnboardingStack()
+  )
+}
+
+
 export default function OnboardingStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="none">
@@ -338,6 +348,7 @@ function MediosDePagoStack(props) {
   )
 }
 
+
 function AppStack(props) {
   return (
     <Drawer.Navigator
@@ -373,6 +384,8 @@ function AppStack(props) {
       <Drawer.Screen name="Perfil" component={ProfileStack} />
       <Drawer.Screen name="Subastar" component={SubastarStack} />
       <Drawer.Screen name="Medios de Pago" component={MediosDePagoStack} />
+      <Drawer.Screen name="Cerrar Sesión" component={LogOutStack} />
+
     </Drawer.Navigator>
   );
 }

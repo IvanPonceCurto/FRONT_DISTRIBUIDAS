@@ -18,6 +18,16 @@ const Onboarding = (props) => {
   const [leyenda, setLeyenda] = useState();
   const { navigation } = props;
   const { control, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmitWithoutRegister = async ()=>{
+    try{
+        await AsyncStorage.setItem('state', '0');
+    }catch(error){
+      console.error(error)
+    }
+    navigation.navigate('App');
+    console.log("0")
+  } 
   const onSubmit = async (data) => {
     
     const res = await login(data.email, data.password);
@@ -27,6 +37,7 @@ const Onboarding = (props) => {
         await AsyncStorage.setItem('idCliente', res.cliente.idCliente.toString());
         await AsyncStorage.setItem('mailCliente', res.cliente.mail);
         await AsyncStorage.setItem('categoria', res.cliente.categoria);
+        await AsyncStorage.setItem('state', '1');
       }catch(error){
         console.log(error);
       }
@@ -113,7 +124,9 @@ const Onboarding = (props) => {
           <TouchableOpacity onPress={() => navigation.navigate("Registro")}>
             <Text style={styles.subtitle}>Solicitar cuenta</Text>
           </TouchableOpacity>
-          <Text style={styles.subtitle}>Ingresar como invitado</Text>
+          <TouchableOpacity onPress={()=>{onSubmitWithoutRegister()}}>
+            <Text style={styles.subtitle}>Ingresar como invitado</Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </View>

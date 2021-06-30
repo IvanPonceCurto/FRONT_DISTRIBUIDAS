@@ -7,6 +7,7 @@ import argonConfig from '../assets/config/argon.json';
 const ArgonExtra = require('../assets/font/argon.ttf');
 const IconArgonExtra = createIconSetFromIcoMoon(argonConfig, 'ArgonExtra');
 
+
 class IconExtra extends React.Component {
   state = {
     fontLoaded: false,

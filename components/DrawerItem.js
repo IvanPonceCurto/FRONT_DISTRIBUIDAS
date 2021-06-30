@@ -5,6 +5,10 @@ import { Block, Text, theme } from "galio-framework";
 import Icon from "./Icon";
 import argonTheme from "../constants/Theme";
 const martilloIcon = require('../assets/imgs/icons/gavel_24px.png');
+
+const render = async ()=>{
+    
+}
 class DrawerItem extends React.Component {
   renderIcon = () => {
     const { title, focused } = this.props;
@@ -55,15 +59,14 @@ class DrawerItem extends React.Component {
             color={focused ? "white" : argonTheme.COLORS.INFO}
           />
         );
-      case "Getting Started":
+      case "Cerrar Sesión":
         return (<Icon
-          name="spaceship"
+          name="engine-start"
           family="ArgonExtra"
           size={14}
           color={focused ? "white" : "rgba(0,0,0,0.5)"}
         />);
-      case "Log out":
-        return <Icon />;
+      
       default:
         return null;
     }
@@ -79,15 +82,15 @@ class DrawerItem extends React.Component {
 
     return (
       <TouchableOpacity
-        style={{ height: 60 }}
-        onPress={() =>
-          title == "Getting Started"
-            ? Linking.openURL(
-                "https://demos.creative-tim.com/argon-pro-react-native/docs/"
-              ).catch(err => console.error("An error occurred", err))
-            : navigation.navigate(title)
-        }
-      >
+      style={{ height: 60 }}
+      onPress={() =>
+        title == "Getting Started"
+          ? Linking.openURL(
+              "https://demos.creative-tim.com/argon-pro-react-native/docs/"
+            ).catch(err => console.error("An error occurred", err))
+          : navigation.navigate(title)
+      }
+    >
         <Block flex row style={containerStyles}>
           <Block middle flex={0.1} style={{ marginRight: 5 }}>
             {this.renderIcon()}
