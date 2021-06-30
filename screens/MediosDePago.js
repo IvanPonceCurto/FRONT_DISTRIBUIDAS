@@ -61,7 +61,7 @@ const fetchClientNumber = async (
 
 const traerTj = (numeroCliente, setListaTarjetas) => {
   fetch(
-    `http://192.168.0.229:3006/api/mediosdepago/allPaymentsMethods/` +
+    `https://distribuidas-backend.herokuapp.com/api/mediosdepago/allPaymentsMethods/` +
       numeroCliente,
     { method: "GET", headers: { "Content-Type": "application/json" } }
   )

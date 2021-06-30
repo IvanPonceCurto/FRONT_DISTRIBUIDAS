@@ -36,7 +36,7 @@ const fetchAllPaymentsMethods = async (idCliente, setListaTarjetas) => {
     };
     console.log("Yendo a buscar con: " + idCliente);
     fetch(
-      `http://192.168.0.229:3006/allPaymentsMethods/${idCliente}`,
+      `http://distribuidas-backend.herokuapp.com/api/mediosdepago/ALLpaymentMethod/${idCliente}`,
       requestOptions
     )
       .then((resultado) => {
