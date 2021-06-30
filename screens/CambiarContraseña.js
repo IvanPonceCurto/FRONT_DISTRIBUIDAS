@@ -30,6 +30,7 @@ const CambiarContraseña = (props) => {
       setLeyenda();
       const res = await contraseña(mailUser, data.Contraseña);
       console.log(res);
+      await AsyncStorage.setItem("state","1");
       navigation.navigate("App");
     }else {
       setLeyenda(
@@ -107,7 +108,7 @@ const CambiarContraseña = (props) => {
             onPress={handleSubmit(onSubmit)}
             textStyle={{ color: argonTheme.COLORS.WHITE }}
           >
-            Iniciar sesión
+            Actualizar contraseña
           </Button>
         </View>
       </KeyboardAvoidingView>

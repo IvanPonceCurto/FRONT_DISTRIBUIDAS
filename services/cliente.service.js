@@ -4,8 +4,9 @@ const login = async (mail, password) => {
     password,
   };
   try {
+    //192.168.0.229:3006
     const res = await fetch(
-      "https://distribuidas-backend.herokuapp.com/api/clientes/login",
+      "http://192.168.0.229:3006/api/clientes/login",
       {
         method: "POST",
         headers: {
@@ -27,7 +28,7 @@ const contraseña = async (mail, new_password) => {
   };
   try {
     const res = await fetch(
-      "https://distribuidas-backend.herokuapp.com/api/clientes/contrasenia",
+      "http://192.168.0.229:3006/api/clientes/contrasenia",
       {
         method: "PUT",
         headers: {

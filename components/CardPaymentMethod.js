@@ -89,7 +89,7 @@ class CardPaymentMethod extends React.Component{
     
     return(
           <Block row={true} card  height={80} style={cardContainer} key={this.state.cardsObject.cardNumber}>
-            <Block row={true} height={50} alignItems={"center"} paddingLeft={20}>
+            <Block row={true} height={50} alignItems={"center"} paddingLeft={20}> 
               {this.renderImagenCard(this.state.cardsObject.cardNumber,imageStyles,imgContainer)}
             </Block>
             

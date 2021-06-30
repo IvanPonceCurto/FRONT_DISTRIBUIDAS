@@ -2,7 +2,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { checkPropTypes } from "prop-types";
 import React, { createContext, useReducer } from "react";
 import CardsReducer from "./CardsReducer";
-
+import { GET_CARDS } from "./types";
+ 
 //Necesitas un provider y un consumer.
 //State afuera que cualquier componente puede consumir.
 //UserState definicion del estado que puedo consumir y que funciones pueden alterar ese estado.
@@ -38,14 +39,15 @@ const CreateCardContext = (props) => {
         requestOptions
       )
         .then((resultado) => {
-          console.log(resultado)
-          //return resultado.json();
+          console.log(res.result)
         })
-        /*.then((res) => {
-          console.log(res);
-          setListaTarjetas;
+        then((res) => {
+          dispatch({
+            type: "GET_CARDS",
+            payload: res.result
+          })
         })
-        .catch((err) => setListaTarjetas([]));*/
+        //.catch((err) => setListaTarjetas([]));*/
     } catch (err) {
       console.log(err);
       setListaTarjetas([]);

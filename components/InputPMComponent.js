@@ -24,7 +24,7 @@ const fetchPM = (formData, nc) => {
     CVV: formData.CVV,
     expiryDate: formData.expiryDate,
     idCliente: nc,
-    isValidated:1,
+    isValidated:0,
     country: "Argentina", //Corregir para ver como lo saco del CustomPicker
   };
   return objeto;

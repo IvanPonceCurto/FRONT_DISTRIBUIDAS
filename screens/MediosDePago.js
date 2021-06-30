@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Dimensions, View, Image, StyleSheet, ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import CardPaymentMethod from "../components/CardPaymentMethod";
-import CreateCardContext from "../components/CardsContext";
+import CreateCardContext from "../components/CardsState";
 
 const { width } = Dimensions.get("screen");
 const { bringLength } = require("../services/mediosDePago.service");
@@ -38,7 +38,7 @@ export default function MediosDePago({ navigation }) {
               />
             );
           })}
-        </Block>
+        </Block> 
         <View
           style={{
             alignItems: "flex-end",
@@ -75,7 +75,7 @@ const fetchClientNumber = async (
 
 const traerTj = (numeroCliente, setListaTarjetas) => {
   fetch(
-    `https://distribuidas-backend.herokuapp.com/api/mediosdepago/paymentMethod/` +
+    `http://192.168.0.229:3006/api/mediosdepago/allPaymentsMethods/` +
       numeroCliente,
     { method: "GET", headers: { "Content-Type": "application/json" } }
   )
