@@ -6,76 +6,86 @@ import { Block, Text, theme } from 'galio-framework';
 import { argonTheme } from '../constants';
 
 
-function Card(props){
+function Card(props) {
 
-    const { navigation, item, horizontal, full, style, ctaColor, imageStyle, } = props;
-    
-    const imageStyles = [
-      full ? styles.fullImage : styles.horizontalImage,
-      imageStyle
-    ];
-    const cardContainer = [styles.card, styles.shadow, style];
-    const imgContainer = [styles.imageContainer,
-      horizontal ? styles.horizontalStyles : styles.verticalStyles,
-      styles.shadow
-    ];
+  const { navigation, item, horizontal, full, style, ctaColor, imageStyle, } = props;
 
-   const[subastador,setSubastador] = useState({})
+  const imageStyles = [
+    full ? styles.fullImage : styles.horizontalImage,
+    imageStyle
+  ];
+  const cardContainer = [styles.card, styles.shadow, style];
+  const imgContainer = [styles.imageContainer,
+  horizontal ? styles.horizontalStyles : styles.verticalStyles,
+  styles.shadow
+  ];
 
-  const obtenerPersona = async function(){
+  const [subastador, setSubastador] = useState({})
+
+  const obtenerPersona = async function () {
     var requestOptions = {
       method: 'GET'
-    
-      };
-      
-      let response = await fetch(`https://distribuidas-backend.herokuapp.com/api/personas/getPersonaById/${item.id_subastador}`, requestOptions)
-      
-      let data = await response.json();   
-      setSubastador(data.persona)
+
+    };
+
+    let response = await fetch(`https://distribuidas-backend.herokuapp.com/api/personas/getPersonaById/${item.id_subastador}`, requestOptions)
+
+    let data = await response.json();
+    setSubastador(data.persona)
   }
 
 
-   useEffect(()=>{
-     obtenerPersona()
-   },[setSubastador])
+  useEffect(() => {
+    obtenerPersona()
+  }, [setSubastador])
 
-    return (
-      <Block row={horizontal} card flex style={cardContainer}>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Catalogo',{item})}>
-          <Block row={horizontal}  style={imgContainer}>
-         
-            <Image  source={{uri:item.catalogo.productos[0].lightfotos[0].referencia_url}} style={imageStyles} /> 
-           
-            <Block style={{width:'100%'}}>         
-            <Image source={{uri:item.catalogo.productos[1].lightfotos[0].referencia_url}} style={styles.secondaryImages} />
-            <Image source={{uri:item.catalogo.productos[2].lightfotos[0].referencia_url}} style={styles.secondaryImages} />
-            </Block>
+  return (
+    <Block row={horizontal} card flex style={cardContainer}>
+      <TouchableWithoutFeedback onPress={() => navigation.navigate('Catalogo', { item })}>
+        <Block row={horizontal} style={imgContainer}>
 
+          <Image source={{ uri: item.catalogo.productos[0].lightfotos[0].referencia_url }} style={imageStyles} />
+
+          <Block style={{ width: '100%' }}>
+            {item.catalogo.productos[1]
+              ?
+              <Image source={{ uri: item.catalogo.productos[1].lightfotos[0].referencia_url }} style={styles.secondaryImages} />
+              :
+              <Image />}
+            {item.catalogo.productos[2]
+              ?
+              <Image source={{ uri: item.catalogo.productos[2].lightfotos[0].referencia_url }} style={styles.secondaryImages} />
+              :
+              <Image />}
           </Block>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Catalogo',{item})}>
-          <Block flex space="between" style={styles.cardDescription}>
-            <Block>
-                <Text size={14} style={styles.cardTitle}>Subasta N°{item.idSubasta}</Text>
-                <Text size={12}>Fecha de Finalización: {item.fecha}</Text>
-                <Text size={12}>Rematador: {subastador.nombre}</Text>
-            </Block>
-            <Block row={horizontal} space="between">
-            <Block style={{ backgroundColor:item.colorCategoria,
-                            width:80,
-                            alignItems:'center',
-                            borderRadius:50}}>
-            <Text size={12} muted={!ctaColor} color={argonTheme.COLORS.WHITE} bold>{item.categoria}</Text>
+
+        </Block>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={() => navigation.navigate('Catalogo', { item })}>
+        <Block flex space="between" style={styles.cardDescription}>
+          <Block>
+            <Text size={14} style={styles.cardTitle}>Subasta N°{item.idSubasta}</Text>
+            <Text size={12}>Fecha de Finalización: {item.fecha}</Text>
+            <Text size={12}>Rematador: {subastador.nombre}</Text>
+          </Block>
+          <Block row={horizontal} space="between">
+            <Block style={{
+              backgroundColor: item.colorCategoria,
+              width: 80,
+              alignItems: 'center',
+              borderRadius: 50
+            }}>
+              <Text size={12} muted={!ctaColor} color={argonTheme.COLORS.WHITE} bold>{item.categoria}</Text>
             </Block>
             <Block style={styles.rectangulo}>
-            <Text size={12} muted={!ctaColor} color={argonTheme.COLORS.WHITE} bold>Ver Catálogo</Text>
-            </Block>
+              <Text size={12} muted={!ctaColor} color={argonTheme.COLORS.WHITE} bold>Ver Catálogo</Text>
             </Block>
           </Block>
-        </TouchableWithoutFeedback>
-      </Block>
-    );
-  }
+        </Block>
+      </TouchableWithoutFeedback>
+    </Block>
+  );
+}
 
 
 Card.propTypes = {
@@ -94,19 +104,19 @@ const styles = StyleSheet.create({
     minHeight: 114,
     marginBottom: 16
   },
-  rectanguloCategoria:{
-    backgroundColor:'#000000',
-    width:80,
-    alignItems:'center',
-    borderRadius:50
-  
+  rectanguloCategoria: {
+    backgroundColor: '#000000',
+    width: 80,
+    alignItems: 'center',
+    borderRadius: 50
+
   },
-  rectangulo:{
+  rectangulo: {
     backgroundColor: '#3483FA',
-    width:80,
-    alignItems:'center',
-    borderRadius:50
-  
+    width: 80,
+    alignItems: 'center',
+    borderRadius: 50
+
   },
   cardTitle: {
     flex: 1,
@@ -120,8 +130,8 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     elevation: 1,
     overflow: 'hidden',
-    width:180,
-    height:120
+    width: 180,
+    height: 120
   },
   image: {
     // borderRadius: 3,
@@ -130,9 +140,9 @@ const styles = StyleSheet.create({
     height: 122,
     width: '50%',
   },
-  secondaryImages:{
-    width:'50%',
-    height:'50%'
+  secondaryImages: {
+    width: '50%',
+    height: '50%'
   },
   horizontalStyles: {
     borderTopRightRadius: 0,

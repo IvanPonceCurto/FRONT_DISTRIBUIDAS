@@ -52,8 +52,25 @@ const getProductoById = async (idProducto) => {
     }
 }
 
+const updateEstadoProducto = async (idProducto) => {
+    try {
+      const res = await fetch(`https://distribuidas-backend.herokuapp.com/api/productos/updateEstadoProducto/${idProducto}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const dataRes = await res.json();
+      return dataRes;
+    } catch (error) {
+      console.log(error);
+    }
+}
+
+
 module.exports = {
     createProducto,
     getProductosByCliente,
-    getProductoById
+    getProductoById,
+    updateEstadoProducto
 }

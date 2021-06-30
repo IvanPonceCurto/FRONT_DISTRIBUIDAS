@@ -13,6 +13,8 @@ import { TimerContext } from "../components/TimerProvider";
 
 const { getPujaActual, nuevaPuja } = require('../services/registroDeSubasta.service')
 const { getMetodosDePago } = require('../services/mediosDePagoService');
+const { updateEstadoProducto } = require('../services/producto.service');
+const { updateEstadoSubasta } = require('../services/subasta.service');
 const { height, width } = Dimensions.get('screen');
 
 const deviceWidth = Dimensions.get('window').width;
@@ -37,21 +39,31 @@ export default function Pujar({ route, navigation }) {
   const [oferta, setOferta] = useState();
   const [pujaActual, setPujaActual] = useState(producto.itemsCatalogo.precioBase);
   const [open, setOpen] = useState(false);
+  const [openModalSubastaTerminada, setOpenModalSubastaTerminada] = useState(false);
   const [mediosDePagos, setMediosDePago] = useState([]);
   const [selectedValue, setSelectedValue] = useState('Elija su Medio de Pago')
   const [marginTopScrollView, setMarginTopScrollView] = useState('-20%')
   const { control, handleSubmit, formState: { errors } } = useForm();
 
   //states del timer
-  const [countDown, setCountDown] = useState(false);
-
+  const [counter, setCounter] = useState(30*5);
+  const[countId,setCountId] = useState('1')
 
   //reset del timer
   const resetCounter = () => {
     setCountId(countId + '1')
     setCounter(60 * 5);
   }
-
+  const cerrarProducto = () => {
+    updateEstadoProducto(producto.idProducto);
+    navigation.navigate("Home", {
+      tipo: 'Articulo',
+      data: producto
+    });
+    if (subasta.catalogo.productos.length == 1) {
+      updateEstadoSubasta(subasta.idSubasta);
+    }
+  }
   const obtenerMediosDePago = async function () {
     const idCliente = await AsyncStorage.getItem('idCliente');
     await getMetodosDePago(idCliente, setMediosDePago);
@@ -93,19 +105,7 @@ export default function Pujar({ route, navigation }) {
   useEffect(() => {
     obtenerPuja()
     obtenerMediosDePago()
-    switch(subasta.idSubasta){
-      case subasta.idSubasta ===7:
-          setCountDown(timer.countDown1)
-      case subasta.idSubasta ===8:
-          setCountDown(timer.countDown2)
-      case subasta.idSubasta ===9:
-          setCountDown(timer.countDown3)
-      case subasta.idSubasta ===10:
-          setCountDown(timer.countDown4)
-
-  }
-  console.log(countDown)
-  }, [timer.countDown1])
+  }, [])
 
   const pujar = async function () {
     const idCliente = await AsyncStorage.getItem('idCliente');
@@ -136,7 +136,22 @@ export default function Pujar({ route, navigation }) {
             <KeyboardAvoidingView style={{ flex: 1 }}>
               <View>
                 <View style={styles.countDownContainer}>
-                  <Text>{countDown}</Text>
+                <CountDown
+                    id={subasta.idSubasta}
+                    until={counter}
+                    size={18}
+                    onFinish={() =>{ 
+                      navigation.navigate("Home", {
+                      tipo: 'Articulo',
+                      data: producto
+                    })}}
+                    digitTxtStyle={{ color: '#3483FA' }}
+                    digitStyle={{backgroundColor: '#FFF'}}
+                    separatorStyle={{color: '#3483FA'}}
+                    timeToShow={['M', 'S']}
+                    timeLabels={{ m: null, s: null }}
+                    showSeparator
+                  />
                 </View>
                 <Block row space="between" style={styles.cardHeader}>
                   <Text size={30} style={styles.productPrizeText}>${pujaActual}</Text>

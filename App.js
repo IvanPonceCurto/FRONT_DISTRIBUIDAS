@@ -44,7 +44,7 @@ export default props => {
     );
   } else if(fontsLoaded) {
     return (
-      <TimerProvider>
+
         <NavigationContainer> 
           <GalioProvider theme={argonTheme}>
             <Block flex>
@@ -52,7 +52,7 @@ export default props => {
             </Block>
           </GalioProvider>
         </NavigationContainer>
-        </TimerProvider>
+  
         
 
     );
