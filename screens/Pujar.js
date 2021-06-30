@@ -25,7 +25,7 @@ const altura = height - height * 0.40;
 //COSAS A HACER EN PANTALLA: 
 //falta retocar estilos del modal
 
-export default function Pujar({ route, navigation }) {
+export default function Pujar({ route, navigation }) { 
 
   const objeto = route.params;
   const subasta = objeto.subasta;
