@@ -67,7 +67,7 @@ const fetchClientNumber = async (setNumeroCliente,setListaTarjetas,setCantTarj) 
  
 const traerTj = (numeroCliente, setListaTarjetas) => {
   fetch(
-    `https://distribuidas-backend.herokuapp.com/api/mediosdepago/paymentMethod/`+numeroCliente,
+    `https://distribuidas-backend.herokuapp.com/api/mediosdepago/allPaymentsMethods/`+numeroCliente,
     { method: "GET", headers: { "Content-Type": "application/json" } }
   )
     .then((resultado) => {
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   cardsContainer: {
     marginVertical: 50,
   },
-  card: {
+  card: { 
     marginHorizontal: 10,
   },
   title: {

@@ -1,10 +1,10 @@
-import React, { useState,useContext} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import {StyleSheet, Image} from 'react-native'
 import {Block, Text, theme} from 'galio-framework'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import CardsContext from './CardsReducer'
+
 
 
 import CustomModal from "../components/CustomModal"
@@ -13,7 +13,7 @@ const Menu = require("../assets/imgs/visa.png");
 const master = require ("../assets/imgs/mastercard-logo.png")
 const borrarIcon = require("../assets/imgs/Vector.png")
 const validateIcon = require("../assets/imgs/validate.png")
-const {fetchDeleteMethod} = require("../services/mediosDePago.service")
+
 
 
 const visaDigits = "4"

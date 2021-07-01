@@ -28,11 +28,7 @@ const Onboarding = (props) => {
     navigation.navigate('App');
     console.log("0")
   } 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+
   const onSubmit = async (data) => {
     const res = await login(data.email, data.password);
     console.log("Acá"+ JSON.stringify(res));

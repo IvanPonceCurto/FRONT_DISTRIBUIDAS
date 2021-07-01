@@ -111,7 +111,7 @@ class Header extends React.Component {
                 right={
                   <TouchableOpacity onPress={this.handleRightPress}>
                     <Icon 
-                      name={'nav-left'} family="ArgonExtra" 
+                      name={'bell'} family="ArgonExtra" 
                       size={20} 
                       color={'black'}
                       style={{ marginTop: 2 }}
@@ -187,7 +187,7 @@ class Header extends React.Component {
                 rightStyle={{ alignItems: 'center' }}
                 left={
                   <Icon 
-                    name={back ? 'nav-left' : "menu"} family="ArgonExtra" 
+                    name={back ? 'nav-left' : "menu-8"} family="ArgonExtra" 
                     size={20} onPress={this.handleLeftPress} 
                     color={iconColor || (white ? argonTheme.COLORS.WHITE : argonTheme.COLORS.ICON)}
                     style={{ marginTop: 2 }}
