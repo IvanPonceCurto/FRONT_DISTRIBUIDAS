@@ -29,6 +29,7 @@ export default function MediosDePago({ navigation }) {
           
           return (
             <CardPaymentMethod
+              navigation={navigation}
               style={styles.card}
               key={e.cardNumber}
               horizontal={true}

@@ -63,7 +63,7 @@ const CambiarContraseña = (props) => {
                   <Icon
                     size={16}
                     color={argonTheme.COLORS.ICON}
-                    name="ic_mail_24px"
+                    name="padlock-unlocked"
                     family="ArgonExtra"
                     style={styles.inputIcons}
                   />

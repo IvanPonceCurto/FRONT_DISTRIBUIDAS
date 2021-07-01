@@ -33,12 +33,15 @@ class CardPaymentMethod extends React.Component{
       }
     }
 
-    changeState= e =>{
+    changeState = (e) =>{
       //e.preventDefault();
-      this.setState({isVisible:true})
       console.log("PASO POR ACA")
+      //const {navigation} = this.props;
+      this.setState({isVisible:true})
+      //navigation.navigate("BorrarTarjeta")
     }
     renderButtonOnValidation=(isValid)=>{
+      const {navigation} = this.props
       if(!isValid){
         return(
           <TouchableOpacity disabled={true} style={{alignItems:"flex-end",paddingTop:0}}>
@@ -47,7 +50,7 @@ class CardPaymentMethod extends React.Component{
          )
       }
       return(
-        <TouchableOpacity onPress={this.changeState} style={{alignItems:'flex-end',paddingBottom:20}}>
+        <TouchableOpacity onPress={(e)=>{this.setState({isVisible:true});this.state.isVisible ? navigation.navigate("BorrarTarjeta",{cardNumber:this.state.cardsObject.cardNumber,clientNumber:this.state.clientNumber}) : console.log("noup")}} style={{alignItems:'flex-end',paddingBottom:20}}>
                 <Image style={{alignItems:'flex-end'}} source={borrarIcon}></Image>
       </TouchableOpacity>
       )
@@ -114,9 +117,10 @@ class CardPaymentMethod extends React.Component{
       const isVisible=this.state.isVisible;
       const cardNumber=this.state.cardsObject.cardNumber
       const toDecir=true;
+      const {navigation} = this.props
       if(isVisible){
         return(
-          <CustomModal visible={isVisible} cardNumber={cardNumber} decir={toDecir} clientNumber={this.state.clientNumber}>
+          <CustomModal navigation={navigation} visible={isVisible} cardNumber={cardNumber} decir={toDecir} clientNumber={this.state.clientNumber}>
           </CustomModal>
           
         )
@@ -126,7 +130,6 @@ class CardPaymentMethod extends React.Component{
       return(
         <Block>
           {this.renderCards()}
-          {this.renderCosaLoca()}
         </Block>
         
         

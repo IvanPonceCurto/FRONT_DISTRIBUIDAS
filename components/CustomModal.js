@@ -20,28 +20,32 @@ class CustomModal extends React.Component{
         e.preventDefault();
         this.setState({visible:false})
     }
-    llamarDelete=(e)=>{
+    llamarDelete=(e,cardNumber,clientNumber)=>{
         e.preventDefault();
-        fetchDeleteMethod(this.state.clientNumber,this.state.cardNumber)
+        console.log("XX - BORRA TARJETAS")
+        fetchDeleteMethod(clientNumber,cardNumber)
         this.setState({visible:false})
+        
     }
 
     
 
     render(){
-        const isVisible=this.state.visible
+        const {cardNumber,clientNumber} = this.props.route.params
+        console.log(cardNumber,clientNumber)
+        const {navigation} = this.props;
         return(
             <View style={{alignItems:"center"}}>
-            <Modal
+            <Modal 
                 transparent
-                visible={isVisible}
+                visible={this.state.visible}
             >
                 <Block flex style={stylesSheet.modalFondo}>
                     <Block center style={stylesSheet.modalMostrar}>
-                    <Text style={{marginTop:30,fontSize:15,textAlign:'center'}}>¿Estás seguro de que querés borrar la tarjeta {this.state.cardNumber}?</Text>
+                    <Text style={{marginTop:30,fontSize:15,textAlign:'center'}}>¿Estás seguro de que querés borrar la tarjeta {cardNumber}?</Text>
                         <Block flex row style={{marginTop:30}}>
-                            <Button style={stylesSheet.botonSi} onPress={e=>this.llamarDelete(e)}>SI</Button>
-                            <Button style={stylesSheet.botonNo} onPress={e=>this.changeState(e)}>NO</Button>
+                            <Button style={stylesSheet.botonSi} onPress={e=>{this.llamarDelete(e,cardNumber,clientNumber);navigation.navigate("PM");console.log("si")}}>SI</Button>
+                            <Button style={stylesSheet.botonNo} onPress={(e)=>{this.setState({visible:false});navigation.navigate("PM");;console.log("no")}}>NO</Button>
                     </Block>
                     </Block>
                 </Block>

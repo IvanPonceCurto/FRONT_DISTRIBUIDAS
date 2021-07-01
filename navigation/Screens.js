@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { Dimensions } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -12,36 +12,32 @@ import Profile from "../screens/Profile";
 import Register from "../screens/Register";
 import Registro from "../screens/Registro";
 import Producto from "../screens/Producto";
-import Pujar from "../screens/Pujar"; 
+import Pujar from "../screens/Pujar";
 import Metricas from "../screens/Metricas";
 import TrackSubasta from "../screens/TrackSubasta";
 import RegistroFinalizado from "../screens/RegistroFinalizado";
 import SelectUserImage from "../screens/SelectUserImage";
 import InputPM from "../components/InputPM";
-import MediosDePago from "../screens/MediosDePago"
+import MediosDePago from "../screens/MediosDePago";
 import CargaCorrecta from "../components/CargaCorrecta";
 import Articulos from "../screens/Articulos";
 import SelectArticleImage from "../screens/SelectArticleImage";
 import ArticuloEnviado from "../screens/ArticuloEnviado";
-import InputPMComponent from "../components/InputPMComponent"
+import InputPMComponent from "../components/InputPMComponent";
 import CambiarContraseña from "../screens/CambiarContraseña";
+import CustomModal from "../components/CustomModal";
 // drawer
 import CustomDrawerContent from "./Menu";
 
 // header for screens
 import { Header } from "../components";
 
-
-const {fetchPaymentsMethod} = require('../services/mediosDePago.service')
+const { fetchPaymentsMethod } = require("../services/mediosDePago.service");
 const { width } = Dimensions.get("screen");
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
-
-
-
-
 
 function SubastarStack(props) {
   return (
@@ -53,17 +49,16 @@ function SubastarStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               transparent
-
               title="Subastar"
               subasta={true}
               bgColor={"#EEBB00"}
               navigation={navigation}
               scene={scene}
-            //back
+              //back
             />
           ),
           cardStyle: { backgroundColor: "#FFFFFF" },
-          headerTransparent: true
+          headerTransparent: true,
         }}
       />
       <Stack.Screen
@@ -78,7 +73,7 @@ function SubastarStack(props) {
               scene={scene}
               back
             />
-          )
+          ),
         }}
       />
       <Stack.Screen
@@ -93,7 +88,7 @@ function SubastarStack(props) {
               scene={scene}
               back
             />
-          )
+          ),
         }}
       />
       <Stack.Screen
@@ -108,15 +103,12 @@ function SubastarStack(props) {
               scene={scene}
               back
             />
-          )
+          ),
         }}
       />
-
     </Stack.Navigator>
   );
 }
-
-
 
 function ProfileStack(props) {
   return (
@@ -136,7 +128,7 @@ function ProfileStack(props) {
             />
           ),
           cardStyle: { backgroundColor: "#FFFFFF" },
-          headerTransparent: true
+          headerTransparent: true,
         }}
       />
       <Stack.Screen
@@ -145,16 +137,13 @@ function ProfileStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
-
               back
               title="Metricas"
-
               bgColor={"#EEBB00"}
               navigation={navigation}
               scene={scene}
             />
-          )
-
+          ),
         }}
       />
       <Stack.Screen
@@ -163,10 +152,8 @@ function ProfileStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
-
               back
               title="Track Subasta"
-
               bgColor={"#EEBB00"}
               navigation={navigation}
               scene={scene}
@@ -190,13 +177,13 @@ function HomeStack(props) {
               title="Home"
               home={true}
               search
-              bgColor={'#EEBB00'}
+              bgColor={"#EEBB00"}
               options
               navigation={navigation}
               scene={scene}
             />
           ),
-          cardStyle: { backgroundColor: "#F8F9FE" }
+          cardStyle: { backgroundColor: "#F8F9FE" },
         }}
       />
       <Stack.Screen
@@ -208,14 +195,14 @@ function HomeStack(props) {
               title="Catalogo"
               back
               home={true}
-              bgColor={'#EEBB00'}
+              bgColor={"#EEBB00"}
               navigation={navigation}
               scene={scene}
             />
           ),
 
           headerTransparent: true,
-          cardStyle: { backgroundColor: '#3483FA' }
+          cardStyle: { backgroundColor: "#3483FA" },
         }}
       />
       <Stack.Screen
@@ -226,14 +213,14 @@ function HomeStack(props) {
             <Header
               title=""
               back
-              iconColor={'#FFFFFF'}
+              iconColor={"#FFFFFF"}
               transparent
               navigation={navigation}
               scene={scene}
             />
           ),
           headerTransparent: true,
-          cardStyle: { backgroundColor: '#EEBB00' }
+          cardStyle: { backgroundColor: "#EEBB00" },
         }}
       />
       <Stack.Screen
@@ -244,27 +231,23 @@ function HomeStack(props) {
             <Header
               title=""
               back
-              iconColor={'#FFFFFF'}
+              iconColor={"#FFFFFF"}
               transparent
               navigation={navigation}
               scene={scene}
             />
           ),
           headerTransparent: true,
-          cardStyle: { backgroundColor: '#EEBB00' }
+          cardStyle: { backgroundColor: "#EEBB00" },
         }}
       />
-
     </Stack.Navigator>
   );
 }
 
 function LogOutStack(props) {
-  return(
-    OnboardingStack()
-  )
+  return OnboardingStack();
 }
-
 
 export default function OnboardingStack(props) {
   return (
@@ -273,32 +256,20 @@ export default function OnboardingStack(props) {
         name="Onboarding"
         component={Onboarding}
         option={{
-          headerTransparent: true
+          headerTransparent: true,
         }}
       />
       <Stack.Screen name="App" component={AppStack} />
+      <Stack.Screen name="Registro" component={Registro} />
+      <Stack.Screen name="Seleccionar Imagen" component={SelectUserImage} />
+      <Stack.Screen name="Registro Finalizado" component={RegistroFinalizado} />
       <Stack.Screen
-        name="Registro"
-        component={Registro}
-      />
-      <Stack.Screen
-        name="Seleccionar Imagen"
-        component={SelectUserImage}
-      />
-      <Stack.Screen
-        name="Registro Finalizado"
-        component={RegistroFinalizado}
-      />
-      <Stack.Screen
-      name="Cambiar Contraseña"
-      component={CambiarContraseña}
-      >
-
-      </Stack.Screen>
+        name="Cambiar Contraseña"
+        component={CambiarContraseña}
+      ></Stack.Screen>
     </Stack.Navigator>
   );
 }
-
 
 function MediosDePagoStack(props) {
   return (
@@ -309,14 +280,13 @@ function MediosDePagoStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
-        
               title="Medios de Pago"
               navigation={navigation}
               scene={scene}
               bgColor={"#EEBB00"}
             />
           ),
-          cardStyle: { backgroundColor: "#F8F9FE" }
+          cardStyle: { backgroundColor: "#F8F9FE" },
         }}
       />
       <Stack.Screen
@@ -332,7 +302,7 @@ function MediosDePagoStack(props) {
               bgColor={"#EEBB00"}
             />
           ),
-          cardStyle: { backgroundColor: "#F8F9FE" }
+          cardStyle: { backgroundColor: "#F8F9FE" },
         }}
       />
       <Stack.Screen
@@ -347,23 +317,30 @@ function MediosDePagoStack(props) {
               bgColor={"#EEBB00"}
             />
           ),
-          cardStyle: { backgroundColor: "#F8F9FE" }
+          cardStyle: { backgroundColor: "#F8F9FE" },
         }}
       />
-
+      <Stack.Screen
+        name="BorrarTarjeta" 
+        component={CustomModal}
+        options={{
+          header: ({ navigation, scene }) => {
+            <Header title="Borrar tarjeta" navigation={navigation} scene={scene} />;
+          },
+        }}
+      ></Stack.Screen>
     </Stack.Navigator>
-  )
+  );
 }
-
 
 function AppStack(props) {
   return (
     <Drawer.Navigator
       style={{ flex: 1 }}
-      drawerContent={props => <CustomDrawerContent {...props} />}
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
       drawerStyle={{
         backgroundColor: "white",
-        width: width * 0.8
+        width: width * 0.8,
       }}
       drawerContentOptions={{
         activeTintcolor: "white",
@@ -377,13 +354,13 @@ function AppStack(props) {
           justifyContent: "center",
           alignContent: "center",
           alignItems: "center",
-          overflow: "hidden"
+          overflow: "hidden",
         },
         labelStyle: {
           fontSize: 18,
           marginLeft: 12,
-          fontWeight: "normal"
-        }
+          fontWeight: "normal",
+        },
       }}
       initialRouteName="Home"
     >
@@ -392,8 +369,6 @@ function AppStack(props) {
       <Drawer.Screen name="Subastar" component={SubastarStack} />
       <Drawer.Screen name="Medios de Pago" component={MediosDePagoStack} />
       <Drawer.Screen name="Cerrar Sesión" component={LogOutStack} />
-
     </Drawer.Navigator>
   );
 }
-
