@@ -13,7 +13,7 @@ import argonTheme from "../constants/Theme";
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 
-
+const {createCliente} = require('../services/cliente.service');
 const {createPersona} = require('../services/persona.service');
 const { createFotoWithBase64, createFotoCloudinary } = require("../services/foto.service");
 
@@ -23,7 +23,7 @@ const SelectUserImage = (props) => {
 	const {route, navigation } = props;
 	const [pickedImage, setPickedImage] = useState()
 	const persona = route.params.persona;
-
+console.log(persona)
 	const verifyPermissions = async () => {
 		const results = await Permissions.askAsync(Permissions.CAMERA, Permissions.MEDIA_LIBRARY);
 		if (results.status !== 'granted') {
@@ -43,7 +43,7 @@ const SelectUserImage = (props) => {
 			base64: true,
 			quality: 0.5
 		});
-		console.log(image);
+
 		setPickedImage(image.uri)
 	}
 
@@ -55,6 +55,7 @@ const SelectUserImage = (props) => {
 	const createPersonaAndPhoto = async () => {
 		const resPersona = await createPersona(persona);
 		const { nuevaPersona: { identificador } } = resPersona;
+		const resCliente = await createCliente(persona,identificador);
 		//uploadPhoto(identificador);
 
 		navigation.navigate("Registro Finalizado");

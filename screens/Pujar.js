@@ -22,8 +22,7 @@ const altura = height - height * 0.40;
 
 
 
-//COSAS A HACER EN PANTALLA: 
-//falta retocar estilos del modal
+
 
 export default function Pujar({ route, navigation }) { 
 
@@ -45,7 +44,8 @@ export default function Pujar({ route, navigation }) {
   const { control, handleSubmit, formState: { errors } } = useForm();
   const [counter, setCounter] = useState(30);
   const [countId, setCountId] = useState('1');
-
+  const [clienteActual,setClienteActual] = useState();
+  const [open2,setOpen2] = useState(false);
   const resetCounter = () => {
     setCountId(countId + '1')
     setCounter(30);
@@ -76,7 +76,10 @@ export default function Pujar({ route, navigation }) {
     let response = await fetch(`https://distribuidas-backend.herokuapp.com/api/registrosDeSubasta/getRegistroActual/${subasta.idSubasta}/${producto.idProducto}`, requestOptions)
 
     let data = await response.json();
-    if (data.pujaActual != 0) {
+    console.log("DATAAA")
+    console.log(data)
+    setClienteActual(data.cliente)
+    if (data.pujaActual != 0 && data.pujaActual != null) {
       setPujaActual(data.pujaActual);
     }
   }
@@ -89,14 +92,20 @@ export default function Pujar({ route, navigation }) {
 
   const pujar = async function () {
     const idCliente = await AsyncStorage.getItem('idCliente');
-    if (oferta > pujaActual && oferta >= producto.itemsCatalogo.precioBase * 0.01 && oferta <= pujaActual * 1.2) {
-      await nuevaPuja(subasta.idSubasta, producto.id_duenio, producto.idProducto, idCliente, oferta, setPujaActual);
-      resetCounter();
-    } else {
-
-      setOpen(true)
+    if(idCliente != clienteActual){
+        if (oferta > pujaActual && oferta >= producto.itemsCatalogo.precioBase * 0.01 && oferta <= pujaActual * 1.2) {
+          await nuevaPuja(subasta.idSubasta, producto.id_duenio, producto.idProducto, idCliente, oferta, setPujaActual);
+          resetCounter();
+          setClienteActual(idCliente)
+        } else {
+    
+          setOpen(true)
+        }
     }
-
+    if(idCliente == clienteActual){
+        setOpen2(true)
+       
+    }
   }
 
   return (
@@ -195,9 +204,15 @@ export default function Pujar({ route, navigation }) {
           <Button style={styles.modalButton} onPress={() => setOpen(false)}>OK</Button>
         </Block>
       </Modal>
+      <Modal coverScreen={false} deviceHeight={height * 1.2} isVisible={open2}>
+        <Block style={styles.modalContainer}>
+          <Text size={15} style={styles.modalText1}>No puede realizar otra puja ya que posee la puja actual!</Text>
+          <Button style={styles.modalButton} onPress={() => setOpen2(false)}>OK</Button>
+        </Block>
+      </Modal>
       <Modal coverScreen={false} deviceHeight={height * 1.2} isVisible={openModalSubastaTerminada}>
         <Block style={styles.modalContainer}>
-          <Text size={15} style={styles.modalText1}>Â¡La subasta de este producto ha finalizado!</Text>
+          <Text size={15} style={styles.modalText1}>¡La subasta de este producto ha finalizado!</Text>
           <Button style={styles.modalButton} onPress={() => cerrarProducto()}>OK</Button>
         </Block>
       </Modal>
